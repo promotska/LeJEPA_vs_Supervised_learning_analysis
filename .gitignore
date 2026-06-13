@@ -179,3 +179,24 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+# CINECA / training artifacts
+.venv/
+.env/
+venv/
+
+logs/
+outputs/
+checkpoints/
+models/
+
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.zip
+*.tar.gz
+
+# Optional: ignore downloaded/generated datasets
+datasets/

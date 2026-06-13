@@ -4,7 +4,7 @@ project:
   output_dir: outputs
 
 data:
-  root: data
+  root: datasets
   dataset: CIFAR10
   num_workers: 4
   batch_size: 128
