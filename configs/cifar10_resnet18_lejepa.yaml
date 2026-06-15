@@ -18,10 +18,10 @@ model:
   prediction_dim: 256
 
 training:
-  pretrain_epochs: 20
-  probe_epochs: 10
+  pretrain_epochs: 100
+  probe_epochs: 30
   learning_rate: 0.001
-  probe_learning_rate: 0.001
+  probe_learning_rate: 0.0005
   weight_decay: 0.0005
   amp: true
   sigreg_weight: 0.05
@@ -39,7 +39,7 @@ evaluation:
     - backbone.layer2
     - backbone.layer3
     - backbone.layer4
-  max_samples: 64
+  max_samples: 1000
   batch_size: 1
   checkpoint_path: outputs/checkpoints/resnet18_lejepa_probe_best.pt
   output_csv: outputs/metrics/stage1_lejepa_lsas.csv
