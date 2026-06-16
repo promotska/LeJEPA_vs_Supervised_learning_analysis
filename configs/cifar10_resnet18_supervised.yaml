@@ -31,8 +31,10 @@ evaluation:
     - backbone.layer2
     - backbone.layer3
     - backbone.layer4
-  max_samples: 1000
-  batch_size: 1
+  max_samples: 128
+  batch_size: 64
+  num_visualizations: 4
+  save_visualizations: true
   checkpoint_path: outputs/checkpoints/resnet18_supervised_best.pt
   output_csv: outputs/metrics/stage1_supervised_lsas.csv
   figure_dir: outputs/figures/supervised

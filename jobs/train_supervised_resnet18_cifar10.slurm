@@ -33,6 +33,8 @@ export PYTHONPATH="${PROJECT_DIR}:${PYTHONPATH:-}"
 export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK}"
 export MKL_NUM_THREADS="${SLURM_CPUS_PER_TASK}"
 
+echo "Started at: $(date)"
+
 python -u scripts/train_supervised.py \
   --config configs/cifar10_resnet18_supervised.yaml
 
