@@ -1,0 +1,29 @@
+Started at: Tue Jun 16 15:19:08 CEST 2026
+Node: lrdn0129.leonardo.local
+Tue Jun 16 15:19:08 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.274.02             Driver Version: 535.274.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM-64GB           On  | 00000000:C8:00.0 Off |                    0 |
+| N/A   43C    P0              66W / 468W |      0MiB / 65536MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+Started at: Tue Jun 16 15:19:08 CEST 2026
+Using device: cuda
+Saved 4000 rows for 1000 images to outputs/metrics/stage1_lejepa_lsas.csv
+Saved layer curve to outputs/metrics/stage1_lejepa_lsas_curve.png
+Elapsed: 1.05 min
+Throughput: 15.81 images/sec
+Finished at: Tue Jun 16 15:22:42 CEST 2026

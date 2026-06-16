@@ -1,0 +1,156 @@
+Job started at: Mon Jun 15 20:40:34 CEST 2026
+Running on node: lrdn0068.leonardo.local
+Project dir: /leonardo_work/IscrC_MNLP26/apromots_doubleN/cv
+Venv dir: /leonardo_work/IscrC_MNLP26/apromots_doubleN/cv/../.venv
+Mon Jun 15 20:40:34 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.274.02             Driver Version: 535.274.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM-64GB           On  | 00000000:8F:00.0 Off |                    0 |
+| N/A   44C    P0              62W / 463W |      0MiB / 65536MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+epoch=001 lejepa_loss=0.0033 pred=0.0007 sigreg=0.0527
+epoch=002 lejepa_loss=0.0020 pred=0.0006 sigreg=0.0289
+epoch=003 lejepa_loss=0.0019 pred=0.0005 sigreg=0.0287
+epoch=004 lejepa_loss=0.0018 pred=0.0004 sigreg=0.0269
+epoch=005 lejepa_loss=0.0017 pred=0.0004 sigreg=0.0265
+epoch=006 lejepa_loss=0.0017 pred=0.0004 sigreg=0.0264
+epoch=007 lejepa_loss=0.0016 pred=0.0003 sigreg=0.0249
+epoch=008 lejepa_loss=0.0016 pred=0.0003 sigreg=0.0253
+epoch=009 lejepa_loss=0.0015 pred=0.0003 sigreg=0.0247
+epoch=010 lejepa_loss=0.0018 pred=0.0005 sigreg=0.0259
+epoch=011 lejepa_loss=0.0015 pred=0.0003 sigreg=0.0239
+epoch=012 lejepa_loss=0.0015 pred=0.0003 sigreg=0.0250
+epoch=013 lejepa_loss=0.0015 pred=0.0003 sigreg=0.0236
+epoch=014 lejepa_loss=0.0014 pred=0.0003 sigreg=0.0234
+epoch=015 lejepa_loss=0.0015 pred=0.0003 sigreg=0.0239
+epoch=016 lejepa_loss=0.0014 pred=0.0003 sigreg=0.0236
+epoch=017 lejepa_loss=0.0014 pred=0.0003 sigreg=0.0233
+epoch=018 lejepa_loss=0.0014 pred=0.0002 sigreg=0.0230
+epoch=019 lejepa_loss=0.0014 pred=0.0003 sigreg=0.0231
+epoch=020 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0227
+epoch=021 lejepa_loss=0.0014 pred=0.0002 sigreg=0.0230
+epoch=022 lejepa_loss=0.0014 pred=0.0002 sigreg=0.0227
+epoch=023 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0226
+epoch=024 lejepa_loss=0.0014 pred=0.0002 sigreg=0.0226
+epoch=025 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0226
+epoch=026 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0224
+epoch=027 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0222
+epoch=028 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0222
+epoch=029 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0219
+epoch=030 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0221
+epoch=031 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0220
+epoch=032 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0220
+epoch=033 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0219
+epoch=034 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0221
+epoch=035 lejepa_loss=0.0014 pred=0.0003 sigreg=0.0227
+epoch=036 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0221
+epoch=037 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0222
+epoch=038 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0218
+epoch=039 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0217
+epoch=040 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0219
+epoch=041 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0220
+epoch=042 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0217
+epoch=043 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0217
+epoch=044 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0219
+epoch=045 lejepa_loss=0.0014 pred=0.0003 sigreg=0.0221
+epoch=046 lejepa_loss=0.0014 pred=0.0003 sigreg=0.0223
+epoch=047 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0217
+epoch=048 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0216
+epoch=049 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0217
+epoch=050 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0214
+epoch=051 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0214
+epoch=052 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0217
+epoch=053 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0215
+epoch=054 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0215
+epoch=055 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0214
+epoch=056 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0213
+epoch=057 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0214
+epoch=058 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0212
+epoch=059 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0212
+epoch=060 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0212
+epoch=061 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0210
+epoch=062 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0211
+epoch=063 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0210
+epoch=064 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0210
+epoch=065 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0210
+epoch=066 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0213
+epoch=067 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0210
+epoch=068 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0209
+epoch=069 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0209
+epoch=070 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0209
+epoch=071 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0208
+epoch=072 lejepa_loss=0.0013 pred=0.0002 sigreg=0.0209
+epoch=073 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0208
+epoch=074 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0208
+epoch=075 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0207
+epoch=076 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0208
+epoch=077 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0207
+epoch=078 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0207
+epoch=079 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0206
+epoch=080 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0207
+epoch=081 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0206
+epoch=082 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0208
+epoch=083 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0206
+epoch=084 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0206
+epoch=085 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0206
+epoch=086 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0206
+epoch=087 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0206
+epoch=088 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0205
+epoch=089 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0205
+epoch=090 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0206
+epoch=091 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0205
+epoch=092 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0205
+epoch=093 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0205
+epoch=094 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0205
+epoch=095 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0204
+epoch=096 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0204
+epoch=097 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0204
+epoch=098 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0204
+epoch=099 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0204
+epoch=100 lejepa_loss=0.0012 pred=0.0002 sigreg=0.0204
+probe_epoch=001 train_loss=2.3087 train_acc=0.1220 val_acc=0.1422
+probe_epoch=002 train_loss=2.2938 train_acc=0.1340 val_acc=0.1442
+probe_epoch=003 train_loss=2.2856 train_acc=0.1334 val_acc=0.1532
+probe_epoch=004 train_loss=2.2858 train_acc=0.1383 val_acc=0.1542
+probe_epoch=005 train_loss=2.2894 train_acc=0.1386 val_acc=0.1418
+probe_epoch=006 train_loss=2.2910 train_acc=0.1429 val_acc=0.1636
+probe_epoch=007 train_loss=2.2849 train_acc=0.1433 val_acc=0.1564
+probe_epoch=008 train_loss=2.2831 train_acc=0.1448 val_acc=0.1578
+probe_epoch=009 train_loss=2.2817 train_acc=0.1468 val_acc=0.1558
+probe_epoch=010 train_loss=2.2733 train_acc=0.1452 val_acc=0.1592
+probe_epoch=011 train_loss=2.2709 train_acc=0.1492 val_acc=0.1568
+probe_epoch=012 train_loss=2.2731 train_acc=0.1457 val_acc=0.1582
+probe_epoch=013 train_loss=2.2696 train_acc=0.1479 val_acc=0.1682
+probe_epoch=014 train_loss=2.2665 train_acc=0.1512 val_acc=0.1544
+probe_epoch=015 train_loss=2.2635 train_acc=0.1499 val_acc=0.1552
+probe_epoch=016 train_loss=2.2677 train_acc=0.1496 val_acc=0.1574
+probe_epoch=017 train_loss=2.2608 train_acc=0.1520 val_acc=0.1644
+probe_epoch=018 train_loss=2.2597 train_acc=0.1520 val_acc=0.1776
+probe_epoch=019 train_loss=2.2594 train_acc=0.1522 val_acc=0.1606
+probe_epoch=020 train_loss=2.2541 train_acc=0.1523 val_acc=0.1604
+probe_epoch=021 train_loss=2.2531 train_acc=0.1524 val_acc=0.1782
+probe_epoch=022 train_loss=2.2537 train_acc=0.1534 val_acc=0.1706
+probe_epoch=023 train_loss=2.2500 train_acc=0.1548 val_acc=0.1698
+probe_epoch=024 train_loss=2.2494 train_acc=0.1536 val_acc=0.1674
+probe_epoch=025 train_loss=2.2489 train_acc=0.1569 val_acc=0.1688
+probe_epoch=026 train_loss=2.2481 train_acc=0.1548 val_acc=0.1716
+probe_epoch=027 train_loss=2.2479 train_acc=0.1550 val_acc=0.1696
+probe_epoch=028 train_loss=2.2472 train_acc=0.1569 val_acc=0.1714
+probe_epoch=029 train_loss=2.2479 train_acc=0.1555 val_acc=0.1750
+probe_epoch=030 train_loss=2.2470 train_acc=0.1573 val_acc=0.1750
+linear_probe_test_loss=2.2383 linear_probe_test_acc=0.1735
+Job finished at: Mon Jun 15 21:14:46 CEST 2026

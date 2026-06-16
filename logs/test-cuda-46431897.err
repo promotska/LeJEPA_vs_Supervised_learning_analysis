@@ -1,0 +1,2 @@
+/var/spool/slurmd/job46431897/slurm_script: line 18: syntax error near unexpected token `newline'
+/var/spool/slurmd/job46431897/slurm_script: line 18: `module load cineca-ai/<YOUR_VERSION>'

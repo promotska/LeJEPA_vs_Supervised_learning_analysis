@@ -1,0 +1,56 @@
+Job started at: Sat Jun 13 21:40:44 CEST 2026
+Running on node: lrdn0031.leonardo.local
+Project dir: /leonardo_work/IscrC_MNLP26/apromots_doubleN/cv
+Venv dir: /leonardo_work/IscrC_MNLP26/apromots_doubleN/cv/../.venv
+Sat Jun 13 21:40:44 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.274.02             Driver Version: 535.274.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM-64GB           On  | 00000000:8F:00.0 Off |                    0 |
+| N/A   43C    P0              60W / 460W |      0MiB / 65536MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+epoch=001 lejepa_loss=0.0034 pred=0.0004 sigreg=0.0601
+epoch=002 lejepa_loss=0.0026 pred=0.0002 sigreg=0.0480
+epoch=003 lejepa_loss=0.0026 pred=0.0002 sigreg=0.0475
+epoch=004 lejepa_loss=0.0025 pred=0.0002 sigreg=0.0473
+epoch=005 lejepa_loss=0.0026 pred=0.0002 sigreg=0.0471
+epoch=006 lejepa_loss=0.0025 pred=0.0002 sigreg=0.0464
+epoch=007 lejepa_loss=0.0024 pred=0.0002 sigreg=0.0458
+epoch=008 lejepa_loss=0.0024 pred=0.0002 sigreg=0.0453
+epoch=009 lejepa_loss=0.0024 pred=0.0002 sigreg=0.0448
+epoch=010 lejepa_loss=0.0023 pred=0.0002 sigreg=0.0425
+epoch=011 lejepa_loss=0.0021 pred=0.0001 sigreg=0.0396
+epoch=012 lejepa_loss=0.0019 pred=0.0001 sigreg=0.0353
+epoch=013 lejepa_loss=0.0018 pred=0.0001 sigreg=0.0332
+epoch=014 lejepa_loss=0.0018 pred=0.0001 sigreg=0.0338
+epoch=015 lejepa_loss=0.0017 pred=0.0001 sigreg=0.0320
+epoch=016 lejepa_loss=0.0017 pred=0.0001 sigreg=0.0314
+epoch=017 lejepa_loss=0.0016 pred=0.0001 sigreg=0.0305
+epoch=018 lejepa_loss=0.0016 pred=0.0001 sigreg=0.0306
+epoch=019 lejepa_loss=0.0016 pred=0.0001 sigreg=0.0302
+epoch=020 lejepa_loss=0.0015 pred=0.0001 sigreg=0.0294
+probe_epoch=001 train_loss=2.4412 train_acc=0.1350 val_acc=0.1500
+probe_epoch=002 train_loss=2.3425 train_acc=0.1571 val_acc=0.1622
+probe_epoch=003 train_loss=2.3988 train_acc=0.1645 val_acc=0.1752
+probe_epoch=004 train_loss=2.2890 train_acc=0.1704 val_acc=0.1850
+probe_epoch=005 train_loss=2.2775 train_acc=0.1773 val_acc=0.1922
+probe_epoch=006 train_loss=2.2398 train_acc=0.1799 val_acc=0.1728
+probe_epoch=007 train_loss=2.2108 train_acc=0.1842 val_acc=0.1840
+probe_epoch=008 train_loss=2.1994 train_acc=0.1864 val_acc=0.2170
+probe_epoch=009 train_loss=2.1763 train_acc=0.1923 val_acc=0.2072
+probe_epoch=010 train_loss=2.1714 train_acc=0.1965 val_acc=0.2020
+linear_probe_test_loss=2.1504 linear_probe_test_acc=0.2038
+Job finished at: Sat Jun 13 21:50:00 CEST 2026
