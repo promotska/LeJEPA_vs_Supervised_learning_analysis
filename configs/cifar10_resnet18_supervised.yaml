@@ -31,7 +31,7 @@ evaluation:
     - backbone.layer2
     - backbone.layer3
     - backbone.layer4
-  max_samples: 128
+  max_samples: 1000
   batch_size: 64
   num_visualizations: 4
   save_visualizations: true

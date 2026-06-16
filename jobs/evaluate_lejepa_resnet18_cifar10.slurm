@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=cv-c10-r18-sup-eval
+#SBATCH --job-name=cv-c10-r18-lejepa-eval
 #SBATCH --partition=boost_usr_prod
 #SBATCH --account=IscrC_MNLP26
 #SBATCH --nodes=1
