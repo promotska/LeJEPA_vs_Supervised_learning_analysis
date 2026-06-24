@@ -1,0 +1,67 @@
+Traceback (most recent call last):
+  File "/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/python-3.11.7-ziwh63aulhhzxksf42k5u3gnim2rbpmp/lib/python3.11/urllib/request.py", line 1348, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+  File "/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/python-3.11.7-ziwh63aulhhzxksf42k5u3gnim2rbpmp/lib/python3.11/http/client.py", line 1294, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/python-3.11.7-ziwh63aulhhzxksf42k5u3gnim2rbpmp/lib/python3.11/http/client.py", line 1340, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/python-3.11.7-ziwh63aulhhzxksf42k5u3gnim2rbpmp/lib/python3.11/http/client.py", line 1289, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/python-3.11.7-ziwh63aulhhzxksf42k5u3gnim2rbpmp/lib/python3.11/http/client.py", line 1048, in _send_output
+    self.send(msg)
+  File "/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/python-3.11.7-ziwh63aulhhzxksf42k5u3gnim2rbpmp/lib/python3.11/http/client.py", line 986, in send
+    self.connect()
+  File "/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/python-3.11.7-ziwh63aulhhzxksf42k5u3gnim2rbpmp/lib/python3.11/http/client.py", line 1459, in connect
+    super().connect()
+  File "/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/python-3.11.7-ziwh63aulhhzxksf42k5u3gnim2rbpmp/lib/python3.11/http/client.py", line 952, in connect
+    self.sock = self._create_connection(
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/python-3.11.7-ziwh63aulhhzxksf42k5u3gnim2rbpmp/lib/python3.11/socket.py", line 851, in create_connection
+    raise exceptions[0]
+  File "/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/python-3.11.7-ziwh63aulhhzxksf42k5u3gnim2rbpmp/lib/python3.11/socket.py", line 836, in create_connection
+    sock.connect(sa)
+OSError: [Errno 101] Network is unreachable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/leonardo_work/IscrC_MNLP26/apromots_doubleN/cv/scripts/train_supervised.py", line 21, in <module>
+    main()
+  File "/leonardo_work/IscrC_MNLP26/apromots_doubleN/cv/scripts/train_supervised.py", line 17, in main
+    train_supervised(args.config)
+  File "/leonardo_work/IscrC_MNLP26/apromots_doubleN/cv/src/training/train_supervised.py", line 45, in train_supervised
+    loaders = build_cifar10_loaders(
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_MNLP26/apromots_doubleN/cv/src/data/dataloaders.py", line 37, in build_cifar10_loaders
+    train_full = CIFAR10(root=str(root), train=True, download=True, transform=train_transform)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_MNLP26/apromots_doubleN/cv/.venv/lib/python3.11/site-packages/torchvision/datasets/cifar.py", line 66, in __init__
+    self.download()
+  File "/leonardo_work/IscrC_MNLP26/apromots_doubleN/cv/.venv/lib/python3.11/site-packages/torchvision/datasets/cifar.py", line 140, in download
+    download_and_extract_archive(self.url, self.root, filename=self.filename, md5=self.tgz_md5)
+  File "/leonardo_work/IscrC_MNLP26/apromots_doubleN/cv/.venv/lib/python3.11/site-packages/torchvision/datasets/utils.py", line 395, in download_and_extract_archive
+    download_url(url, download_root, filename, md5)
+  File "/leonardo_work/IscrC_MNLP26/apromots_doubleN/cv/.venv/lib/python3.11/site-packages/torchvision/datasets/utils.py", line 122, in download_url
+    url = _get_redirect_url(url, max_hops=max_redirect_hops)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_MNLP26/apromots_doubleN/cv/.venv/lib/python3.11/site-packages/torchvision/datasets/utils.py", line 66, in _get_redirect_url
+    with urllib.request.urlopen(urllib.request.Request(url, headers=headers)) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/python-3.11.7-ziwh63aulhhzxksf42k5u3gnim2rbpmp/lib/python3.11/urllib/request.py", line 216, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/python-3.11.7-ziwh63aulhhzxksf42k5u3gnim2rbpmp/lib/python3.11/urllib/request.py", line 519, in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/python-3.11.7-ziwh63aulhhzxksf42k5u3gnim2rbpmp/lib/python3.11/urllib/request.py", line 536, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/python-3.11.7-ziwh63aulhhzxksf42k5u3gnim2rbpmp/lib/python3.11/urllib/request.py", line 496, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/python-3.11.7-ziwh63aulhhzxksf42k5u3gnim2rbpmp/lib/python3.11/urllib/request.py", line 1391, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/06/install/0.22/linux-rhel8-icelake/gcc-8.5.0/python-3.11.7-ziwh63aulhhzxksf42k5u3gnim2rbpmp/lib/python3.11/urllib/request.py", line 1351, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error [Errno 101] Network is unreachable>

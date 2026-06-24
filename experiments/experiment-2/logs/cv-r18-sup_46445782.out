@@ -1,0 +1,46 @@
+Job started at: Sat Jun 13 21:23:06 CEST 2026
+Running on node: lrdn3182.leonardo.local
+Project dir: /leonardo_work/IscrC_MNLP26/apromots_doubleN/cv
+Venv dir: /leonardo_work/IscrC_MNLP26/apromots_doubleN/cv/../.venv
+Sat Jun 13 21:23:06 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.274.02             Driver Version: 535.274.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM-64GB           On  | 00000000:1D:00.0 Off |                    0 |
+| N/A   43C    P0              67W / 484W |      0MiB / 65536MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+epoch=001 train_loss=1.3843 train_acc=0.4943 val_loss=1.0831 val_acc=0.6162
+epoch=002 train_loss=0.9132 train_acc=0.6753 val_loss=0.8233 val_acc=0.7178
+epoch=003 train_loss=0.7139 train_acc=0.7507 val_loss=0.7436 val_acc=0.7514
+epoch=004 train_loss=0.5971 train_acc=0.7926 val_loss=0.5708 val_acc=0.7994
+epoch=005 train_loss=0.5168 train_acc=0.8212 val_loss=0.5541 val_acc=0.8088
+epoch=006 train_loss=0.4609 train_acc=0.8409 val_loss=0.5027 val_acc=0.8356
+epoch=007 train_loss=0.4029 train_acc=0.8605 val_loss=0.6521 val_acc=0.7900
+epoch=008 train_loss=0.3649 train_acc=0.8733 val_loss=0.4250 val_acc=0.8516
+epoch=009 train_loss=0.3239 train_acc=0.8879 val_loss=0.4099 val_acc=0.8594
+epoch=010 train_loss=0.2833 train_acc=0.9007 val_loss=0.3642 val_acc=0.8780
+epoch=011 train_loss=0.2487 train_acc=0.9130 val_loss=0.3714 val_acc=0.8844
+epoch=012 train_loss=0.2246 train_acc=0.9219 val_loss=0.3178 val_acc=0.8944
+epoch=013 train_loss=0.1907 train_acc=0.9341 val_loss=0.3267 val_acc=0.9018
+epoch=014 train_loss=0.1620 train_acc=0.9442 val_loss=0.3063 val_acc=0.9046
+epoch=015 train_loss=0.1414 train_acc=0.9516 val_loss=0.3252 val_acc=0.9016
+epoch=016 train_loss=0.1179 train_acc=0.9598 val_loss=0.2940 val_acc=0.9104
+epoch=017 train_loss=0.0973 train_acc=0.9674 val_loss=0.2901 val_acc=0.9122
+epoch=018 train_loss=0.0886 train_acc=0.9703 val_loss=0.2885 val_acc=0.9150
+epoch=019 train_loss=0.0773 train_acc=0.9737 val_loss=0.2894 val_acc=0.9154
+epoch=020 train_loss=0.0725 train_acc=0.9758 val_loss=0.2876 val_acc=0.9142
+final_test_loss=0.3119 final_test_acc=0.9121
+Job finished at: Sat Jun 13 21:27:13 CEST 2026

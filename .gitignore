@@ -185,8 +185,6 @@ cython_debug/
 .env/
 venv/
 
-logs/
-outputs/
 checkpoints/
 models/
 
