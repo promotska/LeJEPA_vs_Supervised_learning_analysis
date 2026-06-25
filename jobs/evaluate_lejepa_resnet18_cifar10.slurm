@@ -14,13 +14,14 @@
 set -euo pipefail
 
 PROJECT_DIR="${SLURM_SUBMIT_DIR}"
-VENV_DIR="${PROJECT_DIR}/../.venv"
 
 cd "${PROJECT_DIR}"
 
 mkdir -p logs outputs/metrics outputs/figures
 
 source ".venv/bin/activate"
+
+export EXPERIMENT_NAME=experiment-3
 
 export PYTHONPATH="${PROJECT_DIR}:${PYTHONPATH:-}"
 export HF_DATASETS_OFFLINE=1

@@ -14,20 +14,20 @@
 set -euo pipefail
 
 PROJECT_DIR="${SLURM_SUBMIT_DIR}"
-VENV_DIR="${PROJECT_DIR}/../.venv"
 
 cd "${PROJECT_DIR}"
 
 echo "Job started at: $(date)"
 echo "Running on node: $(hostname)"
 echo "Project dir: ${PROJECT_DIR}"
-echo "Venv dir: ${VENV_DIR}"
 
 if command -v nvidia-smi >/dev/null 2>&1; then
   nvidia-smi
 fi
 
 source ".venv/bin/activate"
+
+export EXPERIMENT_NAME=experiment-4
 
 export PYTHONPATH="${PROJECT_DIR}:${PYTHONPATH:-}"
 export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK}"

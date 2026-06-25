@@ -3,12 +3,18 @@ project:
   seed: 42
   output_dir: outputs
 
+experiment:
+  root: experiments
+  name: experiment-3
+  relocate_checkpoint_path: true
+  
 data:
   root: datasets
   dataset: CIFAR10
   num_workers: 4
   batch_size: 128
   val_fraction: 0.1
+
 
 model:
   architecture: resnet18_cifar

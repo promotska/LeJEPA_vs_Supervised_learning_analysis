@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import time
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
 import torch
@@ -27,10 +28,29 @@ from src.utils import (
 from src.visualization.plot_layer_curves import save_layer_curve
 from src.visualization.plot_maps import save_map_grid
 from src.xai.gradcam import MultiLayerGradCAM
+from src.experiment import prepare_experiment, update_manifest
+
+
+def _as_bool(value: Any, default: bool = True) -> bool:
+    if value is None:
+        return default
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        value = value.strip().lower()
+        if value in {"true", "1", "yes", "y"}:
+            return True
+        if value in {"false", "0", "no", "n"}:
+            return False
+    return bool(value)
 
 
 def load_stage1_model(config: dict, mode: str, device: torch.device) -> torch.nn.Module:
     checkpoint_path = config["evaluation"]["checkpoint_path"]
+
+    if not Path(checkpoint_path).exists():
+        raise FileNotFoundError(f"Checkpoint not found: {checkpoint_path}")
+
     checkpoint = load_checkpoint(checkpoint_path, map_location=device)
 
     if mode == "supervised":
@@ -46,6 +66,7 @@ def load_stage1_model(config: dict, mode: str, device: torch.device) -> torch.nn
     else:
         raise ValueError("mode must be 'supervised' or 'lejepa'.")
 
+    # Grad-CAM needs gradients.
     for p in model.parameters():
         p.requires_grad_(True)
 
@@ -54,17 +75,43 @@ def load_stage1_model(config: dict, mode: str, device: torch.device) -> torch.nn
 
 def evaluate_layer_alignment(config_path: str, mode: str) -> None:
     cfg = load_yaml(config_path)
+
+    exp = prepare_experiment(
+        cfg=cfg,
+        config_path=config_path,
+        run_kind=f"evaluate_{mode}",
+        mode=mode,
+    )
+
     set_seed(int(cfg["project"]["seed"]))
+
+    torch.backends.cudnn.benchmark = True
 
     device = get_device()
     print(f"Using device: {device}")
+
     if device.type != "cuda":
         print("WARNING: CUDA is not available. Evaluation may be very slow on CPU.")
 
     eval_batch_size = int(cfg["evaluation"].get("batch_size", 32))
     max_samples = int(cfg["evaluation"].get("max_samples", 256))
     num_visualizations = int(cfg["evaluation"].get("num_visualizations", 4))
-    save_visualizations = bool(cfg["evaluation"].get("save_visualizations", True))
+    save_visualizations = _as_bool(cfg["evaluation"].get("save_visualizations", True), default=True)
+
+    layers = list(cfg["evaluation"]["layers"])
+    expected_rows = max_samples * len(layers)
+
+    print("Evaluation settings:")
+    print(f"  mode: {mode}")
+    print(f"  config: {config_path}")
+    print(f"  checkpoint: {cfg['evaluation']['checkpoint_path']}")
+    print(f"  data root: {cfg['data']['root']}")
+    print(f"  max_samples: {max_samples}")
+    print(f"  batch_size: {eval_batch_size}")
+    print(f"  layers: {layers}")
+    print(f"  expected rows: {expected_rows}")
+    print(f"  save_visualizations: {save_visualizations}")
+    print(f"  num_visualizations: {num_visualizations}")
 
     loaders = build_cifar10_loaders(
         root=cfg["data"]["root"],
@@ -79,7 +126,6 @@ def evaluate_layer_alignment(config_path: str, mode: str) -> None:
 
     output_csv = Path(cfg["evaluation"]["output_csv"])
     figure_dir = ensure_dir(cfg["evaluation"]["figure_dir"])
-    layers = list(cfg["evaluation"]["layers"])
 
     target_layers = {
         layer_name: get_module_by_name(model, layer_name)
@@ -88,6 +134,7 @@ def evaluate_layer_alignment(config_path: str, mode: str) -> None:
 
     rows: list[dict] = []
     processed = 0
+    correct = 0
     started_at = time.time()
 
     progress = tqdm(loaders.test, desc=f"evaluate {mode}", dynamic_ncols=True)
@@ -103,14 +150,16 @@ def evaluate_layer_alignment(config_path: str, mode: str) -> None:
 
         images = images.to(device, non_blocking=True)
         labels = labels.to(device, non_blocking=True)
+        current_batch_size = images.shape[0]
 
-        batch_size = images.shape[0]
-
-        with MultiLayerGradCAM(model, target_layers) as gradcam:
-            cam_maps_by_layer, logits, activations_by_layer = gradcam.generate(images)
+        with torch.enable_grad():
+            with MultiLayerGradCAM(model, target_layers) as gradcam:
+                cam_maps_by_layer, logits, activations_by_layer = gradcam.generate(images)
 
         preds = logits.argmax(dim=1).detach().cpu()
         true_labels = labels.detach().cpu()
+
+        correct += int((preds == true_labels).sum().item())
 
         for layer_name in layers:
             activation = activations_by_layer[layer_name]
@@ -124,7 +173,7 @@ def evaluate_layer_alignment(config_path: str, mode: str) -> None:
 
             xai_maps = cam_maps_by_layer[layer_name]
 
-            for i in range(batch_size):
+            for i in range(current_batch_size):
                 global_idx = processed + i
 
                 metrics = lsas(pca_maps[i], xai_maps[i])
@@ -156,9 +205,10 @@ def evaluate_layer_alignment(config_path: str, mode: str) -> None:
                         ),
                     )
 
-        processed += batch_size
+        processed += current_batch_size
         elapsed = time.time() - started_at
         img_per_sec = processed / max(elapsed, 1e-8)
+
         progress.set_postfix(
             {
                 "images": processed,
@@ -176,10 +226,57 @@ def evaluate_layer_alignment(config_path: str, mode: str) -> None:
     save_layer_curve(output_csv, curve_path, title=f"Stage 1 LSAS curve: {mode}")
 
     elapsed = time.time() - started_at
-    print(f"Saved {len(rows)} rows for {processed} images to {output_csv}")
-    print(f"Saved layer curve to {curve_path}")
+    accuracy = correct / max(processed, 1)
+
+    print()
+    print("Evaluation completed.")
+    print(f"Saved CSV: {output_csv}")
+    print(f"Saved curve: {curve_path}")
+    print(f"Processed images: {processed}")
+    print(f"Rows: {len(rows)}")
+    print(f"Expected rows: {processed * len(layers)}")
+    print(f"Accuracy on evaluated subset: {accuracy:.4f}")
     print(f"Elapsed: {elapsed / 60:.2f} min")
     print(f"Throughput: {processed / max(elapsed, 1e-8):.2f} images/sec")
+
+    print()
+    print("Rows per layer:")
+    print(df.groupby("layer").size())
+
+    print()
+    print("Mean metrics per layer:")
+    metric_cols = [
+        col for col in [
+            "lsas",
+            "corr_pca_xai",
+            "soft_iou_pca_xai",
+        ]
+        if col in df.columns
+    ]
+    print(df.groupby("layer")[metric_cols].mean())
+
+    if processed != max_samples:
+        print()
+        print(f"WARNING: requested max_samples={max_samples}, but processed={processed}.")
+
+    if len(rows) != processed * len(layers):
+        raise RuntimeError(
+            f"Wrong number of rows. Got {len(rows)}, expected {processed * len(layers)}."
+        )
+
+    update_manifest(
+        exp=exp,
+        cfg=cfg,
+        status="completed",
+        extra={
+            "processed_images": processed,
+            "rows": len(rows),
+            "accuracy_on_evaluated_subset": accuracy if "accuracy" in locals() else None,
+            "output_csv": str(output_csv),
+            "curve_path": str(curve_path),
+            "elapsed_minutes": elapsed / 60,
+        },
+    )
 
 
 def main() -> None:
