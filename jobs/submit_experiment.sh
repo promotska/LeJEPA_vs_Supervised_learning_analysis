@@ -50,7 +50,7 @@ submit_supervised_eval() {
     --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
     --output="${EXP_DIR}/logs/eval_supervised_%j.out" \
     --error="${EXP_DIR}/logs/eval_supervised_%j.err" \
-    slurm/evaluate_supervised_alignment.slurm
+    jobs/evaluate_supervised_resnet18_cifar10.slurm
 }
 
 submit_lejepa_eval() {
@@ -58,7 +58,7 @@ submit_lejepa_eval() {
     --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
     --output="${EXP_DIR}/logs/eval_lejepa_%j.out" \
     --error="${EXP_DIR}/logs/eval_lejepa_%j.err" \
-    slurm/evaluate_lejepa_alignment.slurm
+    jobs/train_lejepa_resnet18_cifar10.slurm
 }
 
 case "${MODE}:${TARGET}" in

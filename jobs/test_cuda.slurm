@@ -11,8 +11,6 @@
 #SBATCH --output=logs/%x-%j.out
 #SBATCH --error=logs/%x-%j.err
 
-cd /leonardo_work/IscrC_MNLP26/apromots_doubleN/cv
-
 source .venv/bin/activate
 
 echo "Node:"
