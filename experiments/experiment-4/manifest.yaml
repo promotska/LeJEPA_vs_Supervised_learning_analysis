@@ -1,0 +1,161 @@
+experiment:
+  name: experiment-4
+  root: experiments
+  dir: experiments/experiment-4
+  created_at_utc: '2026-06-25T18:17:38+00:00'
+  updated_at_utc: '2026-06-25T21:04:11+00:00'
+git:
+  branch: ananas-code
+  commit: cd694c21030d2e083c89ae8060ef219a6b50a153
+  commit_short: cd694c2
+  is_dirty: true
+  remote: git@github.com:promotska/LeJEPA_vs_Supervised_learning_analysis.git
+runs:
+- run_id: 20260625_201738_train_lejepa_lejepa_573122
+  run_kind: train_lejepa
+  mode: lejepa
+  status: completed
+  updated_at_utc: '2026-06-25T18:50:03+00:00'
+  command: scripts/train_lejepa.py --config configs/cifar10_resnet18_lejepa.yaml
+  config_snapshot_path: experiments/experiment-4/configs/original_cifar10_resnet18_lejepa.yaml
+  resolved_config_path: experiments/experiment-4/configs/resolved_20260625_201738_train_lejepa_lejepa_573122.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn0192.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    slurm_job_id: '47861062'
+    slurm_job_name: cv-r18-lejepa
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_resnet18_lejepa
+    seed: 42
+    output_dir: experiments/experiment-4
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 4
+    batch_size: 128
+    val_fraction: 0.1
+  model:
+    architecture: resnet18_cifar
+    num_classes: 10
+    feature_dim: 512
+    projection_dim: 256
+    prediction_dim: 256
+  training:
+    pretrain_epochs: 100
+    probe_epochs: 30
+    learning_rate: 0.001
+    probe_learning_rate: 0.0005
+    weight_decay: 0.0005
+    amp: true
+    sigreg_weight: 0.05
+    save_every_epoch: false
+  checkpoints:
+    backbone_best_path: experiments/experiment-4/checkpoints/resnet18_lejepa_backbone_best.pt
+    backbone_last_path: experiments/experiment-4/checkpoints/resnet18_lejepa_backbone_last.pt
+    probe_best_path: experiments/experiment-4/checkpoints/resnet18_lejepa_probe_best.pt
+    probe_last_path: experiments/experiment-4/checkpoints/resnet18_lejepa_probe_last.pt
+  evaluation:
+    layers:
+    - backbone.layer1
+    - backbone.layer2
+    - backbone.layer3
+    - backbone.layer4
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    checkpoint_path: experiments/experiment-4/checkpoints/resnet18_lejepa_probe_best.pt
+    output_csv: experiments/experiment-4/metrics/stage1_lejepa_lsas.csv
+    figure_dir: experiments/experiment-4/figures/lejepa
+  extra:
+    note: lejepa training completed
+    result: null
+- run_id: 20260625_230411_train_lejepa_lejepa_3820894
+  run_kind: train_lejepa
+  mode: lejepa
+  status: started
+  updated_at_utc: '2026-06-25T21:04:11+00:00'
+  command: scripts/train_lejepa.py --config configs/cifar10_resnet18_lejepa.yaml
+  config_snapshot_path: experiments/experiment-4/configs/original_cifar10_resnet18_lejepa.yaml
+  resolved_config_path: experiments/experiment-4/configs/resolved_20260625_230411_train_lejepa_lejepa_3820894.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn0007.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    slurm_job_id: '47865757'
+    slurm_job_name: cv-r18-lejepa
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_resnet18_lejepa
+    seed: 42
+    output_dir: experiments/experiment-4
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 4
+    batch_size: 128
+    val_fraction: 0.1
+  model:
+    architecture: resnet18_cifar
+    num_classes: 10
+    feature_dim: 512
+    projection_dim: 256
+    prediction_dim: 256
+  training:
+    pretrain_epochs: 100
+    probe_epochs: 30
+    learning_rate: 0.001
+    probe_learning_rate: 0.0005
+    weight_decay: 0.0005
+    amp: true
+    sigreg_weight: 0.05
+    save_every_epoch: false
+  checkpoints:
+    backbone_best_path: experiments/experiment-4/checkpoints/resnet18_lejepa_backbone_best.pt
+    backbone_last_path: experiments/experiment-4/checkpoints/resnet18_lejepa_backbone_last.pt
+    probe_best_path: experiments/experiment-4/checkpoints/resnet18_lejepa_probe_best.pt
+    probe_last_path: experiments/experiment-4/checkpoints/resnet18_lejepa_probe_last.pt
+  evaluation:
+    layers:
+    - backbone.layer1
+    - backbone.layer2
+    - backbone.layer3
+    - backbone.layer4
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    checkpoint_path: experiments/experiment-4/checkpoints/resnet18_lejepa_probe_best.pt
+    output_csv: experiments/experiment-4/metrics/stage1_lejepa_lsas.csv
+    figure_dir: experiments/experiment-4/figures/lejepa
+latest_status: started
+artifacts:
+  configs:
+  - path: experiments/experiment-4/configs/original_cifar10_resnet18_lejepa.yaml
+    size_bytes: 1230
+    modified_utc: '2026-06-25T15:27:48+00:00'
+  - path: experiments/experiment-4/configs/resolved_20260625_200015_train_lejepa_lejepa_1891701.yaml
+    size_bytes: 1971
+    modified_utc: '2026-06-25T18:00:15+00:00'
+  - path: experiments/experiment-4/configs/resolved_20260625_201738_train_lejepa_lejepa_573122.yaml
+    size_bytes: 1969
+    modified_utc: '2026-06-25T18:17:38+00:00'
+  - path: experiments/experiment-4/configs/resolved_20260625_230411_train_lejepa_lejepa_3820894.yaml
+    size_bytes: 1971
+    modified_utc: '2026-06-25T21:04:11+00:00'
+  checkpoints: []
+  metrics: []
+  figures: []
+  logs: []

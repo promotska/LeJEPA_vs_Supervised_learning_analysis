@@ -1,0 +1,35 @@
+Started at: Thu Jun 25 21:27:32 CEST 2026
+Node: lrdn2252.leonardo.local
+Thu Jun 25 21:27:32 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.274.02             Driver Version: 535.274.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM-64GB           On  | 00000000:C8:00.0 Off |                    0 |
+| N/A   43C    P0              64W / 464W |      0MiB / 65536MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+Started at: Thu Jun 25 21:27:32 CEST 2026
+Using device: cuda
+Evaluation settings:
+  mode: supervised
+  config: configs/cifar10_resnet18_supervised.yaml
+  checkpoint: experiments/experiment-3/checkpoints/resnet18_supervised_best.pt
+  data root: datasets
+  max_samples: 1000
+  batch_size: 64
+  layers: ['backbone.layer1', 'backbone.layer2', 'backbone.layer3', 'backbone.layer4']
+  expected rows: 4000
+  save_visualizations: True
+  num_visualizations: 4

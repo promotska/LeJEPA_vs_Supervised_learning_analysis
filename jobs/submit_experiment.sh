@@ -58,7 +58,7 @@ submit_lejepa_eval() {
     --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
     --output="${EXP_DIR}/logs/eval_lejepa_%j.out" \
     --error="${EXP_DIR}/logs/eval_lejepa_%j.err" \
-    jobs/train_lejepa_resnet18_cifar10.slurm
+    jobs/evaluate_lejepa_resnet18_cifar10.slurm
 }
 
 case "${MODE}:${TARGET}" in

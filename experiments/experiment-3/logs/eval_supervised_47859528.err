@@ -1,0 +1,64 @@
+Traceback (most recent call last):
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/scripts/evaluate_alignment.py", line 292, in <module>
+    main()
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/scripts/evaluate_alignment.py", line 288, in main
+    evaluate_layer_alignment(config_path=args.config, mode=args.mode)
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/scripts/evaluate_alignment.py", line 79, in evaluate_layer_alignment
+    exp = prepare_experiment(
+          ^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/src/experiment.py", line 323, in prepare_experiment
+    update_manifest(
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/src/experiment.py", line 394, in update_manifest
+    _dump_manifest(exp.manifest_path, manifest)
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/src/experiment.py", line 224, in _dump_manifest
+    yaml.safe_dump(
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/yaml/__init__.py", line 269, in safe_dump
+    return dump_all([data], stream, Dumper=SafeDumper, **kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/yaml/__init__.py", line 241, in dump_all
+    dumper.represent(data)
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/yaml/representer.py", line 27, in represent
+    node = self.represent_data(data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/yaml/representer.py", line 48, in represent_data
+    node = self.yaml_representers[data_types[0]](self, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/yaml/representer.py", line 207, in represent_dict
+    return self.represent_mapping('tag:yaml.org,2002:map', data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/yaml/representer.py", line 118, in represent_mapping
+    node_value = self.represent_data(item_value)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/yaml/representer.py", line 48, in represent_data
+    node = self.yaml_representers[data_types[0]](self, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/yaml/representer.py", line 199, in represent_list
+    return self.represent_sequence('tag:yaml.org,2002:seq', data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/yaml/representer.py", line 92, in represent_sequence
+    node_item = self.represent_data(item)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/yaml/representer.py", line 48, in represent_data
+    node = self.yaml_representers[data_types[0]](self, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/yaml/representer.py", line 207, in represent_dict
+    return self.represent_mapping('tag:yaml.org,2002:map', data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/yaml/representer.py", line 118, in represent_mapping
+    node_value = self.represent_data(item_value)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/yaml/representer.py", line 48, in represent_data
+    node = self.yaml_representers[data_types[0]](self, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/yaml/representer.py", line 207, in represent_dict
+    return self.represent_mapping('tag:yaml.org,2002:map', data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/yaml/representer.py", line 118, in represent_mapping
+    node_value = self.represent_data(item_value)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/yaml/representer.py", line 58, in represent_data
+    node = self.yaml_representers[None](self, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/yaml/representer.py", line 231, in represent_undefined
+    raise RepresenterError("cannot represent an object", data)
+yaml.representer.RepresenterError: ('cannot represent an object', '2.5.1+cu121')

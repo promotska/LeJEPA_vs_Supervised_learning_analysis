@@ -1,0 +1,62 @@
+Started at: Thu Jun 25 22:35:10 CEST 2026
+Node: lrdn2792.leonardo.local
+Thu Jun 25 22:35:10 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.274.02             Driver Version: 535.274.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM-64GB           On  | 00000000:C8:00.0 Off |                    0 |
+| N/A   43C    P0              63W / 468W |      0MiB / 65536MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+Started at: Thu Jun 25 22:35:10 CEST 2026
+Using device: cuda
+Evaluation settings:
+  mode: supervised
+  config: configs/cifar10_resnet18_supervised.yaml
+  checkpoint: experiments/experiment-3/checkpoints/resnet18_supervised_best.pt
+  data root: datasets
+  max_samples: 1000
+  batch_size: 64
+  layers: ['backbone.layer1', 'backbone.layer2', 'backbone.layer3', 'backbone.layer4']
+  expected rows: 4000
+  save_visualizations: True
+  num_visualizations: 4
+
+Evaluation completed.
+Saved CSV: experiments/experiment-3/metrics/stage1_supervised_lsas.csv
+Saved curve: experiments/experiment-3/metrics/stage1_supervised_lsas_curve.png
+Processed images: 1000
+Rows: 4000
+Expected rows: 4000
+Accuracy on evaluated subset: 0.9270
+Elapsed: 0.72 min
+Throughput: 23.31 images/sec
+
+Rows per layer:
+layer
+backbone.layer1    1000
+backbone.layer2    1000
+backbone.layer3    1000
+backbone.layer4    1000
+dtype: int64
+
+Mean metrics per layer:
+                     lsas  corr_pca_xai  soft_iou_pca_xai
+layer                                                    
+backbone.layer1  0.151467      0.080974          0.221959
+backbone.layer2  0.219128      0.098855          0.339402
+backbone.layer3  0.356628      0.298243          0.415014
+backbone.layer4  0.430302      0.308570          0.552034
+Finished at: Thu Jun 25 22:38:06 CEST 2026

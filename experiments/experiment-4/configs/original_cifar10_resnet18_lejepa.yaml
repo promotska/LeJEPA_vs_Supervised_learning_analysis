@@ -1,0 +1,54 @@
+project:
+  name: cifar10_resnet18_lejepa
+  seed: 42
+  output_dir: outputs
+
+experiment:
+  root: experiments
+  name: experiment-3
+  relocate_checkpoint_path: true
+
+data:
+  root: datasets
+  dataset: CIFAR10
+  num_workers: 4
+  batch_size: 128
+  val_fraction: 0.1
+
+
+model:
+  architecture: resnet18_cifar
+  num_classes: 10
+  feature_dim: 512
+  projection_dim: 256
+  prediction_dim: 256
+
+training:
+  pretrain_epochs: 100
+  probe_epochs: 30
+  learning_rate: 0.001
+  probe_learning_rate: 0.0005
+  weight_decay: 0.0005
+  amp: true
+  sigreg_weight: 0.05
+  save_every_epoch: false
+
+checkpoints:
+  backbone_best_path: outputs/checkpoints/resnet18_lejepa_backbone_best.pt
+  backbone_last_path: outputs/checkpoints/resnet18_lejepa_backbone_last.pt
+  probe_best_path: outputs/checkpoints/resnet18_lejepa_probe_best.pt
+  probe_last_path: outputs/checkpoints/resnet18_lejepa_probe_last.pt
+
+evaluation:
+  layers:
+    - backbone.layer1
+    - backbone.layer2
+    - backbone.layer3
+    - backbone.layer4
+  max_samples: 1000
+  batch_size: 64
+  num_visualizations: 4
+  save_visualizations: true
+  checkpoint_path: outputs/checkpoints/resnet18_lejepa_probe_best.pt
+  output_csv: outputs/metrics/stage1_lejepa_lsas.csv
+  figure_dir: outputs/figures/lejepa

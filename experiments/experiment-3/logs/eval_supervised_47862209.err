@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/scripts/evaluate_alignment.py", line 292, in <module>
+    main()
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/scripts/evaluate_alignment.py", line 288, in main
+    evaluate_layer_alignment(config_path=args.config, mode=args.mode)
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/scripts/evaluate_alignment.py", line 125, in evaluate_layer_alignment
+    model = load_stage1_model(cfg, mode=mode, device=device)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/scripts/evaluate_alignment.py", line 52, in load_stage1_model
+    raise FileNotFoundError(f"Checkpoint not found: {checkpoint_path}")
+FileNotFoundError: Checkpoint not found: experiments/experiment-3/checkpoints/resnet18_supervised_best.pt

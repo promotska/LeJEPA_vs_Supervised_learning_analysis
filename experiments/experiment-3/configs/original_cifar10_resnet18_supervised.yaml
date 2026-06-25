@@ -1,0 +1,46 @@
+project:
+  name: cifar10_resnet18_supervised
+  seed: 42
+  output_dir: outputs
+
+experiment:
+  root: experiments
+  name: experiment-3
+  relocate_checkpoint_path: true
+  
+data:
+  root: datasets
+  dataset: CIFAR10
+  num_workers: 4
+  batch_size: 128
+  val_fraction: 0.1
+
+
+model:
+  architecture: resnet18_cifar
+  num_classes: 10
+
+training:
+  epochs: 20
+  learning_rate: 0.001
+  weight_decay: 0.0005
+  amp: true
+  save_every_epoch: false
+
+checkpoints:
+  best_path: outputs/checkpoints/resnet18_supervised_best.pt
+  last_path: outputs/checkpoints/resnet18_supervised_last.pt
+
+evaluation:
+  layers:
+    - backbone.layer1
+    - backbone.layer2
+    - backbone.layer3
+    - backbone.layer4
+  max_samples: 1000
+  batch_size: 64
+  num_visualizations: 4
+  save_visualizations: true
+  checkpoint_path: outputs/checkpoints/resnet18_supervised_best.pt
+  output_csv: outputs/metrics/stage1_supervised_lsas.csv
+  figure_dir: outputs/figures/supervised

@@ -78,7 +78,7 @@ def _environment_info() -> dict[str, Any]:
     try:
         import torch
 
-        info["torch"] = torch.__version__
+        info["torch"] = str(torch.__version__)
         info["cuda_available"] = bool(torch.cuda.is_available())
         info["cuda_device"] = torch.cuda.get_device_name(0) if torch.cuda.is_available() else None
     except Exception as exc:
