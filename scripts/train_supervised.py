@@ -31,10 +31,9 @@ def main() -> None:
     )
 
     try:
-        # IMPORTANT:
-        # prepare_experiment() mutates cfg paths so checkpoints go into:
-        # experiments/<experiment-name>/checkpoints/
-        result = train_supervised(args.config)
+        # prepare_experiment() rewrites checkpoint paths into experiments/<name>/checkpoints.
+        # Therefore we must train from the resolved config, not the original config.
+        result = train_supervised(str(exp.resolved_config_path))
 
         update_manifest(
             exp=exp,

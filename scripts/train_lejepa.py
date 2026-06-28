@@ -1,15 +1,15 @@
 from __future__ import annotations
 
 import argparse
+import sys
 import traceback
 from pathlib import Path
-import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from src.training.train_lejepa import train_lejepa
 from src.experiment import prepare_experiment, update_manifest
+from src.training.train_lejepa import train_lejepa
 from src.utils import load_yaml
 
 
@@ -31,17 +31,15 @@ def main() -> None:
     )
 
     try:
-        # IMPORTANT:
-        # prepare_experiment() mutates cfg paths so checkpoints go into:
-        # experiments/<experiment-name>/checkpoints/
-        result = train_lejepa(args.config)
+        # Use the resolved config so checkpoints are saved under experiments/<name>/checkpoints.
+        result = train_lejepa(str(exp.resolved_config_path))
 
         update_manifest(
             exp=exp,
             cfg=cfg,
             status="completed",
             extra={
-                "note": "lejepa training completed",
+                "note": "LeJEPA pretraining and linear-probe training completed",
                 "result": result,
             },
         )

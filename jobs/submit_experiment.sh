@@ -3,11 +3,13 @@ set -euo pipefail
 
 if [ $# -lt 3 ]; then
   echo "Usage:"
-  echo "  bash slurm/submit_experiment.sh <experiment-name> <mode> <target>"
+  echo "  bash jobs/submit_experiment.sh <experiment-name> <mode> <target>"
   echo ""
   echo "Modes:"
   echo "  train"
   echo "  eval"
+  echo "  eval_true"
+  echo "  repr"
   echo ""
   echo "Targets:"
   echo "  supervised"
@@ -15,10 +17,10 @@ if [ $# -lt 3 ]; then
   echo "  both"
   echo ""
   echo "Examples:"
-  echo "  bash slurm/submit_experiment.sh experiment-4 train supervised"
-  echo "  bash slurm/submit_experiment.sh experiment-4 train lejepa"
-  echo "  bash slurm/submit_experiment.sh experiment-4 train both"
-  echo "  bash slurm/submit_experiment.sh experiment-4 eval both"
+  echo "  bash jobs/submit_experiment.sh experiment-4 train both"
+  echo "  bash jobs/submit_experiment.sh experiment-4 eval both"
+  echo "  bash jobs/submit_experiment.sh experiment-4 eval_true lejepa"
+  echo "  bash jobs/submit_experiment.sh experiment-4 repr both"
   exit 1
 fi
 
@@ -34,7 +36,7 @@ submit_supervised_train() {
     --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
     --output="${EXP_DIR}/logs/train_supervised_%j.out" \
     --error="${EXP_DIR}/logs/train_supervised_%j.err" \
-    slurm/train_supervised_resnet18_cifar10.slurm
+    jobs/train_supervised_resnet18_cifar10.slurm
 }
 
 submit_lejepa_train() {
@@ -42,55 +44,101 @@ submit_lejepa_train() {
     --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
     --output="${EXP_DIR}/logs/train_lejepa_%j.out" \
     --error="${EXP_DIR}/logs/train_lejepa_%j.err" \
-    slurm/train_lejepa_resnet18_cifar10.slurm
+    jobs/train_lejepa_resnet18_cifar10.slurm
 }
 
-submit_supervised_eval() {
+submit_supervised_eval_predicted() {
   sbatch \
     --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
-    --output="${EXP_DIR}/logs/eval_supervised_%j.out" \
-    --error="${EXP_DIR}/logs/eval_supervised_%j.err" \
+    --output="${EXP_DIR}/logs/eval_supervised_predicted_%j.out" \
+    --error="${EXP_DIR}/logs/eval_supervised_predicted_%j.err" \
     jobs/evaluate_supervised_resnet18_cifar10.slurm
 }
 
-submit_lejepa_eval() {
+submit_lejepa_eval_predicted() {
   sbatch \
     --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
-    --output="${EXP_DIR}/logs/eval_lejepa_%j.out" \
-    --error="${EXP_DIR}/logs/eval_lejepa_%j.err" \
+    --output="${EXP_DIR}/logs/eval_lejepa_predicted_%j.out" \
+    --error="${EXP_DIR}/logs/eval_lejepa_predicted_%j.err" \
     jobs/evaluate_lejepa_resnet18_cifar10.slurm
+}
+
+submit_supervised_eval_true() {
+  sbatch \
+    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
+    --output="${EXP_DIR}/logs/eval_supervised_true_%j.out" \
+    --error="${EXP_DIR}/logs/eval_supervised_true_%j.err" \
+    --wrap="cd ${PWD} && source .venv/bin/activate && export PYTHONPATH=${PWD}:\${PYTHONPATH:-} && export HF_DATASETS_OFFLINE=1 && export HF_HUB_OFFLINE=1 && python -u scripts/evaluate_alignment.py --config configs/cifar10_resnet18_supervised.yaml --mode supervised --gradcam-target true"
+}
+
+submit_lejepa_eval_true() {
+  sbatch \
+    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
+    --output="${EXP_DIR}/logs/eval_lejepa_true_%j.out" \
+    --error="${EXP_DIR}/logs/eval_lejepa_true_%j.err" \
+    --wrap="cd ${PWD} && source .venv/bin/activate && export PYTHONPATH=${PWD}:\${PYTHONPATH:-} && export HF_DATASETS_OFFLINE=1 && export HF_HUB_OFFLINE=1 && python -u scripts/evaluate_alignment.py --config configs/cifar10_resnet18_lejepa.yaml --mode lejepa --gradcam-target true"
+}
+
+submit_supervised_repr() {
+  sbatch \
+    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
+    --output="${EXP_DIR}/logs/repr_supervised_%j.out" \
+    --error="${EXP_DIR}/logs/repr_supervised_%j.err" \
+    jobs/evaluate_representation_supervised.slurm
+}
+
+submit_lejepa_repr() {
+  sbatch \
+    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
+    --output="${EXP_DIR}/logs/repr_lejepa_%j.out" \
+    --error="${EXP_DIR}/logs/repr_lejepa_%j.err" \
+    jobs/evaluate_representation_lejepa.slurm
 }
 
 case "${MODE}:${TARGET}" in
   train:supervised)
-    echo "Submitting supervised training for ${EXP_NAME}"
     submit_supervised_train
     ;;
   train:lejepa)
-    echo "Submitting LeJEPA training for ${EXP_NAME}"
     submit_lejepa_train
     ;;
   train:both)
-    echo "Submitting supervised + LeJEPA training for ${EXP_NAME}"
     submit_supervised_train
     submit_lejepa_train
     ;;
   eval:supervised)
-    echo "Submitting supervised evaluation for ${EXP_NAME}"
-    submit_supervised_eval
+    submit_supervised_eval_predicted
     ;;
   eval:lejepa)
-    echo "Submitting LeJEPA evaluation for ${EXP_NAME}"
-    submit_lejepa_eval
+    submit_lejepa_eval_predicted
     ;;
   eval:both)
-    echo "Submitting supervised + LeJEPA evaluation for ${EXP_NAME}"
-    submit_supervised_eval
-    submit_lejepa_eval
+    submit_supervised_eval_predicted
+    submit_lejepa_eval_predicted
+    ;;
+  eval_true:supervised)
+    submit_supervised_eval_true
+    ;;
+  eval_true:lejepa)
+    submit_lejepa_eval_true
+    ;;
+  eval_true:both)
+    submit_supervised_eval_true
+    submit_lejepa_eval_true
+    ;;
+  repr:supervised)
+    submit_supervised_repr
+    ;;
+  repr:lejepa)
+    submit_lejepa_repr
+    ;;
+  repr:both)
+    submit_supervised_repr
+    submit_lejepa_repr
     ;;
   *)
     echo "Invalid combination: mode=${MODE}, target=${TARGET}"
-    echo "Valid modes: train, eval"
+    echo "Valid modes: train, eval, eval_true, repr"
     echo "Valid targets: supervised, lejepa, both"
     exit 1
     ;;

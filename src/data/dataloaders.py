@@ -19,6 +19,7 @@ from src.utils import seed_worker
 @dataclass(frozen=True)
 class CifarLoaders:
     train: DataLoader
+    train_eval: DataLoader
     val: DataLoader
     test: DataLoader
 
@@ -29,9 +30,6 @@ class HFCifar10Dataset(Dataset):
 
         ds = load_dataset("uoft-cs/cifar10")
         ds.save_to_disk("datasets/hf_cifar10")
-
-    Expected columns are usually:
-        image/img and label
     """
 
     def __init__(self, dataset_dir: str | Path, split: str, transform=None):
@@ -39,8 +37,7 @@ class HFCifar10Dataset(Dataset):
             from datasets import load_from_disk
         except ImportError as exc:
             raise ImportError(
-                "Hugging Face datasets is required for HFCifar10Dataset. "
-                "Install it with: pip install datasets"
+                "Hugging Face datasets is required. Install with: pip install datasets"
             ) from exc
 
         dataset_dir = Path(dataset_dir)
@@ -97,7 +94,6 @@ def _build_dataset(root: Path, train: bool, transform):
 
     No downloading is performed here.
     """
-
     hf_dir = root / "hf_cifar10"
 
     if hf_dir.exists():
@@ -153,6 +149,11 @@ def build_cifar10_loaders(
 
     train_full = _build_dataset(root=root, train=True, transform=train_transform)
     val_full = _build_dataset(root=root, train=True, transform=eval_transform)
+
+    # Full train set with eval transforms.
+    # This is what we use as the kNN feature bank.
+    train_eval_full = _build_dataset(root=root, train=True, transform=eval_transform)
+
     test = _build_dataset(root=root, train=False, transform=eval_transform)
 
     train_subset, val_subset = _make_train_val_subsets(
@@ -175,6 +176,13 @@ def build_cifar10_loaders(
             batch_size=batch_size,
             shuffle=True,
             drop_last=self_supervised,
+            **common,
+        ),
+        train_eval=DataLoader(
+            train_eval_full,
+            batch_size=batch_size,
+            shuffle=False,
+            drop_last=False,
             **common,
         ),
         val=DataLoader(
