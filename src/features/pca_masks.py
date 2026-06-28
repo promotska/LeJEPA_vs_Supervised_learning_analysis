@@ -136,3 +136,106 @@ def pca_heatmap_from_activation(
         use_abs=use_abs,
     )
     return maps[0]
+
+@torch.no_grad()
+def _pca_heatmap_single_tokens(
+    tokens: torch.Tensor,
+    grid_size: int,
+    component: int = 0,
+    use_abs: bool = True,
+) -> torch.Tensor:
+    """
+    tokens: [N, D]
+    returns: [grid_size, grid_size]
+    """
+    if tokens.ndim != 2:
+        raise ValueError(f"Expected tokens [N,D], got {tuple(tokens.shape)}")
+
+    n, d = tokens.shape
+    if n != grid_size * grid_size:
+        raise ValueError(
+            f"Token count N={n} does not match grid_size^2={grid_size * grid_size}"
+        )
+
+    x = tokens.float()
+    x = x - x.mean(dim=0, keepdim=True)
+
+    if x.numel() == 0 or torch.allclose(
+        x.abs().sum(),
+        torch.tensor(0.0, device=x.device),
+    ):
+        return torch.zeros((grid_size, grid_size), device=tokens.device, dtype=torch.float32)
+
+    max_component = min(n, d) - 1
+    if component > max_component:
+        component = max_component
+
+    try:
+        if n <= d:
+            gram = x @ x.transpose(0, 1)
+            eigvals, eigvecs = torch.linalg.eigh(gram)
+            idx = eigvals.argsort(descending=True)[component]
+            score = eigvecs[:, idx] * torch.sqrt(torch.clamp(eigvals[idx], min=0.0))
+        else:
+            cov = x.transpose(0, 1) @ x
+            eigvals, eigvecs = torch.linalg.eigh(cov)
+            idx = eigvals.argsort(descending=True)[component]
+            pc = eigvecs[:, idx]
+            score = x @ pc
+    except RuntimeError:
+        x_cpu = x.detach().cpu()
+        if n <= d:
+            gram = x_cpu @ x_cpu.transpose(0, 1)
+            eigvals, eigvecs = torch.linalg.eigh(gram)
+            idx = eigvals.argsort(descending=True)[component]
+            score_cpu = eigvecs[:, idx] * torch.sqrt(torch.clamp(eigvals[idx], min=0.0))
+        else:
+            cov = x_cpu.transpose(0, 1) @ x_cpu
+            eigvals, eigvecs = torch.linalg.eigh(cov)
+            idx = eigvals.argsort(descending=True)[component]
+            pc = eigvecs[:, idx]
+            score_cpu = x_cpu @ pc
+        score = score_cpu.to(tokens.device)
+
+    if use_abs:
+        score = score.abs()
+
+    heatmap = score.reshape(grid_size, grid_size)
+    return _normalize_map(heatmap)
+
+
+@torch.no_grad()
+def pca_heatmaps_from_tokens(
+    tokens: torch.Tensor,
+    grid_size: int,
+    output_size: tuple[int, int],
+    component: int = 0,
+    use_abs: bool = True,
+) -> np.ndarray:
+    """
+    tokens: [B, N, D]
+    returns numpy [B, output_H, output_W]
+    """
+    if tokens.ndim != 3:
+        raise ValueError(f"Expected tokens [B,N,D], got {tuple(tokens.shape)}")
+
+    maps = []
+
+    for i in range(tokens.shape[0]):
+        heatmap = _pca_heatmap_single_tokens(
+            tokens=tokens[i],
+            grid_size=grid_size,
+            component=component,
+            use_abs=use_abs,
+        )
+        heatmap = heatmap[None, None, :, :]
+        heatmap = F.interpolate(
+            heatmap,
+            size=output_size,
+            mode="bilinear",
+            align_corners=False,
+        )[0, 0]
+        heatmap = _normalize_map(heatmap)
+        maps.append(heatmap.detach().cpu().numpy())
+
+    return np.stack(maps, axis=0)

@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=cv-c10-r18-lejepa-eval
+#SBATCH --job-name=cv-vit-sup-eval
 #SBATCH --partition=boost_usr_prod
 #SBATCH --account=IscrC_MNLP26
 #SBATCH --nodes=1
@@ -14,12 +14,28 @@
 set -euo pipefail
 
 PROJECT_DIR="${SLURM_SUBMIT_DIR}"
+GRADCAM_TARGET="${GRADCAM_TARGET:-predicted}"
+
+if [ -d "${PROJECT_DIR}/.venv" ]; then
+  VENV_DIR="${PROJECT_DIR}/.venv"
+elif [ -d "${PROJECT_DIR}/../.venv" ]; then
+  VENV_DIR="${PROJECT_DIR}/../.venv"
+else
+  echo "ERROR: could not find .venv"
+  exit 1
+fi
 
 cd "${PROJECT_DIR}"
+mkdir -p logs
 
-mkdir -p logs outputs/metrics outputs/figures
+echo "Job started at: $(date)"
+echo "Node: $(hostname)"
+echo "Project dir: ${PROJECT_DIR}"
+echo "Venv dir: ${VENV_DIR}"
 
-source ".venv/bin/activate"
+nvidia-smi || true
+
+source "${VENV_DIR}/bin/activate"
 
 export PYTHONPATH="${PROJECT_DIR}:${PYTHONPATH:-}"
 export HF_DATASETS_OFFLINE=1
@@ -30,14 +46,8 @@ export MKL_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export OPENBLAS_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export NUMEXPR_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 
-echo "Started at: $(date)"
-echo "Node: $(hostname)"
-nvidia-smi || true
+python -u scripts/evaluate_vit_alignment.py \
+  --config configs/cifar10_vit_supervised.yaml \
+  --gradcam-target "${GRADCAM_TARGET}"
 
-echo "Started at: $(date)"
-
-python -u scripts/evaluate_alignment.py \
-  --config configs/cifar10_resnet18_lejepa.yaml \
-  --mode lejepa
-
-echo "Finished at: $(date)"
+echo "Job finished at: $(date)"

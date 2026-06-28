@@ -14,13 +14,18 @@ if [ $# -lt 3 ]; then
   echo "Targets:"
   echo "  supervised"
   echo "  lejepa"
-  echo "  both"
+  echo "  both ResNet supervised + ResNet LeJEPA"
+  echo "  vit_supervised"
   echo ""
   echo "Examples:"
   echo "  bash jobs/submit_experiment.sh experiment-4 train both"
   echo "  bash jobs/submit_experiment.sh experiment-4 eval both"
   echo "  bash jobs/submit_experiment.sh experiment-4 eval_true lejepa"
   echo "  bash jobs/submit_experiment.sh experiment-4 repr both"
+  echo "  bash jobs/submit_experiment.sh experiment-6 train vit_supervised"
+  echo "  bash jobs/submit_experiment.sh experiment-6 eval vit_supervised"
+  echo "  bash jobs/submit_experiment.sh experiment-6 eval_true vit_supervised"
+  echo "  bash jobs/submit_experiment.sh experiment-6 repr vit_supervised"
   exit 1
 fi
 
@@ -95,6 +100,38 @@ submit_lejepa_repr() {
     jobs/evaluate_representation_lejepa.slurm
 }
 
+submit_vit_supervised_train() {
+  sbatch \
+    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
+    --output="${EXP_DIR}/logs/train_vit_supervised_%j.out" \
+    --error="${EXP_DIR}/logs/train_vit_supervised_%j.err" \
+    jobs/train_supervised_vit_cifar10.slurm
+}
+
+submit_vit_supervised_eval_predicted() {
+  sbatch \
+    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
+    --output="${EXP_DIR}/logs/eval_vit_supervised_predicted_%j.out" \
+    --error="${EXP_DIR}/logs/eval_vit_supervised_predicted_%j.err" \
+    jobs/evaluate_supervised_vit_cifar10.slurm
+}
+
+submit_vit_supervised_eval_true() {
+  sbatch \
+    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}",GRADCAM_TARGET=true \
+    --output="${EXP_DIR}/logs/eval_vit_supervised_true_%j.out" \
+    --error="${EXP_DIR}/logs/eval_vit_supervised_true_%j.err" \
+    jobs/evaluate_supervised_vit_cifar10.slurm
+}
+
+submit_vit_supervised_repr() {
+  sbatch \
+    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
+    --output="${EXP_DIR}/logs/repr_vit_supervised_%j.out" \
+    --error="${EXP_DIR}/logs/repr_vit_supervised_%j.err" \
+    jobs/evaluate_representation_vit_supervised.slurm
+}
+
 case "${MODE}:${TARGET}" in
   train:supervised)
     submit_supervised_train
@@ -135,6 +172,21 @@ case "${MODE}:${TARGET}" in
   repr:both)
     submit_supervised_repr
     submit_lejepa_repr
+    ;;
+    train:vit_supervised)
+    submit_vit_supervised_train
+    ;;
+
+  eval:vit_supervised)
+    submit_vit_supervised_eval_predicted
+    ;;
+
+  eval_true:vit_supervised)
+    submit_vit_supervised_eval_true
+    ;;
+
+  repr:vit_supervised)
+    submit_vit_supervised_repr
     ;;
   *)
     echo "Invalid combination: mode=${MODE}, target=${TARGET}"
