@@ -15,6 +15,7 @@ set -euo pipefail
 
 PROJECT_DIR="${SLURM_SUBMIT_DIR}"
 GRADCAM_TARGET="${GRADCAM_TARGET:-predicted}"
+VIT_XAI_METHOD="${VIT_XAI_METHOD:-}"
 
 if [ -d "${PROJECT_DIR}/.venv" ]; then
   VENV_DIR="${PROJECT_DIR}/.venv"
@@ -46,8 +47,15 @@ export MKL_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export OPENBLAS_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export NUMEXPR_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 
-python -u scripts/evaluate_vit_alignment.py \
-  --config configs/cifar10_vit_supervised.yaml \
-  --gradcam-target "${GRADCAM_TARGET}"
+CMD=(python -u scripts/evaluate_vit_alignment.py
+  --config configs/cifar10_vit_supervised.yaml
+  --mode vit_supervised
+  --gradcam-target "${GRADCAM_TARGET}")
+
+if [ -n "${VIT_XAI_METHOD}" ]; then
+  CMD+=(--vit-xai-method "${VIT_XAI_METHOD}")
+fi
+
+"${CMD[@]}"
 
 echo "Job finished at: $(date)"

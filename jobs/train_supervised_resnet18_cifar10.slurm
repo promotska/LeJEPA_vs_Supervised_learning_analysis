@@ -15,25 +15,34 @@ set -euo pipefail
 
 PROJECT_DIR="${SLURM_SUBMIT_DIR}"
 
-cd "${PROJECT_DIR}"
-
-echo "Job started at: $(date)"
-echo "Running on node: $(hostname)"
-echo "Project dir: ${PROJECT_DIR}"
-
-if command -v nvidia-smi >/dev/null 2>&1; then
-  nvidia-smi
+if [ -d "${PROJECT_DIR}/.venv" ]; then
+  VENV_DIR="${PROJECT_DIR}/.venv"
+elif [ -d "${PROJECT_DIR}/../.venv" ]; then
+  VENV_DIR="${PROJECT_DIR}/../.venv"
+else
+  echo "ERROR: could not find .venv"
+  exit 1
 fi
 
-source ".venv/bin/activate"
+cd "${PROJECT_DIR}"
+mkdir -p logs
 
-export EXPERIMENT_NAME=experiment-4
+source "${VENV_DIR}/bin/activate"
 
 export PYTHONPATH="${PROJECT_DIR}:${PYTHONPATH:-}"
-export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK}"
-export MKL_NUM_THREADS="${SLURM_CPUS_PER_TASK}"
+export HF_DATASETS_OFFLINE=1
+export HF_HUB_OFFLINE=1
+export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
+export MKL_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
+export OPENBLAS_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
+export NUMEXPR_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 
-echo "Started at: $(date)"
+echo "Job started at: $(date)"
+echo "Node: $(hostname)"
+echo "Project dir: ${PROJECT_DIR}"
+echo "Venv dir: ${VENV_DIR}"
+echo "Experiment name: ${EXPERIMENT_NAME:-<from config>}"
+nvidia-smi || true
 
 python -u scripts/train_supervised.py \
   --config configs/cifar10_resnet18_supervised.yaml

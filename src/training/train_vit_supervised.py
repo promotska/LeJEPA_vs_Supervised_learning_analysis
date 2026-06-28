@@ -8,7 +8,7 @@ from torch import nn
 from torch.cuda.amp import GradScaler, autocast
 from tqdm import tqdm
 
-from src.data.dataloaders import build_cifar10_loaders
+from src.data.dataloaders import build_loaders
 from src.networks.vit import SupervisedViTCifar
 from src.training.checkpointing import save_checkpoint
 from src.utils import get_device, load_yaml, set_seed
@@ -67,14 +67,7 @@ def train_vit_supervised(config_path: str) -> dict[str, float]:
     set_seed(int(cfg["project"]["seed"]))
     device = get_device()
 
-    loaders = build_cifar10_loaders(
-        root=cfg["data"]["root"],
-        batch_size=int(cfg["data"]["batch_size"]),
-        num_workers=int(cfg["data"]["num_workers"]),
-        val_fraction=float(cfg["data"]["val_fraction"]),
-        seed=int(cfg["project"]["seed"]),
-        self_supervised=False,
-    )
+    loaders = build_loaders(cfg, self_supervised=False)
 
     model = build_vit_from_config(cfg).to(device)
 

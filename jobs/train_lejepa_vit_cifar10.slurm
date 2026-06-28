@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=cv-r18-lejepa
+#SBATCH --job-name=cv-vit-lejepa
 #SBATCH --partition=boost_usr_prod
 #SBATCH --account=IscrC_MNLP26
 #SBATCH --nodes=1
@@ -39,12 +39,9 @@ export NUMEXPR_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 
 echo "Job started at: $(date)"
 echo "Node: $(hostname)"
-echo "Project dir: ${PROJECT_DIR}"
-echo "Venv dir: ${VENV_DIR}"
-echo "Experiment name: ${EXPERIMENT_NAME:-<from config>}"
 nvidia-smi || true
 
-python -u scripts/train_lejepa.py \
-  --config configs/cifar10_resnet18_lejepa.yaml
+python -u scripts/train_vit_lejepa.py \
+  --config configs/cifar10_vit_lejepa.yaml
 
 echo "Job finished at: $(date)"

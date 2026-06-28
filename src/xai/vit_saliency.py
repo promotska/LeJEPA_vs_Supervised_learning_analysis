@@ -35,17 +35,10 @@ def _token_scores_to_maps(
 
     b, n = scores.shape
     if n != grid_size * grid_size:
-        raise ValueError(
-            f"Token count N={n} does not match grid_size^2={grid_size * grid_size}"
-        )
+        raise ValueError(f"Token count N={n} does not match grid_size^2={grid_size * grid_size}")
 
     maps = scores.reshape(b, 1, grid_size, grid_size)
-    maps = F.interpolate(
-        maps,
-        size=output_size,
-        mode="bilinear",
-        align_corners=False,
-    )
+    maps = F.interpolate(maps, size=output_size, mode="bilinear", align_corners=False)
     return _normalize_maps(maps)
 
 
@@ -60,18 +53,18 @@ def generate_vit_token_saliency(
     """
     Generates token-gradient saliency maps for selected ViT layers.
 
+    The model returns captured full token tensors [B, 1+N, D]. This function
+    removes the CLS token and computes maps over patch tokens only.
+
     Returns:
-        saliency_maps:
-            layer_name -> numpy [B,H,W]
-        logits:
-            [B,num_classes]
-        tokens_by_layer:
-            layer_name -> tensor [B,N,D]
+        saliency_maps: layer_name -> numpy [B,H,W]
+        logits: [B,num_classes]
+        patch_tokens_by_layer: layer_name -> tensor [B,N,D]
     """
     model.eval()
     model.zero_grad(set_to_none=True)
 
-    logits, tokens_by_layer = model.forward_with_intermediates(
+    logits, full_tokens_by_layer = model.forward_with_intermediates(
         images,
         capture_layers=layers,
         retain_grad=True,
@@ -84,34 +77,33 @@ def generate_vit_token_saliency(
     selected.backward(retain_graph=False)
 
     saliency_maps: dict[str, np.ndarray] = {}
-    detached_tokens: dict[str, torch.Tensor] = {}
+    patch_tokens_by_layer: dict[str, torch.Tensor] = {}
 
-    for layer_name, tokens in tokens_by_layer.items():
-        grads = tokens.grad
+    for layer_name, full_tokens in full_tokens_by_layer.items():
+        grads = full_tokens.grad
 
         if grads is None:
             raise RuntimeError(
                 f"No gradient captured for {layer_name}. "
-                "Make sure retain_grad=True was used."
+                "The captured tensor must be the full token tensor used by later blocks, not an unused slice."
             )
 
-        if use_abs:
-            scores = (tokens * grads).sum(dim=-1).abs()
-        else:
-            scores = torch.relu((tokens * grads).sum(dim=-1))
+        patch_tokens = full_tokens[:, 1:, :]
+        patch_grads = grads[:, 1:, :]
 
-        # Fallback if scores are all zero.
-        if torch.allclose(
-            scores.detach().abs().sum(),
-            torch.tensor(0.0, device=scores.device),
-        ):
-            scores = grads.norm(dim=-1)
+        if use_abs:
+            scores = (patch_tokens * patch_grads).sum(dim=-1).abs()
+        else:
+            scores = torch.relu((patch_tokens * patch_grads).sum(dim=-1))
+
+        if torch.allclose(scores.detach().abs().sum(), torch.tensor(0.0, device=scores.device)):
+            scores = patch_grads.norm(dim=-1)
 
         saliency_maps[layer_name] = _token_scores_to_maps(
             scores=scores,
             grid_size=grid_size,
             output_size=tuple(images.shape[-2:]),
         )
-        detached_tokens[layer_name] = tokens.detach()
+        patch_tokens_by_layer[layer_name] = patch_tokens.detach()
 
-    return saliency_maps, logits.detach(), detached_tokens
+    return saliency_maps, logits.detach(), patch_tokens_by_layer

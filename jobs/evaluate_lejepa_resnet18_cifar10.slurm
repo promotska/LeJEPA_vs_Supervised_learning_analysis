@@ -14,17 +14,24 @@
 set -euo pipefail
 
 PROJECT_DIR="${SLURM_SUBMIT_DIR}"
+GRADCAM_TARGET="${GRADCAM_TARGET:-predicted}"
+
+if [ -d "${PROJECT_DIR}/.venv" ]; then
+  VENV_DIR="${PROJECT_DIR}/.venv"
+elif [ -d "${PROJECT_DIR}/../.venv" ]; then
+  VENV_DIR="${PROJECT_DIR}/../.venv"
+else
+  echo "ERROR: could not find .venv"
+  exit 1
+fi
 
 cd "${PROJECT_DIR}"
-
-mkdir -p logs outputs/metrics outputs/figures
-
-source ".venv/bin/activate"
+mkdir -p logs
+source "${VENV_DIR}/bin/activate"
 
 export PYTHONPATH="${PROJECT_DIR}:${PYTHONPATH:-}"
 export HF_DATASETS_OFFLINE=1
 export HF_HUB_OFFLINE=1
-
 export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export MKL_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export OPENBLAS_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
@@ -32,12 +39,12 @@ export NUMEXPR_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 
 echo "Started at: $(date)"
 echo "Node: $(hostname)"
+echo "Grad-CAM target: ${GRADCAM_TARGET}"
 nvidia-smi || true
-
-echo "Started at: $(date)"
 
 python -u scripts/evaluate_alignment.py \
   --config configs/cifar10_resnet18_lejepa.yaml \
-  --mode lejepa
+  --mode lejepa \
+  --gradcam-target "${GRADCAM_TARGET}"
 
 echo "Finished at: $(date)"

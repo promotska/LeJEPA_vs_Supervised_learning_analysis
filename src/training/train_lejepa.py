@@ -5,7 +5,7 @@ from torch import nn
 from torch.cuda.amp import GradScaler, autocast
 from tqdm import tqdm
 
-from src.data.dataloaders import build_cifar10_loaders
+from src.data.dataloaders import build_loaders
 from src.networks.resnet import LeJEPAResNet18Cifar, LinearProbeResNet18Cifar
 from src.training.checkpointing import save_checkpoint
 from src.training.losses import LeJEPALoss
@@ -14,14 +14,7 @@ from src.utils import get_device, load_yaml, set_seed
 
 
 def pretrain_lejepa(cfg: dict, device: torch.device) -> LeJEPAResNet18Cifar:
-    loaders = build_cifar10_loaders(
-        root=cfg["data"]["root"],
-        batch_size=int(cfg["data"]["batch_size"]),
-        num_workers=int(cfg["data"]["num_workers"]),
-        val_fraction=float(cfg["data"]["val_fraction"]),
-        seed=int(cfg["project"]["seed"]),
-        self_supervised=True,
-    )
+    loaders = build_loaders(cfg, self_supervised=True)
 
     model = LeJEPAResNet18Cifar(
         feature_dim=int(cfg["model"]["feature_dim"]),
@@ -90,14 +83,7 @@ def pretrain_lejepa(cfg: dict, device: torch.device) -> LeJEPAResNet18Cifar:
 
 
 def train_linear_probe(cfg: dict, pretrained: LeJEPAResNet18Cifar, device: torch.device) -> LinearProbeResNet18Cifar:
-    loaders = build_cifar10_loaders(
-        root=cfg["data"]["root"],
-        batch_size=int(cfg["data"]["batch_size"]),
-        num_workers=int(cfg["data"]["num_workers"]),
-        val_fraction=float(cfg["data"]["val_fraction"]),
-        seed=int(cfg["project"]["seed"]),
-        self_supervised=False,
-    )
+    loaders = build_loaders(cfg, self_supervised=False)
 
     model = LinearProbeResNet18Cifar(pretrained.backbone, num_classes=int(cfg["model"]["num_classes"])).to(device)
     for p in model.backbone.parameters():

@@ -7,7 +7,7 @@ from torch import nn
 from torch.cuda.amp import GradScaler, autocast
 from tqdm import tqdm
 
-from src.data.dataloaders import build_cifar10_loaders
+from src.data.dataloaders import build_loaders
 from src.networks.resnet import SupervisedResNet18Cifar
 from src.training.checkpointing import save_checkpoint
 from src.utils import get_device, load_yaml, set_seed
@@ -42,14 +42,7 @@ def train_supervised(config_path: str) -> None:
     set_seed(int(cfg["project"]["seed"]))
     device = get_device()
 
-    loaders = build_cifar10_loaders(
-        root=cfg["data"]["root"],
-        batch_size=int(cfg["data"]["batch_size"]),
-        num_workers=int(cfg["data"]["num_workers"]),
-        val_fraction=float(cfg["data"]["val_fraction"]),
-        seed=int(cfg["project"]["seed"]),
-        self_supervised=False,
-    )
+    loaders = build_loaders(cfg, self_supervised=False)
 
     model = SupervisedResNet18Cifar(num_classes=int(cfg["model"]["num_classes"])).to(device)
     optimizer = torch.optim.AdamW(
