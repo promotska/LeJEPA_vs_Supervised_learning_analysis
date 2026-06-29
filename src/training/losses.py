@@ -72,7 +72,15 @@ class OfficialSIGRegLoss(nn.Module):
     def forward(self, embeddings: torch.Tensor) -> torch.Tensor:
         if embeddings.ndim != 2:
             raise ValueError(f"Expected embeddings [N,D], got {tuple(embeddings.shape)}")
-        return self.loss_fn(embeddings.float())
+        value = self.loss_fn(embeddings.float())
+        if isinstance(value, dict):
+            for key in ("loss", "statistic", "value"):
+                if key in value:
+                    return value[key]
+            raise TypeError(f"Official SIGReg returned a dict without a known loss key: {list(value.keys())}")
+        if isinstance(value, (tuple, list)):
+            return value[0]
+        return value
 
 
 class FallbackSlicedGaussianMomentLoss(nn.Module):

@@ -3,7 +3,7 @@ set -euo pipefail
 
 if [ $# -lt 3 ]; then
   echo "Usage:"
-  echo "  bash jobs/submit_experiment.sh <experiment-name> <mode> <target>"
+  echo "  bash jobs/submit_experiment.sh <experiment-name> <mode> <target> [config-path]"
   echo ""
   echo "Modes:"
   echo "  train"
@@ -30,19 +30,27 @@ if [ $# -lt 3 ]; then
   echo "  bash jobs/submit_experiment.sh experiment-6 train vit_lejepa"
   echo "  bash jobs/submit_experiment.sh experiment-6 eval vit_lejepa"
   echo "  bash jobs/submit_experiment.sh experiment-6 repr vit_lejepa"
+  echo "  bash jobs/submit_experiment.sh imagenet100-r18 train lejepa configs/imagenet100_resnet18_lejepa.yaml"
+  echo "  bash jobs/submit_experiment.sh imagenet100-vit train vit_lejepa configs/imagenet100_vit_lejepa.yaml"
   exit 1
 fi
 
 EXP_NAME="$1"
 MODE="$2"
 TARGET="$3"
+CONFIG_PATH_ARG="${4:-}"
 EXP_DIR="experiments/${EXP_NAME}"
+
+EXPORT_BASE="ALL,EXPERIMENT_NAME=${EXP_NAME}"
+if [ -n "${CONFIG_PATH_ARG}" ]; then
+  EXPORT_BASE="${EXPORT_BASE},CONFIG_PATH=${CONFIG_PATH_ARG}"
+fi
 
 mkdir -p "${EXP_DIR}/logs"
 
 submit_supervised_train() {
   sbatch \
-    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
+    --export="${EXPORT_BASE}" \
     --output="${EXP_DIR}/logs/train_supervised_%j.out" \
     --error="${EXP_DIR}/logs/train_supervised_%j.err" \
     jobs/train_supervised_resnet18_cifar10.slurm
@@ -50,7 +58,7 @@ submit_supervised_train() {
 
 submit_lejepa_train() {
   sbatch \
-    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
+    --export="${EXPORT_BASE}" \
     --output="${EXP_DIR}/logs/train_lejepa_%j.out" \
     --error="${EXP_DIR}/logs/train_lejepa_%j.err" \
     jobs/train_lejepa_resnet18_cifar10.slurm
@@ -58,7 +66,7 @@ submit_lejepa_train() {
 
 submit_supervised_eval_predicted() {
   sbatch \
-    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}",GRADCAM_TARGET=predicted \
+    --export="${EXPORT_BASE},GRADCAM_TARGET=predicted" \
     --output="${EXP_DIR}/logs/eval_supervised_predicted_%j.out" \
     --error="${EXP_DIR}/logs/eval_supervised_predicted_%j.err" \
     jobs/evaluate_supervised_resnet18_cifar10.slurm
@@ -66,7 +74,7 @@ submit_supervised_eval_predicted() {
 
 submit_lejepa_eval_predicted() {
   sbatch \
-    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}",GRADCAM_TARGET=predicted \
+    --export="${EXPORT_BASE},GRADCAM_TARGET=predicted" \
     --output="${EXP_DIR}/logs/eval_lejepa_predicted_%j.out" \
     --error="${EXP_DIR}/logs/eval_lejepa_predicted_%j.err" \
     jobs/evaluate_lejepa_resnet18_cifar10.slurm
@@ -74,7 +82,7 @@ submit_lejepa_eval_predicted() {
 
 submit_supervised_eval_true() {
   sbatch \
-    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}",GRADCAM_TARGET=true \
+    --export="${EXPORT_BASE},GRADCAM_TARGET=true" \
     --output="${EXP_DIR}/logs/eval_supervised_true_%j.out" \
     --error="${EXP_DIR}/logs/eval_supervised_true_%j.err" \
     jobs/evaluate_supervised_resnet18_cifar10.slurm
@@ -82,7 +90,7 @@ submit_supervised_eval_true() {
 
 submit_lejepa_eval_true() {
   sbatch \
-    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}",GRADCAM_TARGET=true \
+    --export="${EXPORT_BASE},GRADCAM_TARGET=true" \
     --output="${EXP_DIR}/logs/eval_lejepa_true_%j.out" \
     --error="${EXP_DIR}/logs/eval_lejepa_true_%j.err" \
     jobs/evaluate_lejepa_resnet18_cifar10.slurm
@@ -90,7 +98,7 @@ submit_lejepa_eval_true() {
 
 submit_supervised_repr() {
   sbatch \
-    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
+    --export="${EXPORT_BASE}" \
     --output="${EXP_DIR}/logs/repr_supervised_%j.out" \
     --error="${EXP_DIR}/logs/repr_supervised_%j.err" \
     jobs/evaluate_representation_supervised.slurm
@@ -98,7 +106,7 @@ submit_supervised_repr() {
 
 submit_lejepa_repr() {
   sbatch \
-    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
+    --export="${EXPORT_BASE}" \
     --output="${EXP_DIR}/logs/repr_lejepa_%j.out" \
     --error="${EXP_DIR}/logs/repr_lejepa_%j.err" \
     jobs/evaluate_representation_lejepa.slurm
@@ -106,7 +114,7 @@ submit_lejepa_repr() {
 
 submit_vit_supervised_train() {
   sbatch \
-    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
+    --export="${EXPORT_BASE}" \
     --output="${EXP_DIR}/logs/train_vit_supervised_%j.out" \
     --error="${EXP_DIR}/logs/train_vit_supervised_%j.err" \
     jobs/train_supervised_vit_cifar10.slurm
@@ -114,7 +122,7 @@ submit_vit_supervised_train() {
 
 submit_vit_supervised_eval_predicted() {
   sbatch \
-    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}",GRADCAM_TARGET=predicted \
+    --export="${EXPORT_BASE},GRADCAM_TARGET=predicted" \
     --output="${EXP_DIR}/logs/eval_vit_supervised_predicted_%j.out" \
     --error="${EXP_DIR}/logs/eval_vit_supervised_predicted_%j.err" \
     jobs/evaluate_supervised_vit_cifar10.slurm
@@ -122,7 +130,7 @@ submit_vit_supervised_eval_predicted() {
 
 submit_vit_supervised_eval_true() {
   sbatch \
-    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}",GRADCAM_TARGET=true \
+    --export="${EXPORT_BASE},GRADCAM_TARGET=true" \
     --output="${EXP_DIR}/logs/eval_vit_supervised_true_%j.out" \
     --error="${EXP_DIR}/logs/eval_vit_supervised_true_%j.err" \
     jobs/evaluate_supervised_vit_cifar10.slurm
@@ -130,7 +138,7 @@ submit_vit_supervised_eval_true() {
 
 submit_vit_supervised_repr() {
   sbatch \
-    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
+    --export="${EXPORT_BASE}" \
     --output="${EXP_DIR}/logs/repr_vit_supervised_%j.out" \
     --error="${EXP_DIR}/logs/repr_vit_supervised_%j.err" \
     jobs/evaluate_representation_vit_supervised.slurm
@@ -138,7 +146,7 @@ submit_vit_supervised_repr() {
 
 submit_vit_lejepa_train() {
   sbatch \
-    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
+    --export="${EXPORT_BASE}" \
     --output="${EXP_DIR}/logs/train_vit_lejepa_%j.out" \
     --error="${EXP_DIR}/logs/train_vit_lejepa_%j.err" \
     jobs/train_lejepa_vit_cifar10.slurm
@@ -146,7 +154,7 @@ submit_vit_lejepa_train() {
 
 submit_vit_lejepa_eval_predicted() {
   sbatch \
-    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}",GRADCAM_TARGET=predicted \
+    --export="${EXPORT_BASE},GRADCAM_TARGET=predicted" \
     --output="${EXP_DIR}/logs/eval_vit_lejepa_predicted_%j.out" \
     --error="${EXP_DIR}/logs/eval_vit_lejepa_predicted_%j.err" \
     jobs/evaluate_lejepa_vit_cifar10.slurm
@@ -154,7 +162,7 @@ submit_vit_lejepa_eval_predicted() {
 
 submit_vit_lejepa_eval_true() {
   sbatch \
-    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}",GRADCAM_TARGET=true \
+    --export="${EXPORT_BASE},GRADCAM_TARGET=true" \
     --output="${EXP_DIR}/logs/eval_vit_lejepa_true_%j.out" \
     --error="${EXP_DIR}/logs/eval_vit_lejepa_true_%j.err" \
     jobs/evaluate_lejepa_vit_cifar10.slurm
@@ -162,7 +170,7 @@ submit_vit_lejepa_eval_true() {
 
 submit_vit_lejepa_repr() {
   sbatch \
-    --export=ALL,EXPERIMENT_NAME="${EXP_NAME}" \
+    --export="${EXPORT_BASE}" \
     --output="${EXP_DIR}/logs/repr_vit_lejepa_%j.out" \
     --error="${EXP_DIR}/logs/repr_vit_lejepa_%j.err" \
     jobs/evaluate_representation_vit_lejepa.slurm

@@ -57,6 +57,14 @@ def pretrain_vit_lejepa(cfg: dict[str, Any], device: torch.device) -> LeJEPAViTC
     best_loss = float("inf")
     best_path = cfg["checkpoints"]["backbone_best_path"]
 
+    print("LeJEPA ViT pretraining method:")
+    print(f"  architecture: {cfg['model'].get('architecture')}")
+    print(f"  sigreg_implementation: {cfg.get('lejepa', {}).get('sigreg_implementation', 'official')}")
+    print(f"  num_global_views: {cfg.get('lejepa_views', {}).get('num_global_views', 'config/default')}")
+    print(f"  num_local_views: {cfg.get('lejepa_views', {}).get('num_local_views', 'config/default')}")
+    print("  stop_gradient: false")
+    print("  teacher_student_or_ema: false")
+
     for epoch in range(1, int(cfg["training"]["pretrain_epochs"]) + 1):
         model.train()
         total_loss = 0.0
@@ -110,6 +118,14 @@ def pretrain_vit_lejepa(cfg: dict[str, Any], device: torch.device) -> LeJEPAViTC
             "pretrain_loss": avg_loss,
             "prediction_loss": avg_pred,
             "sigreg_loss": avg_sig,
+            "method": {
+                "name": "LeJEPA faithful-method reproduction",
+                "official_sigreg": str(cfg.get("lejepa", {}).get("sigreg_implementation", "official")).lower() in {"official", "lejepa"},
+                "stop_gradient": False,
+                "teacher_student_or_ema": False,
+                "multi_crop_views": cfg.get("lejepa_views", {}),
+                "deviations": cfg.get("method", {}).get("deviations", []),
+            },
             "config": cfg,
         }
         save_checkpoint(cfg["checkpoints"]["backbone_last_path"], payload)
@@ -212,4 +228,4 @@ def train_vit_lejepa(config_path: str) -> dict[str, float]:
     device = get_device()
     pretrained = pretrain_vit_lejepa(cfg, device)
     probe = train_vit_linear_probe(cfg, pretrained, device)
-    return {"status": "completed"}
+    return {"status": "completed", "architecture": str(cfg["model"].get("architecture"))}

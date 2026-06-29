@@ -14,6 +14,7 @@
 set -euo pipefail
 
 PROJECT_DIR="${SLURM_SUBMIT_DIR}"
+CONFIG_PATH="${CONFIG_PATH:-configs/cifar10_resnet18_lejepa.yaml}"
 GRADCAM_TARGET="${GRADCAM_TARGET:-predicted}"
 
 if [ -d "${PROJECT_DIR}/.venv" ]; then
@@ -39,11 +40,12 @@ export NUMEXPR_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 
 echo "Started at: $(date)"
 echo "Node: $(hostname)"
+echo "Config path: ${CONFIG_PATH}"
 echo "Grad-CAM target: ${GRADCAM_TARGET}"
 nvidia-smi || true
 
 python -u scripts/evaluate_alignment.py \
-  --config configs/cifar10_resnet18_lejepa.yaml \
+  --config "${CONFIG_PATH}" \
   --mode lejepa \
   --gradcam-target "${GRADCAM_TARGET}"
 

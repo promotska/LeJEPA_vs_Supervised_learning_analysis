@@ -14,6 +14,7 @@
 set -euo pipefail
 
 PROJECT_DIR="${SLURM_SUBMIT_DIR}"
+CONFIG_PATH="${CONFIG_PATH:-configs/cifar10_vit_lejepa.yaml}"
 GRADCAM_TARGET="${GRADCAM_TARGET:-predicted}"
 VIT_XAI_METHOD="${VIT_XAI_METHOD:-}"
 
@@ -40,10 +41,11 @@ export NUMEXPR_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 
 echo "Job started at: $(date)"
 echo "Node: $(hostname)"
+echo "Config path: ${CONFIG_PATH}"
 nvidia-smi || true
 
 CMD=(python -u scripts/evaluate_vit_alignment.py
-  --config configs/cifar10_vit_lejepa.yaml
+  --config "${CONFIG_PATH}"
   --mode vit_lejepa
   --gradcam-target "${GRADCAM_TARGET}")
 

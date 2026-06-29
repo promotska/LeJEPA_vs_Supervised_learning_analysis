@@ -12,6 +12,7 @@ from src.data.transforms import (
     build_eval_transform,
     build_lejepa_train_transform,
     build_supervised_train_transform,
+    default_normalization,
 )
 from src.utils import seed_worker
 
@@ -173,21 +174,32 @@ def build_loaders(cfg: dict[str, Any], self_supervised: bool = False) -> DataLoa
     val_fraction = float(data_cfg.get("val_fraction", 0.1))
     seed = int(cfg.get("project", {}).get("seed", 42))
     image_size = int(cfg.get("model", {}).get("image_size", data_cfg.get("image_size", 32)))
+    resize_size = data_cfg.get("resize_size", None)
+    if resize_size is not None:
+        resize_size = int(resize_size)
+
+    default_mean, default_std = default_normalization(dataset_name)
+    mean = tuple(float(v) for v in data_cfg.get("mean", default_mean))
+    std = tuple(float(v) for v in data_cfg.get("std", default_std))
 
     if self_supervised:
         train_transform = build_lejepa_train_transform(
             image_size=image_size,
             num_global_views=int(lejepa_views_cfg.get("num_global_views", train_cfg.get("num_global_views", 2))),
-            num_local_views=int(lejepa_views_cfg.get("num_local_views", train_cfg.get("num_local_views", 0))),
-            global_scale=lejepa_views_cfg.get("global_scale", train_cfg.get("global_scale", (0.6, 1.0))),
-            local_scale=lejepa_views_cfg.get("local_scale", train_cfg.get("local_scale", (0.2, 0.6))),
-            color_jitter_strength=float(lejepa_views_cfg.get("color_jitter_strength", 0.25)),
-            grayscale_p=float(lejepa_views_cfg.get("grayscale_p", 0.1)),
+            num_local_views=int(lejepa_views_cfg.get("num_local_views", train_cfg.get("num_local_views", 6))),
+            global_scale=lejepa_views_cfg.get("global_scale", train_cfg.get("global_scale", (0.4, 1.0))),
+            local_scale=lejepa_views_cfg.get("local_scale", train_cfg.get("local_scale", (0.05, 0.4))),
+            mean=mean,
+            std=std,
+            color_jitter_strength=float(lejepa_views_cfg.get("color_jitter_strength", 0.4)),
+            grayscale_p=float(lejepa_views_cfg.get("grayscale_p", 0.2)),
+            global_blur_p=float(lejepa_views_cfg.get("global_blur_p", 0.1)),
+            local_blur_p=float(lejepa_views_cfg.get("local_blur_p", 0.5)),
         )
     else:
-        train_transform = build_supervised_train_transform(image_size=image_size)
+        train_transform = build_supervised_train_transform(image_size=image_size, mean=mean, std=std)
 
-    eval_transform = build_eval_transform(image_size=image_size)
+    eval_transform = build_eval_transform(image_size=image_size, mean=mean, std=std, resize_size=resize_size)
 
     train_full = _build_classification_dataset(dataset_name, root, train=True, transform=train_transform)
     val_full = _build_classification_dataset(dataset_name, root, train=True, transform=eval_transform)

@@ -14,6 +14,7 @@
 set -euo pipefail
 
 PROJECT_DIR="${SLURM_SUBMIT_DIR}"
+CONFIG_PATH="${CONFIG_PATH:-configs/cifar10_vit_lejepa.yaml}"
 
 if [ -d "${PROJECT_DIR}/.venv" ]; then
   VENV_DIR="${PROJECT_DIR}/.venv"
@@ -38,10 +39,11 @@ export NUMEXPR_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 
 echo "Job started at: $(date)"
 echo "Node: $(hostname)"
+echo "Config path: ${CONFIG_PATH}"
 nvidia-smi || true
 
 python -u scripts/evaluate_representation.py \
-  --config configs/cifar10_vit_lejepa.yaml \
+  --config "${CONFIG_PATH}" \
   --mode vit_lejepa
 
 echo "Job finished at: $(date)"
