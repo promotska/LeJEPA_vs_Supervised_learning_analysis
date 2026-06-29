@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=cv-feat-vit
 #SBATCH --partition=boost_usr_prod
-#SBATCH --account=YOUR_ACCOUNT_HERE
+#SBATCH --account=IscrC_MNLP26
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
