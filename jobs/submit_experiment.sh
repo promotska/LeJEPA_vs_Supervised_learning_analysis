@@ -10,6 +10,7 @@ if [ $# -lt 3 ]; then
   echo "  eval"
   echo "  eval_true"
   echo "  repr"
+  echo "  feature_spaces"
   echo ""
   echo "Targets:"
   echo "  supervised        ResNet supervised"
@@ -19,17 +20,28 @@ if [ $# -lt 3 ]; then
   echo "  vit_lejepa        ViT LeJEPA-SIGReg"
   echo ""
   echo "Examples:"
-  echo "  bash jobs/submit_experiment.sh experiment-4 train both"
-  echo "  bash jobs/submit_experiment.sh experiment-4 eval both"
-  echo "  bash jobs/submit_experiment.sh experiment-4 eval_true lejepa"
-  echo "  bash jobs/submit_experiment.sh experiment-4 repr both"
-  echo "  bash jobs/submit_experiment.sh experiment-6 train vit_supervised"
-  echo "  bash jobs/submit_experiment.sh experiment-6 eval vit_supervised"
-  echo "  bash jobs/submit_experiment.sh experiment-6 eval_true vit_supervised"
-  echo "  bash jobs/submit_experiment.sh experiment-6 repr vit_supervised"
-  echo "  bash jobs/submit_experiment.sh experiment-6 train vit_lejepa"
-  echo "  bash jobs/submit_experiment.sh experiment-6 eval vit_lejepa"
-  echo "  bash jobs/submit_experiment.sh experiment-6 repr vit_lejepa"
+  echo "  bash jobs/submit_experiment.sh experiment-c10-r18-sup train supervised configs/cifar10_resnet18_supervised.yaml"
+  echo "  bash jobs/submit_experiment.sh experiment-c10-r18-sup repr supervised configs/cifar10_resnet18_supervised.yaml"
+  echo "  bash jobs/submit_experiment.sh experiment-c10-r18-sup eval supervised configs/cifar10_resnet18_supervised.yaml"
+  echo "  bash jobs/submit_experiment.sh experiment-c10-r18-sup eval_true supervised configs/cifar10_resnet18_supervised.yaml"
+  echo ""
+  echo "  bash jobs/submit_experiment.sh experiment-c10-r18-lejepa train lejepa configs/cifar10_resnet18_lejepa.yaml"
+  echo "  bash jobs/submit_experiment.sh experiment-c10-r18-lejepa repr lejepa configs/cifar10_resnet18_lejepa.yaml"
+  echo "  bash jobs/submit_experiment.sh experiment-c10-r18-lejepa eval lejepa configs/cifar10_resnet18_lejepa.yaml"
+  echo "  bash jobs/submit_experiment.sh experiment-c10-r18-lejepa eval_true lejepa configs/cifar10_resnet18_lejepa.yaml"
+  echo "  bash jobs/submit_experiment.sh experiment-c10-r18-lejepa feature_spaces lejepa configs/cifar10_resnet18_lejepa.yaml"
+  echo ""
+  echo "  bash jobs/submit_experiment.sh experiment-c10-vit-sup train vit_supervised configs/cifar10_vit_supervised.yaml"
+  echo "  bash jobs/submit_experiment.sh experiment-c10-vit-sup repr vit_supervised configs/cifar10_vit_supervised.yaml"
+  echo "  bash jobs/submit_experiment.sh experiment-c10-vit-sup eval vit_supervised configs/cifar10_vit_supervised.yaml"
+  echo "  bash jobs/submit_experiment.sh experiment-c10-vit-sup eval_true vit_supervised configs/cifar10_vit_supervised.yaml"
+  echo ""
+  echo "  bash jobs/submit_experiment.sh experiment-c10-vit-lejepa train vit_lejepa configs/cifar10_vit_lejepa.yaml"
+  echo "  bash jobs/submit_experiment.sh experiment-c10-vit-lejepa repr vit_lejepa configs/cifar10_vit_lejepa.yaml"
+  echo "  bash jobs/submit_experiment.sh experiment-c10-vit-lejepa eval vit_lejepa configs/cifar10_vit_lejepa.yaml"
+  echo "  bash jobs/submit_experiment.sh experiment-c10-vit-lejepa eval_true vit_lejepa configs/cifar10_vit_lejepa.yaml"
+  echo "  bash jobs/submit_experiment.sh experiment-c10-vit-lejepa feature_spaces vit_lejepa configs/cifar10_vit_lejepa.yaml"
+  echo ""
   echo "  bash jobs/submit_experiment.sh imagenet100-r18 train lejepa configs/imagenet100_resnet18_lejepa.yaml"
   echo "  bash jobs/submit_experiment.sh imagenet100-vit train vit_lejepa configs/imagenet100_vit_lejepa.yaml"
   exit 1
@@ -41,7 +53,8 @@ TARGET="$3"
 CONFIG_PATH_ARG="${4:-}"
 EXP_DIR="experiments/${EXP_NAME}"
 
-EXPORT_BASE="ALL,EXPERIMENT_NAME=${EXP_NAME}"
+EXPORT_BASE="ALL,EXPERIMENT_NAME=${EXP_NAME},MODE=${MODE},TARGET=${TARGET}"
+
 if [ -n "${CONFIG_PATH_ARG}" ]; then
   EXPORT_BASE="${EXPORT_BASE},CONFIG_PATH=${CONFIG_PATH_ARG}"
 fi
@@ -112,6 +125,14 @@ submit_lejepa_repr() {
     jobs/evaluate_representation_lejepa.slurm
 }
 
+submit_lejepa_feature_spaces() {
+  sbatch \
+    --export="${EXPORT_BASE},FEATURE_SOURCE=all" \
+    --output="${EXP_DIR}/logs/feature_spaces_lejepa_%j.out" \
+    --error="${EXP_DIR}/logs/feature_spaces_lejepa_%j.err" \
+    jobs/evaluate_feature_spaces_lejepa.slurm
+}
+
 submit_vit_supervised_train() {
   sbatch \
     --export="${EXPORT_BASE}" \
@@ -174,6 +195,14 @@ submit_vit_lejepa_repr() {
     --output="${EXP_DIR}/logs/repr_vit_lejepa_%j.out" \
     --error="${EXP_DIR}/logs/repr_vit_lejepa_%j.err" \
     jobs/evaluate_representation_vit_lejepa.slurm
+}
+
+submit_vit_lejepa_feature_spaces() {
+  sbatch \
+    --export="${EXPORT_BASE},FEATURE_SOURCE=all" \
+    --output="${EXP_DIR}/logs/feature_spaces_vit_lejepa_%j.out" \
+    --error="${EXP_DIR}/logs/feature_spaces_vit_lejepa_%j.err" \
+    jobs/evaluate_feature_spaces_vit_lejepa.slurm
 }
 
 case "${MODE}:${TARGET}" in
@@ -245,10 +274,19 @@ case "${MODE}:${TARGET}" in
     submit_vit_lejepa_repr
     ;;
 
+  feature_spaces:lejepa)
+    submit_lejepa_feature_spaces
+    ;;
+  feature_spaces:vit_lejepa)
+    submit_vit_lejepa_feature_spaces
+    ;;
+
   *)
     echo "Invalid combination: mode=${MODE}, target=${TARGET}"
-    echo "Valid modes: train, eval, eval_true, repr"
+    echo "Valid modes: train, eval, eval_true, repr, feature_spaces"
     echo "Valid targets: supervised, lejepa, both, vit_supervised, vit_lejepa"
+    echo ""
+    echo "Note: feature_spaces is valid only for targets: lejepa, vit_lejepa"
     exit 1
     ;;
 esac
