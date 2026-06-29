@@ -12,7 +12,7 @@
 set -euo pipefail
 
 PROJECT_DIR="${SLURM_SUBMIT_DIR}"
-VENV_DIR="${PROJECT_DIR}/../.venv"
+VENV_DIR="${PROJECT_DIR}/.venv"
 
 cd "${PROJECT_DIR}"
 
