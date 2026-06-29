@@ -1,0 +1,49 @@
+Job started at: Mon Jun 29 18:17:31 CEST 2026
+Node: lrdn3338.leonardo.local
+Config path: configs/cifar10_vit_lejepa.yaml
+Mon Jun 29 18:17:31 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.274.02             Driver Version: 535.274.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM-64GB           On  | 00000000:C8:00.0 Off |                    0 |
+| N/A   42C    P0              61W / 459W |      0MiB / 65536MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+Using device: cuda
+ViT alignment evaluation settings:
+  mode: vit_lejepa
+  xai_method: token_gradient
+  gradcam_target: true
+  checkpoint: experiments/experiment-c10-vit-lejepa/checkpoints/vit_lejepa_probe_best.pt
+  layers: ['blocks.1', 'blocks.3', 'blocks.5']
+  max_samples: 1000
+  output_csv: experiments/experiment-c10-vit-lejepa/metrics/stage2_vit_lejepa_lsas_token_gradient_true.csv
+
+ViT alignment evaluation completed.
+Saved CSV: experiments/experiment-c10-vit-lejepa/metrics/stage2_vit_lejepa_lsas_token_gradient_true.csv
+Saved curve: experiments/experiment-c10-vit-lejepa/metrics/stage2_vit_lejepa_lsas_token_gradient_true_curve.png
+Processed images: 1000
+Rows: 3000
+Expected rows: 3000
+Accuracy on evaluated subset: 0.2250
+Elapsed: 0.65 min
+
+Mean metrics per layer:
+              lsas  corr_pca_xai  soft_iou_pca_xai
+layer                                             
+blocks.1  0.238658      0.021111          0.456206
+blocks.3  0.095485     -0.208614          0.399584
+blocks.5  0.000000      0.000000          0.000000
+Job finished at: Mon Jun 29 18:20:55 CEST 2026
