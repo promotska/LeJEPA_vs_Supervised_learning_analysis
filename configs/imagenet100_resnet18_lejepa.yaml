@@ -47,8 +47,8 @@ lejepa:
   sigreg_num_slices: 1024
   sigreg_num_points: 17
   prediction_weight: 1.0
-  sigreg_weight: 0.05
-  normalize_prediction: false
+  sigreg_weight: 0.01
+  normalize_prediction: true
 
 lejepa_views:
   num_global_views: 2

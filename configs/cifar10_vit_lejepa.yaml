@@ -24,16 +24,16 @@ model:
   depth: 6
   num_heads: 3
   mlp_ratio: 4.0
-  dropout: 0.1
-  attn_dropout: 0.1
+  dropout: 0.0
+  attn_dropout: 0.0
   projection_dim: 256
   prediction_dim: 512
 
 training:
-  pretrain_epochs: 100
+  pretrain_epochs: 200
   probe_epochs: 100
   learning_rate: 0.0005
-  probe_learning_rate: 0.003
+  probe_learning_rate: 0.001
   weight_decay: 0.05
   probe_weight_decay: 0.0001
   grad_clip_norm: 1.0
@@ -45,18 +45,18 @@ lejepa:
   sigreg_num_slices: 1024
   sigreg_num_points: 17
   prediction_weight: 1.0
-  sigreg_weight: 0.05
-  normalize_prediction: false
+  sigreg_weight: 0.01
+  normalize_prediction: true
 
 lejepa_views:
   num_global_views: 2
-  num_local_views: 6
-  global_scale: [0.5, 1.0]
-  local_scale: [0.05, 0.4]
+  num_local_views: 0
+  global_scale: [0.6, 1.0]
+  local_scale: [0.4, 0.8]
   color_jitter_strength: 0.25
   grayscale_p: 0.1
   global_blur_p: 0.0
-  local_blur_p: 0.1
+  local_blur_p: 0.0
 
 checkpoints:
   backbone_best_path: outputs/checkpoints/vit_lejepa_backbone_best.pt
