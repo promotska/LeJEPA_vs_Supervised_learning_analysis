@@ -1,0 +1,686 @@
+experiment:
+  name: experiment-c10-vit-sup
+  root: experiments
+  dir: experiments/experiment-c10-vit-sup
+  created_at_utc: '2026-06-29T11:10:57+00:00'
+  updated_at_utc: '2026-06-29T11:35:07+00:00'
+git:
+  branch: ananas-code
+  commit: 52fd0187f09a917009e13012ef1424aa48997ba3
+  commit_short: 52fd018
+  is_dirty: true
+  remote: git@github.com:promotska/LeJEPA_vs_Supervised_learning_analysis.git
+runs:
+- run_id: 20260629_131057_train_vit_supervised_vit_supervised_2649634
+  run_kind: train_vit_supervised
+  mode: vit_supervised
+  status: completed
+  updated_at_utc: '2026-06-29T11:16:39+00:00'
+  command: scripts/train_vit_supervised.py --config configs/cifar10_vit_supervised.yaml
+  config_snapshot_path: experiments/experiment-c10-vit-sup/configs/original_cifar10_vit_supervised.yaml
+  resolved_config_path: experiments/experiment-c10-vit-sup/configs/resolved_20260629_131057_train_vit_supervised_vit_supervised_2649634.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn0187.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    slurm_job_id: '48078437'
+    slurm_job_name: cv-vit-sup
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_vit_supervised
+    seed: 42
+    output_dir: experiments/experiment-c10-vit-sup
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 4
+    batch_size: 128
+    val_fraction: 0.1
+  model:
+    architecture: vit_tiny_cifar
+    image_size: 32
+    patch_size: 4
+    num_classes: 10
+    embed_dim: 192
+    depth: 6
+    num_heads: 3
+    mlp_ratio: 4.0
+    dropout: 0.1
+    attn_dropout: 0.1
+  training:
+    epochs: 50
+    learning_rate: 0.0003
+    weight_decay: 0.05
+    grad_clip_norm: 1.0
+    amp: true
+    save_every_epoch: false
+  checkpoints:
+    best_path: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt
+    last_path: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_last.pt
+  evaluation:
+    layers:
+    - blocks.1
+    - blocks.3
+    - blocks.5
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    gradcam_target: predicted
+    vit_xai_method: attention_rollout
+    attention_head_fusion: mean
+    attention_discard_ratio: 0.0
+    checkpoint_path: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt
+    output_csv: experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas.csv
+    figure_dir: experiments/experiment-c10-vit-sup/figures/vit_supervised
+    representation_batch_size: 256
+    representation_max_test_samples: 10000
+    representation_max_bank_samples: 50000
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 256
+  extra:
+    note: supervised ViT training completed
+    result:
+      best_val_accuracy: 0.7964
+      best_epoch: 48.0
+      final_test_loss: 0.6114950057029724
+      final_test_accuracy: 0.8033
+- run_id: 20260629_132959_evaluate_representation_supervised_supervised_4032434
+  run_kind: evaluate_representation_supervised
+  mode: supervised
+  status: completed
+  updated_at_utc: '2026-06-29T11:30:44+00:00'
+  command: scripts/evaluate_representation.py --config configs/cifar10_vit_supervised.yaml
+    --mode supervised
+  config_snapshot_path: experiments/experiment-c10-vit-sup/configs/original_cifar10_vit_supervised.yaml
+  resolved_config_path: experiments/experiment-c10-vit-sup/configs/resolved_20260629_132959_evaluate_representation_supervised_supervised_4032434.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn1162.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    slurm_job_id: '48079486'
+    slurm_job_name: cv-repr-sup
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_vit_supervised
+    seed: 42
+    output_dir: experiments/experiment-c10-vit-sup
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 4
+    batch_size: 256
+    val_fraction: 0.1
+  model:
+    architecture: vit_tiny_cifar
+    image_size: 32
+    patch_size: 4
+    num_classes: 10
+    embed_dim: 192
+    depth: 6
+    num_heads: 3
+    mlp_ratio: 4.0
+    dropout: 0.1
+    attn_dropout: 0.1
+  training:
+    epochs: 50
+    learning_rate: 0.0003
+    weight_decay: 0.05
+    grad_clip_norm: 1.0
+    amp: true
+    save_every_epoch: false
+  checkpoints:
+    best_path: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt
+    last_path: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_last.pt
+  evaluation:
+    layers:
+    - blocks.1
+    - blocks.3
+    - blocks.5
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    gradcam_target: predicted
+    vit_xai_method: attention_rollout
+    attention_head_fusion: mean
+    attention_discard_ratio: 0.0
+    checkpoint_path: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt
+    output_csv: experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas.csv
+    figure_dir: experiments/experiment-c10-vit-sup/figures/vit_supervised
+    representation_batch_size: 256
+    representation_max_test_samples: 10000
+    representation_max_bank_samples: 50000
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 256
+  extra:
+    representation_metrics:
+      mode: supervised
+      architecture: vit_tiny_cifar
+      checkpoint_path: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt
+      classifier_or_probe_accuracy:
+        accuracy: 0.804
+        correct: 8040
+        total: 10000
+      knn:
+        feature_bank: full_train_eval_transform
+        query: test
+        bank_samples: 50000
+        query_samples: 10000
+        feature_dim: 192
+        temperature: 0.07
+        results:
+        - k: 1
+          accuracy: 0.7841
+          correct: 7841
+          total: 10000
+        - k: 5
+          accuracy: 0.8065
+          correct: 8065
+          total: 10000
+        - &id001
+          k: 10
+          accuracy: 0.8117
+          correct: 8117
+          total: 10000
+        - k: 20
+          accuracy: 0.8093
+          correct: 8093
+          total: 10000
+        - k: 50
+          accuracy: 0.8101
+          correct: 8101
+          total: 10000
+        - k: 100
+          accuracy: 0.8079
+          correct: 8079
+          total: 10000
+        best: *id001
+      elapsed_minutes: 0.43655758698781333
+    output_yaml: experiments/experiment-c10-vit-sup/metrics/representation_supervised.yaml
+    output_csv: experiments/experiment-c10-vit-sup/metrics/representation_supervised.csv
+- run_id: 20260629_133003_evaluate_vit_alignment_vit_supervised_attention_rollout_predicted_vit_supervised_4032433
+  run_kind: evaluate_vit_alignment_vit_supervised_attention_rollout_predicted
+  mode: vit_supervised
+  status: completed
+  updated_at_utc: '2026-06-29T11:30:44+00:00'
+  command: scripts/evaluate_vit_alignment.py --config configs/cifar10_vit_supervised.yaml
+    --mode vit_supervised --gradcam-target predicted
+  config_snapshot_path: experiments/experiment-c10-vit-sup/configs/original_cifar10_vit_supervised.yaml
+  resolved_config_path: experiments/experiment-c10-vit-sup/configs/resolved_20260629_133003_evaluate_vit_alignment_vit_supervised_attention_rollout_predicted_vit_supervised_4032433.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn1162.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    slurm_job_id: '48079491'
+    slurm_job_name: cv-vit-sup-eval
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_vit_supervised
+    seed: 42
+    output_dir: experiments/experiment-c10-vit-sup
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 4
+    batch_size: 128
+    val_fraction: 0.1
+  model:
+    architecture: vit_tiny_cifar
+    image_size: 32
+    patch_size: 4
+    num_classes: 10
+    embed_dim: 192
+    depth: 6
+    num_heads: 3
+    mlp_ratio: 4.0
+    dropout: 0.1
+    attn_dropout: 0.1
+  training:
+    epochs: 50
+    learning_rate: 0.0003
+    weight_decay: 0.05
+    grad_clip_norm: 1.0
+    amp: true
+    save_every_epoch: false
+  checkpoints:
+    best_path: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt
+    last_path: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_last.pt
+  evaluation:
+    layers:
+    - blocks.1
+    - blocks.3
+    - blocks.5
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    gradcam_target: predicted
+    vit_xai_method: attention_rollout
+    attention_head_fusion: mean
+    attention_discard_ratio: 0.0
+    checkpoint_path: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt
+    output_csv: experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas_attention_rollout_predicted.csv
+    figure_dir: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_predicted
+    representation_batch_size: 256
+    representation_max_test_samples: 10000
+    representation_max_bank_samples: 50000
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 256
+  extra:
+    processed_images: 1000
+    rows: 3000
+    accuracy_on_evaluated_subset: 0.796
+    xai_method: attention_rollout
+    gradcam_target: predicted
+    output_csv: experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas_attention_rollout_predicted.csv
+    curve_path: experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas_attention_rollout_predicted_curve.png
+    elapsed_minutes: 0.42566144863764444
+- run_id: 20260629_133110_evaluate_vit_alignment_vit_supervised_attention_rollout_true_vit_supervised_615722
+  run_kind: evaluate_vit_alignment_vit_supervised_attention_rollout_true
+  mode: vit_supervised
+  status: completed
+  updated_at_utc: '2026-06-29T11:32:00+00:00'
+  command: scripts/evaluate_vit_alignment.py --config configs/cifar10_vit_supervised.yaml
+    --mode vit_supervised --gradcam-target true
+  config_snapshot_path: experiments/experiment-c10-vit-sup/configs/original_cifar10_vit_supervised.yaml
+  resolved_config_path: experiments/experiment-c10-vit-sup/configs/resolved_20260629_133110_evaluate_vit_alignment_vit_supervised_attention_rollout_true_vit_supervised_615722.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn1201.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    slurm_job_id: '48079514'
+    slurm_job_name: cv-vit-sup-eval
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_vit_supervised
+    seed: 42
+    output_dir: experiments/experiment-c10-vit-sup
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 4
+    batch_size: 128
+    val_fraction: 0.1
+  model:
+    architecture: vit_tiny_cifar
+    image_size: 32
+    patch_size: 4
+    num_classes: 10
+    embed_dim: 192
+    depth: 6
+    num_heads: 3
+    mlp_ratio: 4.0
+    dropout: 0.1
+    attn_dropout: 0.1
+  training:
+    epochs: 50
+    learning_rate: 0.0003
+    weight_decay: 0.05
+    grad_clip_norm: 1.0
+    amp: true
+    save_every_epoch: false
+  checkpoints:
+    best_path: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt
+    last_path: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_last.pt
+  evaluation:
+    layers:
+    - blocks.1
+    - blocks.3
+    - blocks.5
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    gradcam_target: 'true'
+    vit_xai_method: attention_rollout
+    attention_head_fusion: mean
+    attention_discard_ratio: 0.0
+    checkpoint_path: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt
+    output_csv: experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas_attention_rollout_true.csv
+    figure_dir: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_true
+    representation_batch_size: 256
+    representation_max_test_samples: 10000
+    representation_max_bank_samples: 50000
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 256
+  extra:
+    processed_images: 1000
+    rows: 3000
+    accuracy_on_evaluated_subset: 0.796
+    xai_method: attention_rollout
+    gradcam_target: 'true'
+    output_csv: experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas_attention_rollout_true.csv
+    curve_path: experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas_attention_rollout_true_curve.png
+    elapsed_minutes: 0.48688220580418906
+- run_id: 20260629_133415_evaluate_representation_vit_supervised_vit_supervised_2982825
+  run_kind: evaluate_representation_vit_supervised
+  mode: vit_supervised
+  status: completed
+  updated_at_utc: '2026-06-29T11:35:07+00:00'
+  command: scripts/evaluate_representation.py --config configs/cifar10_vit_supervised.yaml
+    --mode vit_supervised
+  config_snapshot_path: experiments/experiment-c10-vit-sup/configs/original_cifar10_vit_supervised.yaml
+  resolved_config_path: experiments/experiment-c10-vit-sup/configs/resolved_20260629_133415_evaluate_representation_vit_supervised_vit_supervised_2982825.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn3255.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    slurm_job_id: '48079780'
+    slurm_job_name: cv-repr-vit-sup
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_vit_supervised
+    seed: 42
+    output_dir: experiments/experiment-c10-vit-sup
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 4
+    batch_size: 256
+    val_fraction: 0.1
+  model:
+    architecture: vit_tiny_cifar
+    image_size: 32
+    patch_size: 4
+    num_classes: 10
+    embed_dim: 192
+    depth: 6
+    num_heads: 3
+    mlp_ratio: 4.0
+    dropout: 0.1
+    attn_dropout: 0.1
+  training:
+    epochs: 50
+    learning_rate: 0.0003
+    weight_decay: 0.05
+    grad_clip_norm: 1.0
+    amp: true
+    save_every_epoch: false
+  checkpoints:
+    best_path: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt
+    last_path: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_last.pt
+  evaluation:
+    layers:
+    - blocks.1
+    - blocks.3
+    - blocks.5
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    gradcam_target: predicted
+    vit_xai_method: attention_rollout
+    attention_head_fusion: mean
+    attention_discard_ratio: 0.0
+    checkpoint_path: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt
+    output_csv: experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas.csv
+    figure_dir: experiments/experiment-c10-vit-sup/figures/vit_supervised
+    representation_batch_size: 256
+    representation_max_test_samples: 10000
+    representation_max_bank_samples: 50000
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 256
+  extra:
+    representation_metrics:
+      mode: vit_supervised
+      architecture: vit_tiny_cifar
+      checkpoint_path: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt
+      classifier_or_probe_accuracy:
+        accuracy: 0.804
+        correct: 8040
+        total: 10000
+      knn:
+        feature_bank: full_train_eval_transform
+        query: test
+        bank_samples: 50000
+        query_samples: 10000
+        feature_dim: 192
+        temperature: 0.07
+        results:
+        - k: 1
+          accuracy: 0.7841
+          correct: 7841
+          total: 10000
+        - k: 5
+          accuracy: 0.8065
+          correct: 8065
+          total: 10000
+        - &id002
+          k: 10
+          accuracy: 0.8117
+          correct: 8117
+          total: 10000
+        - k: 20
+          accuracy: 0.8093
+          correct: 8093
+          total: 10000
+        - k: 50
+          accuracy: 0.8101
+          correct: 8101
+          total: 10000
+        - k: 100
+          accuracy: 0.8079
+          correct: 8079
+          total: 10000
+        best: *id002
+      elapsed_minutes: 0.5477736870447795
+    output_yaml: experiments/experiment-c10-vit-sup/metrics/representation_vit_supervised.yaml
+    output_csv: experiments/experiment-c10-vit-sup/metrics/representation_vit_supervised.csv
+latest_status: completed
+artifacts:
+  configs:
+  - path: experiments/experiment-c10-vit-sup/configs/original_cifar10_vit_supervised.yaml
+    size_bytes: 1410
+    modified_utc: '2026-06-29T10:31:28+00:00'
+  - path: experiments/experiment-c10-vit-sup/configs/resolved_20260629_131057_train_vit_supervised_vit_supervised_2649634.yaml
+    size_bytes: 2286
+    modified_utc: '2026-06-29T11:10:57+00:00'
+  - path: experiments/experiment-c10-vit-sup/configs/resolved_20260629_132959_evaluate_representation_supervised_supervised_4032434.yaml
+    size_bytes: 2316
+    modified_utc: '2026-06-29T11:29:59+00:00'
+  - path: experiments/experiment-c10-vit-sup/configs/resolved_20260629_133003_evaluate_vit_alignment_vit_supervised_attention_rollout_predicted_vit_supervised_4032433.yaml
+    size_bytes: 2469
+    modified_utc: '2026-06-29T11:30:03+00:00'
+  - path: experiments/experiment-c10-vit-sup/configs/resolved_20260629_133110_evaluate_vit_alignment_vit_supervised_attention_rollout_true_vit_supervised_615722.yaml
+    size_bytes: 2439
+    modified_utc: '2026-06-29T11:31:10+00:00'
+  - path: experiments/experiment-c10-vit-sup/configs/resolved_20260629_133415_evaluate_representation_vit_supervised_vit_supervised_2982825.yaml
+    size_bytes: 2340
+    modified_utc: '2026-06-29T11:34:15+00:00'
+  checkpoints:
+  - path: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt
+    size_bytes: 32426914
+    modified_utc: '2026-06-29T11:16:26+00:00'
+  - path: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_last.pt
+    size_bytes: 32426914
+    modified_utc: '2026-06-29T11:16:36+00:00'
+  metrics:
+  - path: experiments/experiment-c10-vit-sup/metrics/representation_supervised.csv
+    size_bytes: 1274
+    modified_utc: '2026-06-29T11:30:44+00:00'
+  - path: experiments/experiment-c10-vit-sup/metrics/representation_supervised.yaml
+    size_bytes: 826
+    modified_utc: '2026-06-29T11:30:44+00:00'
+  - path: experiments/experiment-c10-vit-sup/metrics/representation_vit_supervised.csv
+    size_bytes: 1292
+    modified_utc: '2026-06-29T11:35:07+00:00'
+  - path: experiments/experiment-c10-vit-sup/metrics/representation_vit_supervised.yaml
+    size_bytes: 829
+    modified_utc: '2026-06-29T11:35:07+00:00'
+  - path: experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas_attention_rollout_predicted.csv
+    size_bytes: 408799
+    modified_utc: '2026-06-29T11:30:42+00:00'
+  - path: experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas_attention_rollout_predicted_curve.png
+    size_bytes: 57546
+    modified_utc: '2026-06-29T11:30:44+00:00'
+  - path: experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas_attention_rollout_true.csv
+    size_bytes: 393799
+    modified_utc: '2026-06-29T11:31:59+00:00'
+  - path: experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas_attention_rollout_true_curve.png
+    size_bytes: 56347
+    modified_utc: '2026-06-29T11:32:00+00:00'
+  figures:
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_predicted/sample_000_blocks_1.png
+    size_bytes: 43426
+    modified_utc: '2026-06-29T11:30:35+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_predicted/sample_000_blocks_3.png
+    size_bytes: 44058
+    modified_utc: '2026-06-29T11:30:36+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_predicted/sample_000_blocks_5.png
+    size_bytes: 44061
+    modified_utc: '2026-06-29T11:30:37+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_predicted/sample_001_blocks_1.png
+    size_bytes: 42557
+    modified_utc: '2026-06-29T11:30:35+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_predicted/sample_001_blocks_3.png
+    size_bytes: 42248
+    modified_utc: '2026-06-29T11:30:36+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_predicted/sample_001_blocks_5.png
+    size_bytes: 42521
+    modified_utc: '2026-06-29T11:30:37+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_predicted/sample_002_blocks_1.png
+    size_bytes: 42763
+    modified_utc: '2026-06-29T11:30:35+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_predicted/sample_002_blocks_3.png
+    size_bytes: 42309
+    modified_utc: '2026-06-29T11:30:36+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_predicted/sample_002_blocks_5.png
+    size_bytes: 42483
+    modified_utc: '2026-06-29T11:30:37+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_predicted/sample_003_blocks_1.png
+    size_bytes: 42714
+    modified_utc: '2026-06-29T11:30:36+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_predicted/sample_003_blocks_3.png
+    size_bytes: 43266
+    modified_utc: '2026-06-29T11:30:37+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_predicted/sample_003_blocks_5.png
+    size_bytes: 43247
+    modified_utc: '2026-06-29T11:30:37+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_true/sample_000_blocks_1.png
+    size_bytes: 41998
+    modified_utc: '2026-06-29T11:31:52+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_true/sample_000_blocks_3.png
+    size_bytes: 42646
+    modified_utc: '2026-06-29T11:31:53+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_true/sample_000_blocks_5.png
+    size_bytes: 42645
+    modified_utc: '2026-06-29T11:31:54+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_true/sample_001_blocks_1.png
+    size_bytes: 41174
+    modified_utc: '2026-06-29T11:31:52+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_true/sample_001_blocks_3.png
+    size_bytes: 40800
+    modified_utc: '2026-06-29T11:31:53+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_true/sample_001_blocks_5.png
+    size_bytes: 41097
+    modified_utc: '2026-06-29T11:31:54+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_true/sample_002_blocks_1.png
+    size_bytes: 41412
+    modified_utc: '2026-06-29T11:31:52+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_true/sample_002_blocks_3.png
+    size_bytes: 40875
+    modified_utc: '2026-06-29T11:31:53+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_true/sample_002_blocks_5.png
+    size_bytes: 41065
+    modified_utc: '2026-06-29T11:31:54+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_true/sample_003_blocks_1.png
+    size_bytes: 41600
+    modified_utc: '2026-06-29T11:31:53+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_true/sample_003_blocks_3.png
+    size_bytes: 42131
+    modified_utc: '2026-06-29T11:31:54+00:00'
+  - path: experiments/experiment-c10-vit-sup/figures/attention_rollout_target_true/sample_003_blocks_5.png
+    size_bytes: 42122
+    modified_utc: '2026-06-29T11:31:54+00:00'
+  logs:
+  - path: experiments/experiment-c10-vit-sup/logs/eval_vit_supervised_predicted_48079491.err
+    size_bytes: 3441
+    modified_utc: '2026-06-29T11:30:42+00:00'
+  - path: experiments/experiment-c10-vit-sup/logs/eval_vit_supervised_predicted_48079491.out
+    size_bytes: 3044
+    modified_utc: '2026-06-29T11:30:56+00:00'
+  - path: experiments/experiment-c10-vit-sup/logs/eval_vit_supervised_true_48079514.err
+    size_bytes: 3351
+    modified_utc: '2026-06-29T11:31:59+00:00'
+  - path: experiments/experiment-c10-vit-sup/logs/eval_vit_supervised_true_48079514.out
+    size_bytes: 3140
+    modified_utc: '2026-06-29T11:32:11+00:00'
+  - path: experiments/experiment-c10-vit-sup/logs/repr_supervised_48079486.err
+    size_bytes: 8703
+    modified_utc: '2026-06-29T11:30:44+00:00'
+  - path: experiments/experiment-c10-vit-sup/logs/repr_supervised_48079486.out
+    size_bytes: 2549
+    modified_utc: '2026-06-29T11:30:56+00:00'
+  - path: experiments/experiment-c10-vit-sup/logs/repr_vit_supervised_48079780.err
+    size_bytes: 8476
+    modified_utc: '2026-06-29T11:35:07+00:00'
+  - path: experiments/experiment-c10-vit-sup/logs/repr_vit_supervised_48079780.out
+    size_bytes: 2518
+    modified_utc: '2026-06-29T11:35:07+00:00'
+  - path: experiments/experiment-c10-vit-sup/logs/train_vit_supervised_48078437.err
+    size_bytes: 2140693
+    modified_utc: '2026-06-29T11:16:36+00:00'
+  - path: experiments/experiment-c10-vit-sup/logs/train_vit_supervised_48078437.out
+    size_bytes: 5936
+    modified_utc: '2026-06-29T11:16:50+00:00'

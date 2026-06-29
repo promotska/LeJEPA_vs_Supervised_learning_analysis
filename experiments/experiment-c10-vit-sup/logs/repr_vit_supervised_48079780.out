@@ -1,0 +1,41 @@
+Started at: Mon Jun 29 13:32:29 CEST 2026
+Node: lrdn3255.leonardo.local
+Config path: configs/cifar10_vit_supervised.yaml
+Mon Jun 29 13:32:29 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.274.02             Driver Version: 535.274.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM-64GB           On  | 00000000:8F:00.0 Off |                    0 |
+| N/A   44C    P0              60W / 448W |      0MiB / 65536MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+Using device: cuda
+Representation evaluation settings:
+  mode: vit_supervised
+  architecture: vit_tiny_cifar
+  checkpoint: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt
+  batch_size: 256
+  max_test_samples: 10000
+  max_bank_samples: 50000
+  kNN ks: [1, 5, 10, 20, 50, 100]
+  feature bank: full train set with eval transforms
+  query set: test set
+
+Representation evaluation completed.
+Classifier/probe accuracy: 0.8040
+Best kNN accuracy: 0.8117 at k=10
+Saved YAML: experiments/experiment-c10-vit-sup/metrics/representation_vit_supervised.yaml
+Saved CSV: experiments/experiment-c10-vit-sup/metrics/representation_vit_supervised.csv
+Finished at: Mon Jun 29 13:35:21 CEST 2026

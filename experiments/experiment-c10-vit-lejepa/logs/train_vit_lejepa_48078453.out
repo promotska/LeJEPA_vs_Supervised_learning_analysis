@@ -1,0 +1,74 @@
+Job started at: Mon Jun 29 13:09:37 CEST 2026
+Node: lrdn0187.leonardo.local
+Config path: configs/cifar10_vit_lejepa.yaml
+Mon Jun 29 13:09:37 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.274.02             Driver Version: 535.274.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM-64GB           On  | 00000000:56:00.0 Off |                    0 |
+| N/A   42C    P0              61W / 475W |      0MiB / 65536MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+LeJEPA ViT pretraining method:
+  architecture: vit_tiny_cifar
+  sigreg_implementation: official
+  num_global_views: 2
+  num_local_views: 6
+  stop_gradient: false
+  teacher_student_or_ema: false
+epoch=001 vit_lejepa_loss=2.0676 pred=0.2798 sigreg=35.7559
+epoch=002 vit_lejepa_loss=0.7689 pred=0.1978 sigreg=11.4215
+epoch=003 vit_lejepa_loss=0.3653 pred=0.1502 sigreg=4.3022
+epoch=004 vit_lejepa_loss=0.2782 pred=0.1439 sigreg=2.6855
+epoch=005 vit_lejepa_loss=0.2544 pred=0.1427 sigreg=2.2328
+epoch=006 vit_lejepa_loss=0.2411 pred=0.1421 sigreg=1.9802
+epoch=007 vit_lejepa_loss=0.2336 pred=0.1421 sigreg=1.8297
+epoch=008 vit_lejepa_loss=0.2277 pred=0.1418 sigreg=1.7195
+epoch=009 vit_lejepa_loss=0.2239 pred=0.1417 sigreg=1.6446
+epoch=010 vit_lejepa_loss=0.2204 pred=0.1415 sigreg=1.5782
+epoch=011 vit_lejepa_loss=0.2185 pred=0.1415 sigreg=1.5405
+epoch=012 vit_lejepa_loss=0.2157 pred=0.1413 sigreg=1.4868
+epoch=013 vit_lejepa_loss=0.2138 pred=0.1412 sigreg=1.4509
+epoch=014 vit_lejepa_loss=0.2119 pred=0.1412 sigreg=1.4142
+epoch=015 vit_lejepa_loss=0.2113 pred=0.1412 sigreg=1.4025
+epoch=016 vit_lejepa_loss=0.2100 pred=0.1411 sigreg=1.3788
+epoch=017 vit_lejepa_loss=0.2084 pred=0.1411 sigreg=1.3476
+epoch=018 vit_lejepa_loss=0.2077 pred=0.1411 sigreg=1.3323
+epoch=019 vit_lejepa_loss=0.2076 pred=0.1411 sigreg=1.3290
+epoch=020 vit_lejepa_loss=0.2053 pred=0.1411 sigreg=1.2841
+epoch=021 vit_lejepa_loss=0.2053 pred=0.1410 sigreg=1.2862
+epoch=022 vit_lejepa_loss=0.2049 pred=0.1410 sigreg=1.2764
+epoch=023 vit_lejepa_loss=0.2041 pred=0.1410 sigreg=1.2628
+epoch=024 vit_lejepa_loss=0.2035 pred=0.1409 sigreg=1.2524
+epoch=025 vit_lejepa_loss=0.2030 pred=0.1410 sigreg=1.2401
+epoch=026 vit_lejepa_loss=0.2021 pred=0.1408 sigreg=1.2248
+epoch=027 vit_lejepa_loss=0.2016 pred=0.1410 sigreg=1.2124
+epoch=028 vit_lejepa_loss=0.2012 pred=0.1410 sigreg=1.2050
+epoch=029 vit_lejepa_loss=0.2011 pred=0.1410 sigreg=1.2034
+epoch=030 vit_lejepa_loss=0.2001 pred=0.1409 sigreg=1.1839
+epoch=031 vit_lejepa_loss=0.1997 pred=0.1409 sigreg=1.1761
+epoch=032 vit_lejepa_loss=0.1997 pred=0.1410 sigreg=1.1759
+epoch=033 vit_lejepa_loss=0.1991 pred=0.1409 sigreg=1.1658
+epoch=034 vit_lejepa_loss=0.1988 pred=0.1408 sigreg=1.1611
+epoch=035 vit_lejepa_loss=0.1982 pred=0.1408 sigreg=1.1482
+epoch=036 vit_lejepa_loss=0.1978 pred=0.1408 sigreg=1.1390
+epoch=037 vit_lejepa_loss=0.1979 pred=0.1408 sigreg=1.1411
+epoch=038 vit_lejepa_loss=0.1971 pred=0.1407 sigreg=1.1287
+epoch=039 vit_lejepa_loss=0.1969 pred=0.1409 sigreg=1.1209
+epoch=040 vit_lejepa_loss=0.1961 pred=0.1407 sigreg=1.1064
+epoch=041 vit_lejepa_loss=0.1962 pred=0.1408 sigreg=1.1064
+epoch=042 vit_lejepa_loss=0.1958 pred=0.1408 sigreg=1.1008
+epoch=043 vit_lejepa_loss=0.1954 pred=0.1408 sigreg=1.0917
+epoch=044 vit_lejepa_loss=0.1952 pred=0.1408 sigreg=1.0878

@@ -1,0 +1,52 @@
+Job started at: Mon Jun 29 13:29:25 CEST 2026
+Node: lrdn1201.leonardo.local
+Config path: configs/cifar10_vit_supervised.yaml
+Grad-CAM target: true
+ViT XAI method override: <from config>
+Mon Jun 29 13:29:25 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.274.02             Driver Version: 535.274.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM-64GB           On  | 00000000:8F:00.0 Off |                    0 |
+| N/A   42C    P0              62W / 455W |      0MiB / 65536MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+Using device: cuda
+ViT alignment evaluation settings:
+  mode: vit_supervised
+  xai_method: attention_rollout
+  gradcam_target: true
+  checkpoint: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt
+  layers: ['blocks.1', 'blocks.3', 'blocks.5']
+  max_samples: 1000
+  output_csv: experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas_attention_rollout_true.csv
+WARNING: Attention Rollout is not class-target-specific; true/predicted target affects labels only, not the rollout map.
+
+ViT alignment evaluation completed.
+Saved CSV: experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas_attention_rollout_true.csv
+Saved curve: experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas_attention_rollout_true_curve.png
+Processed images: 1000
+Rows: 3000
+Expected rows: 3000
+Accuracy on evaluated subset: 0.7960
+Elapsed: 0.49 min
+
+Mean metrics per layer:
+              lsas  corr_pca_xai  soft_iou_pca_xai
+layer                                             
+blocks.1  0.129745     -0.152041          0.411531
+blocks.3  0.231794     -0.006022          0.469609
+blocks.5  0.219005     -0.039126          0.477135
+Job finished at: Mon Jun 29 13:32:11 CEST 2026

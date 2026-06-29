@@ -1,0 +1,7 @@
+mode,architecture,checkpoint_path,classifier_or_probe_accuracy,classifier_or_probe_correct,classifier_or_probe_total,knn_k,knn_accuracy,knn_correct,knn_total,bank_samples,query_samples,feature_dim,temperature,elapsed_minutes
+supervised,vit_tiny_cifar,experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt,0.804,8040,10000,1,0.7841,7841,10000,50000,10000,192,0.07,0.43655758698781333
+supervised,vit_tiny_cifar,experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt,0.804,8040,10000,5,0.8065,8065,10000,50000,10000,192,0.07,0.43655758698781333
+supervised,vit_tiny_cifar,experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt,0.804,8040,10000,10,0.8117,8117,10000,50000,10000,192,0.07,0.43655758698781333
+supervised,vit_tiny_cifar,experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt,0.804,8040,10000,20,0.8093,8093,10000,50000,10000,192,0.07,0.43655758698781333
+supervised,vit_tiny_cifar,experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt,0.804,8040,10000,50,0.8101,8101,10000,50000,10000,192,0.07,0.43655758698781333
+supervised,vit_tiny_cifar,experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt,0.804,8040,10000,100,0.8079,8079,10000,50000,10000,192,0.07,0.43655758698781333

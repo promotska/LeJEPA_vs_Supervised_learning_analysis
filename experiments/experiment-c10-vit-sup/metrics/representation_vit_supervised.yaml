@@ -1,0 +1,42 @@
+mode: vit_supervised
+architecture: vit_tiny_cifar
+checkpoint_path: experiments/experiment-c10-vit-sup/checkpoints/vit_supervised_best.pt
+classifier_or_probe_accuracy:
+  accuracy: 0.804
+  correct: 8040
+  total: 10000
+knn:
+  feature_bank: full_train_eval_transform
+  query: test
+  bank_samples: 50000
+  query_samples: 10000
+  feature_dim: 192
+  temperature: 0.07
+  results:
+  - k: 1
+    accuracy: 0.7841
+    correct: 7841
+    total: 10000
+  - k: 5
+    accuracy: 0.8065
+    correct: 8065
+    total: 10000
+  - &id001
+    k: 10
+    accuracy: 0.8117
+    correct: 8117
+    total: 10000
+  - k: 20
+    accuracy: 0.8093
+    correct: 8093
+    total: 10000
+  - k: 50
+    accuracy: 0.8101
+    correct: 8101
+    total: 10000
+  - k: 100
+    accuracy: 0.8079
+    correct: 8079
+    total: 10000
+  best: *id001
+elapsed_minutes: 0.5477736870447795

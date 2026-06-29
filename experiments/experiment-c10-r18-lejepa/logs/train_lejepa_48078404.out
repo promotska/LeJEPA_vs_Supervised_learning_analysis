@@ -1,0 +1,92 @@
+Job started at: Mon Jun 29 13:08:55 CEST 2026
+Node: lrdn1899.leonardo.local
+Config path: configs/cifar10_resnet18_lejepa.yaml
+Project dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+Venv dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv
+Experiment name: experiment-c10-r18-lejepa
+Mon Jun 29 13:08:55 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.274.02             Driver Version: 535.274.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM-64GB           On  | 00000000:1D:00.0 Off |                    0 |
+| N/A   43C    P0              64W / 483W |      0MiB / 65536MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+LeJEPA pretraining method:
+  architecture: resnet18_cifar
+  sigreg_implementation: official
+  num_global_views: 2
+  num_local_views: 4
+  stop_gradient: false
+  teacher_student_or_ema: false
+epoch=001 lejepa_loss=1.2372 pred=0.3138 sigreg=18.4691
+epoch=002 lejepa_loss=0.5740 pred=0.2352 sigreg=6.7766
+epoch=003 lejepa_loss=0.4810 pred=0.2199 sigreg=5.2232
+epoch=004 lejepa_loss=0.4314 pred=0.2143 sigreg=4.3419
+epoch=005 lejepa_loss=0.4015 pred=0.2102 sigreg=3.8262
+epoch=006 lejepa_loss=0.3799 pred=0.2075 sigreg=3.4487
+epoch=007 lejepa_loss=0.3646 pred=0.2056 sigreg=3.1800
+epoch=008 lejepa_loss=0.3521 pred=0.2047 sigreg=2.9484
+epoch=009 lejepa_loss=0.3410 pred=0.2038 sigreg=2.7448
+epoch=010 lejepa_loss=0.3312 pred=0.2032 sigreg=2.5615
+epoch=011 lejepa_loss=0.3235 pred=0.2026 sigreg=2.4192
+epoch=012 lejepa_loss=0.3171 pred=0.2018 sigreg=2.3066
+epoch=013 lejepa_loss=0.3106 pred=0.2012 sigreg=2.1873
+epoch=014 lejepa_loss=0.3050 pred=0.2009 sigreg=2.0816
+epoch=015 lejepa_loss=0.3015 pred=0.2003 sigreg=2.0246
+epoch=016 lejepa_loss=0.2983 pred=0.2006 sigreg=1.9539
+epoch=017 lejepa_loss=0.2947 pred=0.2002 sigreg=1.8907
+epoch=018 lejepa_loss=0.2900 pred=0.1998 sigreg=1.8050
+epoch=019 lejepa_loss=0.2881 pred=0.1995 sigreg=1.7726
+epoch=020 lejepa_loss=0.2846 pred=0.1996 sigreg=1.7000
+epoch=021 lejepa_loss=0.2822 pred=0.1992 sigreg=1.6603
+epoch=022 lejepa_loss=0.2794 pred=0.1991 sigreg=1.6048
+epoch=023 lejepa_loss=0.2787 pred=0.1994 sigreg=1.5858
+epoch=024 lejepa_loss=0.2755 pred=0.1991 sigreg=1.5268
+epoch=025 lejepa_loss=0.2736 pred=0.1989 sigreg=1.4936
+epoch=026 lejepa_loss=0.2717 pred=0.1986 sigreg=1.4622
+epoch=027 lejepa_loss=0.2705 pred=0.1990 sigreg=1.4308
+epoch=028 lejepa_loss=0.2688 pred=0.1986 sigreg=1.4026
+epoch=029 lejepa_loss=0.2670 pred=0.1986 sigreg=1.3695
+epoch=030 lejepa_loss=0.2658 pred=0.1988 sigreg=1.3401
+epoch=031 lejepa_loss=0.2639 pred=0.1982 sigreg=1.3144
+epoch=032 lejepa_loss=0.2629 pred=0.1981 sigreg=1.2967
+epoch=033 lejepa_loss=0.2618 pred=0.1980 sigreg=1.2765
+epoch=034 lejepa_loss=0.2609 pred=0.1988 sigreg=1.2409
+epoch=035 lejepa_loss=0.2597 pred=0.1981 sigreg=1.2310
+epoch=036 lejepa_loss=0.2581 pred=0.1979 sigreg=1.2036
+epoch=037 lejepa_loss=0.2574 pred=0.1982 sigreg=1.1843
+epoch=038 lejepa_loss=0.2565 pred=0.1981 sigreg=1.1698
+epoch=039 lejepa_loss=0.2555 pred=0.1979 sigreg=1.1521
+epoch=040 lejepa_loss=0.2542 pred=0.1977 sigreg=1.1310
+epoch=041 lejepa_loss=0.2532 pred=0.1976 sigreg=1.1129
+epoch=042 lejepa_loss=0.2526 pred=0.1976 sigreg=1.1002
+epoch=043 lejepa_loss=0.2515 pred=0.1975 sigreg=1.0797
+epoch=044 lejepa_loss=0.2508 pred=0.1974 sigreg=1.0689
+epoch=045 lejepa_loss=0.2501 pred=0.1974 sigreg=1.0541
+epoch=046 lejepa_loss=0.2493 pred=0.1973 sigreg=1.0389
+epoch=047 lejepa_loss=0.2489 pred=0.1971 sigreg=1.0364
+epoch=048 lejepa_loss=0.2480 pred=0.1972 sigreg=1.0156
+epoch=049 lejepa_loss=0.2473 pred=0.1972 sigreg=1.0016
+epoch=050 lejepa_loss=0.2468 pred=0.1972 sigreg=0.9916
+epoch=051 lejepa_loss=0.2462 pred=0.1973 sigreg=0.9770
+epoch=052 lejepa_loss=0.2459 pred=0.1974 sigreg=0.9706
+epoch=053 lejepa_loss=0.2449 pred=0.1970 sigreg=0.9575
+epoch=054 lejepa_loss=0.2446 pred=0.1971 sigreg=0.9494
+epoch=055 lejepa_loss=0.2439 pred=0.1970 sigreg=0.9366
+epoch=056 lejepa_loss=0.2434 pred=0.1971 sigreg=0.9272
+epoch=057 lejepa_loss=0.2426 pred=0.1970 sigreg=0.9123
+epoch=058 lejepa_loss=0.2424 pred=0.1969 sigreg=0.9102
+epoch=059 lejepa_loss=0.2420 pred=0.1970 sigreg=0.9008

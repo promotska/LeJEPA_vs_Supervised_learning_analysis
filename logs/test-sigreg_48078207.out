@@ -1,0 +1,8 @@
+Node: lrdn1036.leonardo.local
+Started: Mon Jun 29 13:04:09 CEST 2026
+created OfficialSIGRegLoss in seconds: 16.973329067230225
+loss: tensor(1.1206, device='cuda:0')
+loss shape: torch.Size([])
+loss seconds: 7.765299081802368
+OK
+Finished: Mon Jun 29 13:05:49 CEST 2026
