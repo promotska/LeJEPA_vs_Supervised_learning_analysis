@@ -49,9 +49,10 @@ class SigRegStyleLoss(nn.Module):
 class OfficialSIGRegLoss(nn.Module):
     """Official LeJEPA SIGReg wrapper.
 
-    Handles LeJEPA package API differences:
-      - your installed version uses EppsPulley(n_points=...)
-      - some examples use EppsPulley(num_points=...)
+    Handles:
+      - EppsPulley(n_points=...) vs EppsPulley(num_points=...)
+      - SlicingUnivariateTest API variants
+      - internal LeJEPA tensors left on CPU while embeddings are on CUDA
     """
 
     def __init__(self, num_slices: int = 1024, num_points: int = 17):
@@ -100,6 +101,67 @@ class OfficialSIGRegLoss(nn.Module):
             )
 
         self.loss_fn = lejepa.multivariate.SlicingUnivariateTest(**slicing_kwargs)
+        self._loss_device = None
+
+    def _move_plain_tensor_attrs(self, obj, device: torch.device):
+        """Move tensors stored as plain attributes, not registered buffers.
+
+        The installed LeJEPA package keeps EppsPulley.t as a plain tensor, so
+        module.to(device) is not enough.
+        """
+        seen = set()
+
+        def visit(x):
+            obj_id = id(x)
+            if obj_id in seen:
+                return
+            seen.add(obj_id)
+
+            if isinstance(x, nn.Module):
+                x.to(device)
+
+            if not hasattr(x, "__dict__"):
+                return
+
+            for name, value in vars(x).items():
+                if torch.is_tensor(value):
+                    setattr(x, name, value.to(device))
+                elif isinstance(value, nn.Module):
+                    visit(value)
+                elif isinstance(value, (list, tuple)):
+                    moved = []
+                    changed = False
+                    for item in value:
+                        if torch.is_tensor(item):
+                            moved.append(item.to(device))
+                            changed = True
+                        else:
+                            moved.append(item)
+                            if isinstance(item, nn.Module):
+                                visit(item)
+                    if changed:
+                        setattr(x, name, type(value)(moved))
+                elif isinstance(value, dict):
+                    changed = False
+                    moved = {}
+                    for k, item in value.items():
+                        if torch.is_tensor(item):
+                            moved[k] = item.to(device)
+                            changed = True
+                        else:
+                            moved[k] = item
+                            if isinstance(item, nn.Module):
+                                visit(item)
+                    if changed:
+                        setattr(x, name, moved)
+
+        visit(obj)
+
+    def _ensure_device(self, device: torch.device):
+        if self._loss_device != device:
+            self.loss_fn.to(device)
+            self._move_plain_tensor_attrs(self.loss_fn, device)
+            self._loss_device = device
 
     def forward(self, embeddings: torch.Tensor) -> torch.Tensor:
         if embeddings.ndim != 2:
@@ -107,20 +169,27 @@ class OfficialSIGRegLoss(nn.Module):
                 f"Expected embeddings [N,D], got {tuple(embeddings.shape)}"
             )
 
+        self._ensure_device(embeddings.device)
+
         value = self.loss_fn(embeddings.float())
 
         if isinstance(value, dict):
             for key in ("loss", "statistic", "value"):
                 if key in value:
-                    return value[key]
-            raise TypeError(
-                f"Official SIGReg returned dict without known loss key: {list(value.keys())}"
-            )
+                    value = value[key]
+                    break
+            else:
+                raise TypeError(
+                    f"Official SIGReg returned dict without known loss key: {list(value.keys())}"
+                )
 
         if isinstance(value, (tuple, list)):
-            return value[0]
+            value = value[0]
 
-        return value
+        if torch.is_tensor(value):
+            return value.to(embeddings.device)
+
+        return embeddings.new_tensor(float(value))
 
 
 class FallbackSlicedGaussianMomentLoss(nn.Module):
