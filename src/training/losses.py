@@ -49,37 +49,77 @@ class SigRegStyleLoss(nn.Module):
 class OfficialSIGRegLoss(nn.Module):
     """Official LeJEPA SIGReg wrapper.
 
-    Requires the external package:
-        pip install lejepa
+    Handles LeJEPA package API differences:
+      - your installed version uses EppsPulley(n_points=...)
+      - some examples use EppsPulley(num_points=...)
     """
 
     def __init__(self, num_slices: int = 1024, num_points: int = 17):
         super().__init__()
+
         try:
+            import inspect
             import lejepa
         except ImportError as exc:
             raise ImportError(
                 "OfficialSIGRegLoss requires the official LeJEPA package. "
-                "Install it in the CINECA venv with: pip install lejepa"
+                "Install it with: pip install git+https://github.com/rbalestr-lab/lejepa.git"
             ) from exc
 
-        univariate_test = lejepa.univariate.EppsPulley(num_points=num_points)
-        self.loss_fn = lejepa.multivariate.SlicingUnivariateTest(
-            univariate_test=univariate_test,
-            num_slices=num_slices,
-        )
+        epps_sig = inspect.signature(lejepa.univariate.EppsPulley)
+        epps_kwargs = {}
+
+        if "num_points" in epps_sig.parameters:
+            epps_kwargs["num_points"] = num_points
+        elif "n_points" in epps_sig.parameters:
+            epps_kwargs["n_points"] = num_points
+
+        univariate_test = lejepa.univariate.EppsPulley(**epps_kwargs)
+
+        slicing_sig = inspect.signature(lejepa.multivariate.SlicingUnivariateTest)
+        slicing_kwargs = {}
+
+        if "univariate_test" in slicing_sig.parameters:
+            slicing_kwargs["univariate_test"] = univariate_test
+        else:
+            raise TypeError(
+                f"Unsupported SlicingUnivariateTest signature: {slicing_sig}"
+            )
+
+        if "num_slices" in slicing_sig.parameters:
+            slicing_kwargs["num_slices"] = num_slices
+        elif "n_slices" in slicing_sig.parameters:
+            slicing_kwargs["n_slices"] = num_slices
+        elif "num_projections" in slicing_sig.parameters:
+            slicing_kwargs["num_projections"] = num_slices
+        elif "n_projections" in slicing_sig.parameters:
+            slicing_kwargs["n_projections"] = num_slices
+        else:
+            raise TypeError(
+                f"Could not find slice-count argument in SlicingUnivariateTest signature: {slicing_sig}"
+            )
+
+        self.loss_fn = lejepa.multivariate.SlicingUnivariateTest(**slicing_kwargs)
 
     def forward(self, embeddings: torch.Tensor) -> torch.Tensor:
         if embeddings.ndim != 2:
-            raise ValueError(f"Expected embeddings [N,D], got {tuple(embeddings.shape)}")
+            raise ValueError(
+                f"Expected embeddings [N,D], got {tuple(embeddings.shape)}"
+            )
+
         value = self.loss_fn(embeddings.float())
+
         if isinstance(value, dict):
             for key in ("loss", "statistic", "value"):
                 if key in value:
                     return value[key]
-            raise TypeError(f"Official SIGReg returned a dict without a known loss key: {list(value.keys())}")
+            raise TypeError(
+                f"Official SIGReg returned dict without known loss key: {list(value.keys())}"
+            )
+
         if isinstance(value, (tuple, list)):
             return value[0]
+
         return value
 
 
