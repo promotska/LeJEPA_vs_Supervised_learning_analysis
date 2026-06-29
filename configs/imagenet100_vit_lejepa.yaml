@@ -84,7 +84,7 @@ evaluation:
   num_visualizations: 8
   save_visualizations: true
   gradcam_target: predicted
-  vit_xai_method: attention_rollout
+  vit_xai_method: token_gradient
   attention_head_fusion: mean
   attention_discard_ratio: 0.0
   representation_batch_size: 128

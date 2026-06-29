@@ -49,7 +49,7 @@ evaluation:
   num_visualizations: 4
   save_visualizations: true
   gradcam_target: predicted
-  vit_xai_method: attention_rollout   # options: token_gradient, attention_rollout
+  vit_xai_method: token_gradient   # options: token_gradient, attention_rollout
   attention_head_fusion: mean
   attention_discard_ratio: 0.0
 
