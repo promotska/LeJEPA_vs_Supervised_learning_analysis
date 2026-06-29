@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=cv-c10-r18-sup-eval
+#SBATCH --job-name=cv-sup-eval
 #SBATCH --partition=boost_usr_prod
 #SBATCH --account=IscrC_MNLP26
 #SBATCH --nodes=1
@@ -14,6 +14,7 @@
 set -euo pipefail
 
 PROJECT_DIR="${SLURM_SUBMIT_DIR}"
+CONFIG_PATH="${CONFIG_PATH:-configs/cifar10_resnet18_supervised.yaml}"
 GRADCAM_TARGET="${GRADCAM_TARGET:-predicted}"
 
 if [ -d "${PROJECT_DIR}/.venv" ]; then
@@ -39,11 +40,12 @@ export NUMEXPR_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 
 echo "Started at: $(date)"
 echo "Node: $(hostname)"
+echo "Config path: ${CONFIG_PATH}"
 echo "Grad-CAM target: ${GRADCAM_TARGET}"
 nvidia-smi || true
 
 python -u scripts/evaluate_alignment.py \
-  --config configs/cifar10_resnet18_supervised.yaml \
+  --config "${CONFIG_PATH}" \
   --mode supervised \
   --gradcam-target "${GRADCAM_TARGET}"
 

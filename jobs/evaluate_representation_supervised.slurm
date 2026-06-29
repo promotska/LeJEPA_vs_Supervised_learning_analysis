@@ -14,6 +14,7 @@
 set -euo pipefail
 
 PROJECT_DIR="${SLURM_SUBMIT_DIR}"
+CONFIG_PATH="${CONFIG_PATH:-configs/cifar10_resnet18_supervised.yaml}"
 
 if [ -d "${PROJECT_DIR}/.venv" ]; then
   VENV_DIR="${PROJECT_DIR}/.venv"
@@ -26,13 +27,11 @@ fi
 
 cd "${PROJECT_DIR}"
 mkdir -p logs
-
 source "${VENV_DIR}/bin/activate"
 
 export PYTHONPATH="${PROJECT_DIR}:${PYTHONPATH:-}"
 export HF_DATASETS_OFFLINE=1
 export HF_HUB_OFFLINE=1
-
 export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export MKL_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export OPENBLAS_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
@@ -40,10 +39,11 @@ export NUMEXPR_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 
 echo "Started at: $(date)"
 echo "Node: $(hostname)"
+echo "Config path: ${CONFIG_PATH}"
 nvidia-smi || true
 
 python -u scripts/evaluate_representation.py \
-  --config configs/cifar10_resnet18_supervised.yaml \
+  --config "${CONFIG_PATH}" \
   --mode supervised
 
 echo "Finished at: $(date)"

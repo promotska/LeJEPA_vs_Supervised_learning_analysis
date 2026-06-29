@@ -14,6 +14,7 @@
 set -euo pipefail
 
 PROJECT_DIR="${SLURM_SUBMIT_DIR}"
+CONFIG_PATH="${CONFIG_PATH:-configs/cifar10_vit_supervised.yaml}"
 
 if [ -d "${PROJECT_DIR}/.venv" ]; then
   VENV_DIR="${PROJECT_DIR}/.venv"
@@ -26,26 +27,24 @@ fi
 
 cd "${PROJECT_DIR}"
 mkdir -p logs
-
-echo "Job started at: $(date)"
-echo "Node: $(hostname)"
-echo "Project dir: ${PROJECT_DIR}"
-echo "Venv dir: ${VENV_DIR}"
-
-nvidia-smi || true
-
 source "${VENV_DIR}/bin/activate"
 
 export PYTHONPATH="${PROJECT_DIR}:${PYTHONPATH:-}"
 export HF_DATASETS_OFFLINE=1
 export HF_HUB_OFFLINE=1
-
 export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export MKL_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export OPENBLAS_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export NUMEXPR_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 
+echo "Job started at: $(date)"
+echo "Node: $(hostname)"
+echo "Project dir: ${PROJECT_DIR}"
+echo "Venv dir: ${VENV_DIR}"
+echo "Config path: ${CONFIG_PATH}"
+nvidia-smi || true
+
 python -u scripts/train_vit_supervised.py \
-  --config configs/cifar10_vit_supervised.yaml
+  --config "${CONFIG_PATH}"
 
 echo "Job finished at: $(date)"

@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=cv-r18-sup
+#SBATCH --job-name=cv-sup
 #SBATCH --partition=boost_usr_prod
 #SBATCH --account=IscrC_MNLP26
 #SBATCH --nodes=1
@@ -14,6 +14,7 @@
 set -euo pipefail
 
 PROJECT_DIR="${SLURM_SUBMIT_DIR}"
+CONFIG_PATH="${CONFIG_PATH:-configs/cifar10_resnet18_supervised.yaml}"
 
 if [ -d "${PROJECT_DIR}/.venv" ]; then
   VENV_DIR="${PROJECT_DIR}/.venv"
@@ -26,7 +27,6 @@ fi
 
 cd "${PROJECT_DIR}"
 mkdir -p logs
-
 source "${VENV_DIR}/bin/activate"
 
 export PYTHONPATH="${PROJECT_DIR}:${PYTHONPATH:-}"
@@ -41,10 +41,11 @@ echo "Job started at: $(date)"
 echo "Node: $(hostname)"
 echo "Project dir: ${PROJECT_DIR}"
 echo "Venv dir: ${VENV_DIR}"
+echo "Config path: ${CONFIG_PATH}"
 echo "Experiment name: ${EXPERIMENT_NAME:-<from config>}"
 nvidia-smi || true
 
 python -u scripts/train_supervised.py \
-  --config configs/cifar10_resnet18_supervised.yaml
+  --config "${CONFIG_PATH}"
 
 echo "Job finished at: $(date)"

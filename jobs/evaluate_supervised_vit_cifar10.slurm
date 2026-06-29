@@ -14,6 +14,7 @@
 set -euo pipefail
 
 PROJECT_DIR="${SLURM_SUBMIT_DIR}"
+CONFIG_PATH="${CONFIG_PATH:-configs/cifar10_vit_supervised.yaml}"
 GRADCAM_TARGET="${GRADCAM_TARGET:-predicted}"
 VIT_XAI_METHOD="${VIT_XAI_METHOD:-}"
 
@@ -28,27 +29,25 @@ fi
 
 cd "${PROJECT_DIR}"
 mkdir -p logs
-
-echo "Job started at: $(date)"
-echo "Node: $(hostname)"
-echo "Project dir: ${PROJECT_DIR}"
-echo "Venv dir: ${VENV_DIR}"
-
-nvidia-smi || true
-
 source "${VENV_DIR}/bin/activate"
 
 export PYTHONPATH="${PROJECT_DIR}:${PYTHONPATH:-}"
 export HF_DATASETS_OFFLINE=1
 export HF_HUB_OFFLINE=1
-
 export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export MKL_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export OPENBLAS_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export NUMEXPR_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 
+echo "Job started at: $(date)"
+echo "Node: $(hostname)"
+echo "Config path: ${CONFIG_PATH}"
+echo "Grad-CAM target: ${GRADCAM_TARGET}"
+echo "ViT XAI method override: ${VIT_XAI_METHOD:-<from config>}"
+nvidia-smi || true
+
 CMD=(python -u scripts/evaluate_vit_alignment.py
-  --config configs/cifar10_vit_supervised.yaml
+  --config "${CONFIG_PATH}"
   --mode vit_supervised
   --gradcam-target "${GRADCAM_TARGET}")
 
