@@ -12,7 +12,15 @@
 set -euo pipefail
 
 PROJECT_DIR="${SLURM_SUBMIT_DIR}"
-VENV_DIR="${PROJECT_DIR}/.venv"
+
+if [ -d "${PROJECT_DIR}/.venv" ]; then
+  VENV_DIR="${PROJECT_DIR}/.venv"
+elif [ -d "${PROJECT_DIR}/../.venv" ]; then
+  VENV_DIR="${PROJECT_DIR}/../.venv"
+else
+  echo "ERROR: could not find .venv"
+  exit 1
+fi
 
 cd "${PROJECT_DIR}"
 
