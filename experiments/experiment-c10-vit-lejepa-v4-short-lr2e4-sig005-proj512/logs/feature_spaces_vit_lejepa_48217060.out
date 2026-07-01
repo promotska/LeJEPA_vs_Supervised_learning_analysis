@@ -1,0 +1,29 @@
+Using training resolved config: configs/cifar10_vit_lejepa_v4_short_lr2e4_sig005_proj512.yaml
+Confirmed ViT architecture: vit_tiny_cifar
+Using training resolved config: configs/cifar10_vit_lejepa_v4_short_lr2e4_sig005_proj512.yaml
+Using backbone checkpoint: experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005-proj512/checkpoints/vit_lejepa_backbone_last.pt
+Evaluating LeJEPA feature spaces
+  config: configs/cifar10_vit_lejepa_v4_short_lr2e4_sig005_proj512.yaml
+  checkpoint: experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005-proj512/checkpoints/vit_lejepa_backbone_last.pt
+  device: cuda
+  batch_size: 256
+  max_bank_samples: 50000
+  max_test_samples: 10000
+Building LeJEPA model from checkpoint['config'] to avoid config/checkpoint shape mismatch.
+  checkpoint model config: {'architecture': 'vit_tiny_cifar', 'image_size': 32, 'patch_size': 4, 'num_classes': 10, 'embed_dim': 192, 'depth': 6, 'num_heads': 3, 'mlp_ratio': 4.0, 'dropout': 0.0, 'attn_dropout': 0.0, 'projection_dim': 512, 'prediction_dim': 512}
+
+=== Feature source: backbone ===
+Best kNN: 0.3583 at k=100
+Diagnostics: std_mean=0.924177, std_min=0.699095, norm_mean=13.268686, dim=192
+
+=== Feature source: projector ===
+Best kNN: 0.3528 at k=100
+Diagnostics: std_mean=1.011901, std_min=0.728580, norm_mean=22.937809, dim=512
+
+=== Feature source: predictor ===
+Best kNN: 0.3753 at k=50
+Diagnostics: std_mean=0.734830, std_min=0.349055, norm_mean=16.579983, dim=512
+
+Saved:
+  experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005-proj512/metrics/feature_spaces/vit_tiny_cifar_vit_lejepa_backbone_last_feature_spaces.yaml
+  experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005-proj512/metrics/feature_spaces/vit_tiny_cifar_vit_lejepa_backbone_last_feature_spaces.csv

@@ -1,0 +1,60 @@
+enabled: true
+select_backbone_by: knn
+selected_checkpoint_path: experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_360.pt
+selected_epoch: 360
+best_knn_accuracy: 0.5945
+knn_k: 100
+num_candidates: 22
+candidate_paths:
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_last.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_loss_best.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_020.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_040.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_060.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_080.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_100.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_120.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_140.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_160.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_180.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_200.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_220.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_240.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_260.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_280.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_300.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_320.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_340.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_360.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_380.pt
+- experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_400.pt
+selection_csv: experiments/experiment-c10-r18-lejepa-v3-sigreg-003/metrics/checkpoint_selection/backbone_checkpoint_selection_knn.csv
+selection_yaml: experiments/experiment-c10-r18-lejepa-v3-sigreg-003/metrics/checkpoint_selection/backbone_checkpoint_selection_knn.yaml
+settings:
+  max_bank_samples: 10000
+  max_test_samples: 2000
+  knn_ks:
+  - 20
+  - 50
+  - 100
+  temperature: 0.07
+  query_chunk_size: 256
+best_row:
+  checkpoint_path: experiments/experiment-c10-r18-lejepa-v3-sigreg-003/checkpoints/resnet18_lejepa_backbone_epoch_360.pt
+  checkpoint_epoch: 360
+  pretrain_loss: 0.003949012619310192
+  prediction_loss: 0.0007535497222228774
+  sigreg_loss: 1.0651450892857144
+  knn_k: 100
+  knn_accuracy: 0.5945
+  knn_correct: 1189
+  knn_total: 2000
+  bank_samples: 10000
+  query_samples: 2000
+  feature_dim: 512
+  bank_std_mean: 0.28865644335746765
+  bank_std_min: 0.16308695077896118
+  bank_norm_mean: 8.473612785339355
+  query_std_mean: 0.2876437306404114
+  query_std_min: 0.1596299558877945
+  query_norm_mean: 8.468018531799316

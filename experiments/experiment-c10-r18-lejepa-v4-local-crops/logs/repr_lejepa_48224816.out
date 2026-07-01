@@ -1,0 +1,41 @@
+Started at: Wed Jul  1 21:32:55 CEST 2026
+Node: lrdn2663.leonardo.local
+Config path: configs/cifar10_resnet18_lejepa_v4_local_crops.yaml
+Wed Jul  1 21:32:55 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.274.02             Driver Version: 535.274.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM-64GB           On  | 00000000:1D:00.0 Off |                    0 |
+| N/A   43C    P0              61W / 468W |      0MiB / 65536MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+Using device: cuda
+Representation evaluation settings:
+  mode: lejepa
+  architecture: resnet18_cifar
+  checkpoint: experiments/experiment-c10-r18-lejepa-v4-local-crops/checkpoints/resnet18_lejepa_probe_best.pt
+  batch_size: 256
+  max_test_samples: 10000
+  max_bank_samples: 50000
+  kNN ks: [1, 5, 10, 20, 50, 100]
+  feature bank: full train set with eval transforms
+  query set: test set
+
+Representation evaluation completed.
+Classifier/probe accuracy: 0.6130
+Best kNN accuracy: 0.5850 at k=100
+Saved YAML: experiments/experiment-c10-r18-lejepa-v4-local-crops/metrics/representation_lejepa.yaml
+Saved CSV: experiments/experiment-c10-r18-lejepa-v4-local-crops/metrics/representation_lejepa.csv
+Finished at: Wed Jul  1 21:36:00 CEST 2026

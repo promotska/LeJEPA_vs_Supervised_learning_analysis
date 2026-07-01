@@ -1,0 +1,50 @@
+enabled: true
+select_backbone_by: knn
+selected_checkpoint_path: experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005-proj512/checkpoints/vit_lejepa_backbone_epoch_020.pt
+selected_epoch: 20
+best_knn_accuracy: 0.335
+knn_k: 100
+num_candidates: 12
+candidate_paths:
+- experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005-proj512/checkpoints/vit_lejepa_backbone_last.pt
+- experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005-proj512/checkpoints/vit_lejepa_backbone_loss_best.pt
+- experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005-proj512/checkpoints/vit_lejepa_backbone_epoch_010.pt
+- experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005-proj512/checkpoints/vit_lejepa_backbone_epoch_020.pt
+- experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005-proj512/checkpoints/vit_lejepa_backbone_epoch_030.pt
+- experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005-proj512/checkpoints/vit_lejepa_backbone_epoch_040.pt
+- experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005-proj512/checkpoints/vit_lejepa_backbone_epoch_050.pt
+- experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005-proj512/checkpoints/vit_lejepa_backbone_epoch_060.pt
+- experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005-proj512/checkpoints/vit_lejepa_backbone_epoch_070.pt
+- experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005-proj512/checkpoints/vit_lejepa_backbone_epoch_080.pt
+- experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005-proj512/checkpoints/vit_lejepa_backbone_epoch_090.pt
+- experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005-proj512/checkpoints/vit_lejepa_backbone_epoch_100.pt
+selection_csv: experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005-proj512/metrics/checkpoint_selection/backbone_checkpoint_selection_knn.csv
+selection_yaml: experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005-proj512/metrics/checkpoint_selection/backbone_checkpoint_selection_knn.yaml
+settings:
+  max_bank_samples: 10000
+  max_test_samples: 2000
+  knn_ks:
+  - 20
+  - 50
+  - 100
+  temperature: 0.07
+  query_chunk_size: 256
+best_row:
+  checkpoint_path: experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005-proj512/checkpoints/vit_lejepa_backbone_epoch_020.pt
+  checkpoint_epoch: 20
+  pretrain_loss: 0.04663993966305393
+  prediction_loss: 0.002058318072137819
+  sigreg_loss: 8.916307471264368
+  knn_k: 100
+  knn_accuracy: 0.335
+  knn_correct: 670
+  knn_total: 2000
+  bank_samples: 10000
+  query_samples: 2000
+  feature_dim: 192
+  bank_std_mean: 0.9205180406570435
+  bank_std_min: 0.5994104146957397
+  bank_norm_mean: 13.651591300964355
+  query_std_mean: 0.9200758934020996
+  query_std_min: 0.613674521446228
+  query_norm_mean: 13.651857376098633
