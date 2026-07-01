@@ -1,0 +1,7 @@
+mode,architecture,checkpoint_path,classifier_or_probe_accuracy,classifier_or_probe_correct,classifier_or_probe_total,knn_k,knn_accuracy,knn_correct,knn_total,bank_samples,query_samples,feature_dim,temperature,elapsed_minutes
+lejepa,resnet18_cifar,experiments/experiment-c10-r18-lejepa-light-v3/checkpoints/resnet18_lejepa_probe_best.pt,0.5238,5238,10000,1,0.4606,4606,10000,50000,10000,512,0.07,0.5284485896428426
+lejepa,resnet18_cifar,experiments/experiment-c10-r18-lejepa-light-v3/checkpoints/resnet18_lejepa_probe_best.pt,0.5238,5238,10000,5,0.5121,5121,10000,50000,10000,512,0.07,0.5284485896428426
+lejepa,resnet18_cifar,experiments/experiment-c10-r18-lejepa-light-v3/checkpoints/resnet18_lejepa_probe_best.pt,0.5238,5238,10000,10,0.5357,5357,10000,50000,10000,512,0.07,0.5284485896428426
+lejepa,resnet18_cifar,experiments/experiment-c10-r18-lejepa-light-v3/checkpoints/resnet18_lejepa_probe_best.pt,0.5238,5238,10000,20,0.5495,5495,10000,50000,10000,512,0.07,0.5284485896428426
+lejepa,resnet18_cifar,experiments/experiment-c10-r18-lejepa-light-v3/checkpoints/resnet18_lejepa_probe_best.pt,0.5238,5238,10000,50,0.5534,5534,10000,50000,10000,512,0.07,0.5284485896428426
+lejepa,resnet18_cifar,experiments/experiment-c10-r18-lejepa-light-v3/checkpoints/resnet18_lejepa_probe_best.pt,0.5238,5238,10000,100,0.5457,5457,10000,50000,10000,512,0.07,0.5284485896428426

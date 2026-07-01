@@ -1,0 +1,27 @@
+Using training resolved config: experiments/experiment-c10-r18-lejepa-light-v3-sig-005/configs/resolved_20260701_144229_train_lejepa_lejepa_69742.yaml
+Using backbone checkpoint: experiments/experiment-c10-r18-lejepa-light-v3-sig-005/checkpoints/resnet18_lejepa_backbone_last.pt
+Evaluating LeJEPA feature spaces
+  config: experiments/experiment-c10-r18-lejepa-light-v3-sig-005/configs/resolved_20260701_144229_train_lejepa_lejepa_69742.yaml
+  checkpoint: experiments/experiment-c10-r18-lejepa-light-v3-sig-005/checkpoints/resnet18_lejepa_backbone_last.pt
+  device: cuda
+  batch_size: 256
+  max_bank_samples: 50000
+  max_test_samples: 10000
+Building LeJEPA model from checkpoint['config'] to avoid config/checkpoint shape mismatch.
+  checkpoint model config: {'architecture': 'resnet18_cifar', 'image_size': 32, 'num_classes': 10, 'feature_dim': 512, 'projection_dim': 256, 'prediction_dim': 512}
+
+=== Feature source: backbone ===
+Best kNN: 0.5958 at k=50
+Diagnostics: std_mean=0.273273, std_min=0.148384, norm_mean=8.701470, dim=512
+
+=== Feature source: projector ===
+Best kNN: 0.5656 at k=100
+Diagnostics: std_mean=0.983991, std_min=0.848509, norm_mean=15.768053, dim=256
+
+=== Feature source: predictor ===
+Best kNN: 0.5671 at k=100
+Diagnostics: std_mean=1.752541, std_min=1.505551, norm_mean=28.091457, dim=256
+
+Saved:
+  experiments/experiment-c10-r18-lejepa-light-v3-sig-005/metrics/feature_spaces/resnet18_cifar_resnet18_lejepa_backbone_last_feature_spaces.yaml
+  experiments/experiment-c10-r18-lejepa-light-v3-sig-005/metrics/feature_spaces/resnet18_cifar_resnet18_lejepa_backbone_last_feature_spaces.csv

@@ -1,0 +1,695 @@
+experiment:
+  name: experiment-c10-vit-lejepa-light-v3
+  root: experiments
+  dir: experiments/experiment-c10-vit-lejepa-light-v3
+  created_at_utc: '2026-07-01T12:42:29+00:00'
+  updated_at_utc: '2026-07-01T15:31:50+00:00'
+git:
+  branch: ananas-code
+  commit: a73558f27fac5c8e99236fe27907a9376faea159
+  commit_short: a73558f
+  is_dirty: true
+  remote: git@github.com:promotska/LeJEPA_vs_Supervised_learning_analysis.git
+runs:
+- run_id: 20260701_144229_train_vit_lejepa_vit_lejepa_4065651
+  run_kind: train_vit_lejepa
+  mode: vit_lejepa
+  status: completed
+  updated_at_utc: '2026-07-01T14:45:55+00:00'
+  command: scripts/train_vit_lejepa.py --config configs/cifar10_vit_lejepa_v3.yaml
+  config_snapshot_path: experiments/experiment-c10-vit-lejepa-light-v3/configs/original_cifar10_vit_lejepa_v3.yaml
+  resolved_config_path: experiments/experiment-c10-vit-lejepa-light-v3/configs/resolved_20260701_144229_train_vit_lejepa_vit_lejepa_4065651.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn0740.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    slurm_job_id: '48198516'
+    slurm_job_name: cv-vit-lejepa
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_vit_lejepa_sigreg_fix2
+    seed: 42
+    output_dir: experiments/experiment-c10-vit-lejepa-light-v3
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 4
+    batch_size: 256
+    val_fraction: 0.1
+  model:
+    architecture: vit_tiny_cifar
+    image_size: 32
+    patch_size: 4
+    num_classes: 10
+    embed_dim: 192
+    depth: 6
+    num_heads: 3
+    mlp_ratio: 4.0
+    dropout: 0.0
+    attn_dropout: 0.0
+    projection_dim: 256
+    prediction_dim: 512
+  training:
+    pretrain_epochs: 400
+    warmup_epochs: 10
+    probe_epochs: 150
+    probe_warmup_epochs: 5
+    learning_rate: 0.0005
+    weight_decay: 0.05
+    probe_optimizer: sgd
+    probe_learning_rate: 0.05
+    probe_momentum: 0.9
+    probe_nesterov: true
+    probe_weight_decay: 0.0
+    grad_clip_norm: 1.0
+    amp: true
+    save_every_epoch: false
+  checkpoints:
+    backbone_best_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_best.pt
+    backbone_loss_best_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_loss_best.pt
+    backbone_last_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_last.pt
+    probe_best_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_probe_best.pt
+    probe_last_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_probe_last.pt
+  evaluation:
+    layers:
+    - blocks.1
+    - blocks.2
+    - blocks.3
+    - blocks.4
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    gradcam_target: predicted
+    vit_xai_method: token_gradient
+    attention_head_fusion: mean
+    attention_discard_ratio: 0.0
+    checkpoint_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_probe_best.pt
+    output_csv: experiments/experiment-c10-vit-lejepa-light-v3/metrics/stage2_vit_lejepa_lsas.csv
+    figure_dir: experiments/experiment-c10-vit-lejepa-light-v3/figures/vit_lejepa
+    representation_batch_size: 256
+    representation_max_test_samples: 10000
+    representation_max_bank_samples: 50000
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 256
+  extra:
+    note: ViT LeJEPA-SIGReg training completed
+    result:
+      status: completed
+      architecture: vit_tiny_cifar
+- run_id: 20260701_173104_evaluate_representation_vit_lejepa_vit_lejepa_3093315
+  run_kind: evaluate_representation_vit_lejepa
+  mode: vit_lejepa
+  status: completed
+  updated_at_utc: '2026-07-01T15:31:44+00:00'
+  command: scripts/evaluate_representation.py --config configs/cifar10_vit_lejepa_v3.yaml
+    --mode vit_lejepa
+  config_snapshot_path: experiments/experiment-c10-vit-lejepa-light-v3/configs/original_cifar10_vit_lejepa_v3.yaml
+  resolved_config_path: experiments/experiment-c10-vit-lejepa-light-v3/configs/resolved_20260701_173104_evaluate_representation_vit_lejepa_vit_lejepa_3093315.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn2039.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    slurm_job_id: '48210551'
+    slurm_job_name: cv-repr-vit-lejepa
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_vit_lejepa_sigreg_fix2
+    seed: 42
+    output_dir: experiments/experiment-c10-vit-lejepa-light-v3
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 4
+    batch_size: 256
+    val_fraction: 0.1
+  model:
+    architecture: vit_tiny_cifar
+    image_size: 32
+    patch_size: 4
+    num_classes: 10
+    embed_dim: 192
+    depth: 6
+    num_heads: 3
+    mlp_ratio: 4.0
+    dropout: 0.0
+    attn_dropout: 0.0
+    projection_dim: 256
+    prediction_dim: 512
+  training:
+    pretrain_epochs: 400
+    warmup_epochs: 10
+    probe_epochs: 150
+    probe_warmup_epochs: 5
+    learning_rate: 0.0005
+    weight_decay: 0.05
+    probe_optimizer: sgd
+    probe_learning_rate: 0.05
+    probe_momentum: 0.9
+    probe_nesterov: true
+    probe_weight_decay: 0.0
+    grad_clip_norm: 1.0
+    amp: true
+    save_every_epoch: false
+  checkpoints:
+    backbone_best_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_best.pt
+    backbone_loss_best_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_loss_best.pt
+    backbone_last_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_last.pt
+    probe_best_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_probe_best.pt
+    probe_last_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_probe_last.pt
+  evaluation:
+    layers:
+    - blocks.1
+    - blocks.2
+    - blocks.3
+    - blocks.4
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    gradcam_target: predicted
+    vit_xai_method: token_gradient
+    attention_head_fusion: mean
+    attention_discard_ratio: 0.0
+    checkpoint_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_probe_best.pt
+    output_csv: experiments/experiment-c10-vit-lejepa-light-v3/metrics/stage2_vit_lejepa_lsas.csv
+    figure_dir: experiments/experiment-c10-vit-lejepa-light-v3/figures/vit_lejepa
+    representation_batch_size: 256
+    representation_max_test_samples: 10000
+    representation_max_bank_samples: 50000
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 256
+  extra:
+    representation_metrics:
+      mode: vit_lejepa
+      architecture: vit_tiny_cifar
+      checkpoint_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_probe_best.pt
+      classifier_or_probe_accuracy:
+        accuracy: 0.3771
+        correct: 3771
+        total: 10000
+      knn:
+        feature_bank: full_train_eval_transform
+        query: test
+        bank_samples: 50000
+        query_samples: 10000
+        feature_dim: 192
+        temperature: 0.07
+        results:
+        - k: 1
+          accuracy: 0.2616
+          correct: 2616
+          total: 10000
+        - k: 5
+          accuracy: 0.3023
+          correct: 3023
+          total: 10000
+        - k: 10
+          accuracy: 0.3272
+          correct: 3272
+          total: 10000
+        - k: 20
+          accuracy: 0.3478
+          correct: 3478
+          total: 10000
+        - k: 50
+          accuracy: 0.3621
+          correct: 3621
+          total: 10000
+        - &id001
+          k: 100
+          accuracy: 0.368
+          correct: 3680
+          total: 10000
+        best: *id001
+      elapsed_minutes: 0.40514039198557533
+    output_yaml: experiments/experiment-c10-vit-lejepa-light-v3/metrics/representation_vit_lejepa.yaml
+    output_csv: experiments/experiment-c10-vit-lejepa-light-v3/metrics/representation_vit_lejepa.csv
+- run_id: 20260701_173108_evaluate_vit_alignment_vit_lejepa_token_gradient_predicted_vit_lejepa_583456
+  run_kind: evaluate_vit_alignment_vit_lejepa_token_gradient_predicted
+  mode: vit_lejepa
+  status: started
+  updated_at_utc: '2026-07-01T15:31:08+00:00'
+  command: scripts/evaluate_vit_alignment.py --config configs/cifar10_vit_lejepa_v3.yaml
+    --mode vit_lejepa --gradcam-target predicted
+  config_snapshot_path: experiments/experiment-c10-vit-lejepa-light-v3/configs/original_cifar10_vit_lejepa_v3.yaml
+  resolved_config_path: experiments/experiment-c10-vit-lejepa-light-v3/configs/resolved_20260701_173108_evaluate_vit_alignment_vit_lejepa_token_gradient_predicted_vit_lejepa_583456.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn2351.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    slurm_job_id: '48210554'
+    slurm_job_name: cv-vit-lejepa-eval
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_vit_lejepa_sigreg_fix2
+    seed: 42
+    output_dir: experiments/experiment-c10-vit-lejepa-light-v3
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 4
+    batch_size: 256
+    val_fraction: 0.1
+  model:
+    architecture: vit_tiny_cifar
+    image_size: 32
+    patch_size: 4
+    num_classes: 10
+    embed_dim: 192
+    depth: 6
+    num_heads: 3
+    mlp_ratio: 4.0
+    dropout: 0.0
+    attn_dropout: 0.0
+    projection_dim: 256
+    prediction_dim: 512
+  training:
+    pretrain_epochs: 400
+    warmup_epochs: 10
+    probe_epochs: 150
+    probe_warmup_epochs: 5
+    learning_rate: 0.0005
+    weight_decay: 0.05
+    probe_optimizer: sgd
+    probe_learning_rate: 0.05
+    probe_momentum: 0.9
+    probe_nesterov: true
+    probe_weight_decay: 0.0
+    grad_clip_norm: 1.0
+    amp: true
+    save_every_epoch: false
+  checkpoints:
+    backbone_best_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_best.pt
+    backbone_loss_best_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_loss_best.pt
+    backbone_last_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_last.pt
+    probe_best_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_probe_best.pt
+    probe_last_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_probe_last.pt
+  evaluation:
+    layers:
+    - blocks.1
+    - blocks.2
+    - blocks.3
+    - blocks.4
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    gradcam_target: predicted
+    vit_xai_method: token_gradient
+    attention_head_fusion: mean
+    attention_discard_ratio: 0.0
+    checkpoint_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_probe_best.pt
+    output_csv: experiments/experiment-c10-vit-lejepa-light-v3/metrics/stage2_vit_lejepa_lsas_token_gradient_predicted.csv
+    figure_dir: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_predicted
+    representation_batch_size: 256
+    representation_max_test_samples: 10000
+    representation_max_bank_samples: 50000
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 256
+- run_id: 20260701_173108_evaluate_vit_alignment_vit_lejepa_token_gradient_true_vit_lejepa_1024833
+  run_kind: evaluate_vit_alignment_vit_lejepa_token_gradient_true
+  mode: vit_lejepa
+  status: completed
+  updated_at_utc: '2026-07-01T15:31:50+00:00'
+  command: scripts/evaluate_vit_alignment.py --config configs/cifar10_vit_lejepa_v3.yaml
+    --mode vit_lejepa --gradcam-target true
+  config_snapshot_path: experiments/experiment-c10-vit-lejepa-light-v3/configs/original_cifar10_vit_lejepa_v3.yaml
+  resolved_config_path: experiments/experiment-c10-vit-lejepa-light-v3/configs/resolved_20260701_173108_evaluate_vit_alignment_vit_lejepa_token_gradient_true_vit_lejepa_1024833.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn2403.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    slurm_job_id: '48210559'
+    slurm_job_name: cv-vit-lejepa-eval
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_vit_lejepa_sigreg_fix2
+    seed: 42
+    output_dir: experiments/experiment-c10-vit-lejepa-light-v3
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 4
+    batch_size: 256
+    val_fraction: 0.1
+  model:
+    architecture: vit_tiny_cifar
+    image_size: 32
+    patch_size: 4
+    num_classes: 10
+    embed_dim: 192
+    depth: 6
+    num_heads: 3
+    mlp_ratio: 4.0
+    dropout: 0.0
+    attn_dropout: 0.0
+    projection_dim: 256
+    prediction_dim: 512
+  training:
+    pretrain_epochs: 400
+    warmup_epochs: 10
+    probe_epochs: 150
+    probe_warmup_epochs: 5
+    learning_rate: 0.0005
+    weight_decay: 0.05
+    probe_optimizer: sgd
+    probe_learning_rate: 0.05
+    probe_momentum: 0.9
+    probe_nesterov: true
+    probe_weight_decay: 0.0
+    grad_clip_norm: 1.0
+    amp: true
+    save_every_epoch: false
+  checkpoints:
+    backbone_best_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_best.pt
+    backbone_loss_best_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_loss_best.pt
+    backbone_last_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_last.pt
+    probe_best_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_probe_best.pt
+    probe_last_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_probe_last.pt
+  evaluation:
+    layers:
+    - blocks.1
+    - blocks.2
+    - blocks.3
+    - blocks.4
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    gradcam_target: 'true'
+    vit_xai_method: token_gradient
+    attention_head_fusion: mean
+    attention_discard_ratio: 0.0
+    checkpoint_path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_probe_best.pt
+    output_csv: experiments/experiment-c10-vit-lejepa-light-v3/metrics/stage2_vit_lejepa_lsas_token_gradient_true.csv
+    figure_dir: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_true
+    representation_batch_size: 256
+    representation_max_test_samples: 10000
+    representation_max_bank_samples: 50000
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 256
+  extra:
+    processed_images: 1000
+    rows: 4000
+    accuracy_on_evaluated_subset: 0.377
+    xai_method: token_gradient
+    gradcam_target: 'true'
+    output_csv: experiments/experiment-c10-vit-lejepa-light-v3/metrics/stage2_vit_lejepa_lsas_token_gradient_true.csv
+    curve_path: experiments/experiment-c10-vit-lejepa-light-v3/metrics/stage2_vit_lejepa_lsas_token_gradient_true_curve.png
+    elapsed_minutes: 0.509294346968333
+latest_status: completed
+artifacts:
+  configs:
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/configs/original_cifar10_vit_lejepa_v3.yaml
+    size_bytes: 2626
+    modified_utc: '2026-07-01T12:36:09+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/configs/resolved_20260701_144229_train_vit_lejepa_vit_lejepa_4065651.yaml
+    size_bytes: 3673
+    modified_utc: '2026-07-01T12:42:29+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/configs/resolved_20260701_173104_evaluate_representation_vit_lejepa_vit_lejepa_3093315.yaml
+    size_bytes: 3727
+    modified_utc: '2026-07-01T15:31:04+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/configs/resolved_20260701_173108_evaluate_vit_alignment_vit_lejepa_token_gradient_predicted_vit_lejepa_583456.yaml
+    size_bytes: 3843
+    modified_utc: '2026-07-01T15:31:08+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/configs/resolved_20260701_173108_evaluate_vit_alignment_vit_lejepa_token_gradient_true_vit_lejepa_1024833.yaml
+    size_bytes: 3817
+    modified_utc: '2026-07-01T15:31:08+00:00'
+  checkpoints:
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_best.pt
+    size_bytes: 38388328
+    modified_utc: '2026-07-01T14:32:12+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_epoch_020.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T12:48:55+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_epoch_040.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T12:54:17+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_epoch_060.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T12:59:39+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_epoch_080.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T13:05:12+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_epoch_100.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T13:10:35+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_epoch_120.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T13:15:58+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_epoch_140.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T13:21:20+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_epoch_160.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T13:26:44+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_epoch_180.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T13:32:07+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_epoch_200.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T13:37:33+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_epoch_220.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T13:42:55+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_epoch_240.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T13:48:16+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_epoch_260.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T13:53:39+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_epoch_280.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T13:59:02+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_epoch_300.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T14:04:32+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_epoch_320.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T14:09:54+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_epoch_340.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T14:15:16+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_epoch_360.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T14:20:38+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_epoch_380.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T14:25:59+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_epoch_400.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T14:31:21+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_last.pt
+    size_bytes: 38383848
+    modified_utc: '2026-07-01T14:31:21+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_backbone_loss_best.pt
+    size_bytes: 38385698
+    modified_utc: '2026-07-01T14:25:43+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_probe_best.pt
+    size_bytes: 10831252
+    modified_utc: '2026-07-01T14:45:25+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/checkpoints/vit_lejepa_probe_last.pt
+    size_bytes: 10831252
+    modified_utc: '2026-07-01T14:45:52+00:00'
+  metrics:
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/metrics/checkpoint_selection/backbone_checkpoint_selection_knn.csv
+    size_bytes: 20165
+    modified_utc: '2026-07-01T14:32:12+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/metrics/checkpoint_selection/backbone_checkpoint_selection_knn.yaml
+    size_bytes: 3318
+    modified_utc: '2026-07-01T14:32:12+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/metrics/representation_vit_lejepa.csv
+    size_bytes: 1363
+    modified_utc: '2026-07-01T15:31:44+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/metrics/representation_vit_lejepa.yaml
+    size_bytes: 840
+    modified_utc: '2026-07-01T15:31:44+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/metrics/stage2_vit_lejepa_lsas_token_gradient_predicted.csv
+    size_bytes: 516568
+    modified_utc: '2026-07-01T15:31:49+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/metrics/stage2_vit_lejepa_lsas_token_gradient_predicted_curve.png
+    size_bytes: 80490
+    modified_utc: '2026-07-01T15:31:50+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/metrics/stage2_vit_lejepa_lsas_token_gradient_true.csv
+    size_bytes: 496658
+    modified_utc: '2026-07-01T15:31:49+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/metrics/stage2_vit_lejepa_lsas_token_gradient_true_curve.png
+    size_bytes: 79984
+    modified_utc: '2026-07-01T15:31:50+00:00'
+  figures:
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_predicted/sample_000_blocks_1.png
+    size_bytes: 42852
+    modified_utc: '2026-07-01T15:31:39+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_predicted/sample_000_blocks_2.png
+    size_bytes: 42724
+    modified_utc: '2026-07-01T15:31:41+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_predicted/sample_000_blocks_3.png
+    size_bytes: 42284
+    modified_utc: '2026-07-01T15:31:42+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_predicted/sample_000_blocks_4.png
+    size_bytes: 42123
+    modified_utc: '2026-07-01T15:31:43+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_predicted/sample_001_blocks_1.png
+    size_bytes: 41638
+    modified_utc: '2026-07-01T15:31:40+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_predicted/sample_001_blocks_2.png
+    size_bytes: 40733
+    modified_utc: '2026-07-01T15:31:41+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_predicted/sample_001_blocks_3.png
+    size_bytes: 42240
+    modified_utc: '2026-07-01T15:31:42+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_predicted/sample_001_blocks_4.png
+    size_bytes: 41437
+    modified_utc: '2026-07-01T15:31:43+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_predicted/sample_002_blocks_1.png
+    size_bytes: 42133
+    modified_utc: '2026-07-01T15:31:40+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_predicted/sample_002_blocks_2.png
+    size_bytes: 41880
+    modified_utc: '2026-07-01T15:31:41+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_predicted/sample_002_blocks_3.png
+    size_bytes: 42562
+    modified_utc: '2026-07-01T15:31:42+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_predicted/sample_002_blocks_4.png
+    size_bytes: 43144
+    modified_utc: '2026-07-01T15:31:44+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_predicted/sample_003_blocks_1.png
+    size_bytes: 41742
+    modified_utc: '2026-07-01T15:31:40+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_predicted/sample_003_blocks_2.png
+    size_bytes: 41367
+    modified_utc: '2026-07-01T15:31:41+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_predicted/sample_003_blocks_3.png
+    size_bytes: 41497
+    modified_utc: '2026-07-01T15:31:43+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_predicted/sample_003_blocks_4.png
+    size_bytes: 41683
+    modified_utc: '2026-07-01T15:31:44+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_true/sample_000_blocks_1.png
+    size_bytes: 41562
+    modified_utc: '2026-07-01T15:31:39+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_true/sample_000_blocks_2.png
+    size_bytes: 42211
+    modified_utc: '2026-07-01T15:31:41+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_true/sample_000_blocks_3.png
+    size_bytes: 40926
+    modified_utc: '2026-07-01T15:31:42+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_true/sample_000_blocks_4.png
+    size_bytes: 41164
+    modified_utc: '2026-07-01T15:31:43+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_true/sample_001_blocks_1.png
+    size_bytes: 39957
+    modified_utc: '2026-07-01T15:31:40+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_true/sample_001_blocks_2.png
+    size_bytes: 38931
+    modified_utc: '2026-07-01T15:31:41+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_true/sample_001_blocks_3.png
+    size_bytes: 40494
+    modified_utc: '2026-07-01T15:31:42+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_true/sample_001_blocks_4.png
+    size_bytes: 39694
+    modified_utc: '2026-07-01T15:31:43+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_true/sample_002_blocks_1.png
+    size_bytes: 40470
+    modified_utc: '2026-07-01T15:31:40+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_true/sample_002_blocks_2.png
+    size_bytes: 40174
+    modified_utc: '2026-07-01T15:31:41+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_true/sample_002_blocks_3.png
+    size_bytes: 40846
+    modified_utc: '2026-07-01T15:31:42+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_true/sample_002_blocks_4.png
+    size_bytes: 41448
+    modified_utc: '2026-07-01T15:31:44+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_true/sample_003_blocks_1.png
+    size_bytes: 39983
+    modified_utc: '2026-07-01T15:31:40+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_true/sample_003_blocks_2.png
+    size_bytes: 39621
+    modified_utc: '2026-07-01T15:31:41+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_true/sample_003_blocks_3.png
+    size_bytes: 39710
+    modified_utc: '2026-07-01T15:31:42+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/figures/token_gradient_target_true/sample_003_blocks_4.png
+    size_bytes: 39974
+    modified_utc: '2026-07-01T15:31:44+00:00'
+  logs:
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/logs/eval_vit_lejepa_predicted_48210554.err
+    size_bytes: 2273
+    modified_utc: '2026-07-01T15:31:49+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/logs/eval_vit_lejepa_predicted_48210554.out
+    size_bytes: 3015
+    modified_utc: '2026-07-01T15:31:50+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/logs/eval_vit_lejepa_true_48210559.err
+    size_bytes: 2223
+    modified_utc: '2026-07-01T15:31:49+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/logs/eval_vit_lejepa_true_48210559.out
+    size_bytes: 2995
+    modified_utc: '2026-07-01T15:31:50+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/logs/feature_spaces_vit_lejepa_48210552.err
+    size_bytes: 12162
+    modified_utc: '2026-07-01T15:31:50+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/logs/feature_spaces_vit_lejepa_48210552.out
+    size_bytes: 1082
+    modified_utc: '2026-07-01T15:31:44+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/logs/repr_vit_lejepa_48210551.err
+    size_bytes: 8451
+    modified_utc: '2026-07-01T15:31:44+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/logs/repr_vit_lejepa_48210551.out
+    size_bytes: 2595
+    modified_utc: '2026-07-01T15:31:49+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/logs/train_vit_lejepa_48198516.err
+    size_bytes: 15727137
+    modified_utc: '2026-07-01T14:45:52+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-v3/logs/train_vit_lejepa_48198516.out
+    size_bytes: 49150
+    modified_utc: '2026-07-01T14:46:22+00:00'
