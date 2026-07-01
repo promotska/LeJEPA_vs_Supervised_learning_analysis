@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
 
 import torch
@@ -12,16 +13,14 @@ from src.networks.factory import build_linear_probe_model, build_lejepa_model
 from src.networks.vit import LeJEPAViTCifar
 from src.training.checkpointing import load_checkpoint, save_checkpoint
 from src.training.losses import MultiViewLeJEPASIGRegLoss, build_sigreg_from_config
+from src.training.train_lejepa import (
+    _build_probe_optimizer,
+    _as_view_list,
+    build_warmup_cosine_scheduler,
+    maybe_select_checkpoint_by_knn,
+)
 from src.training.train_vit_supervised import evaluate
 from src.utils import get_device, load_yaml, set_seed
-
-
-def _as_view_list(views) -> list[torch.Tensor]:
-    if isinstance(views, torch.Tensor):
-        raise ValueError("Self-supervised loader returned a single tensor. Expected multiple views.")
-    if isinstance(views, (list, tuple)):
-        return list(views)
-    raise TypeError(f"Unsupported views type: {type(views)}")
 
 
 def _build_vit_lejepa_loss(cfg: dict[str, Any]) -> MultiViewLeJEPASIGRegLoss:
@@ -46,9 +45,10 @@ def pretrain_vit_lejepa(cfg: dict[str, Any], device: torch.device) -> LeJEPAViTC
         lr=float(cfg["training"]["learning_rate"]),
         weight_decay=float(cfg["training"]["weight_decay"]),
     )
-    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+    scheduler = build_warmup_cosine_scheduler(
         optimizer,
-        T_max=int(cfg["training"]["pretrain_epochs"]),
+        warmup_epochs=int(cfg["training"].get("warmup_epochs", 0)),
+        total_epochs=int(cfg["training"]["pretrain_epochs"]),
     )
     criterion = _build_vit_lejepa_loss(cfg)
     use_amp = bool(cfg["training"].get("amp", True)) and device.type == "cuda"
@@ -57,11 +57,21 @@ def pretrain_vit_lejepa(cfg: dict[str, Any], device: torch.device) -> LeJEPAViTC
     best_loss = float("inf")
     best_path = cfg["checkpoints"]["backbone_best_path"]
 
+    selection_cfg = cfg.get("checkpoint_selection", {}) or {}
+    selection_enabled = bool(selection_cfg.get("enabled", False))
+    selection_metric = str(selection_cfg.get("select_backbone_by", "pretrain_loss")).lower()
+    loss_best_path = cfg["checkpoints"].get("backbone_loss_best_path", best_path)
+    loss_best_target = loss_best_path if selection_enabled and selection_metric == "knn" else best_path
+    save_candidate_every = int(selection_cfg.get("save_candidate_every_epochs", 0) or 0)
+    candidate_paths: list[str] = []
+
     print("LeJEPA ViT pretraining method:")
     print(f"  architecture: {cfg['model'].get('architecture')}")
     print(f"  sigreg_implementation: {cfg.get('lejepa', {}).get('sigreg_implementation', 'official')}")
     print(f"  num_global_views: {cfg.get('lejepa_views', {}).get('num_global_views', 'config/default')}")
     print(f"  num_local_views: {cfg.get('lejepa_views', {}).get('num_local_views', 'config/default')}")
+    print(f"  scheduler: warmup_cosine warmup_epochs={int(cfg['training'].get('warmup_epochs', 0))}")
+    print(f"  checkpoint_selection: enabled={selection_enabled} metric={selection_metric}")
     print("  stop_gradient: false")
     print("  teacher_student_or_ema: false")
 
@@ -75,7 +85,7 @@ def pretrain_vit_lejepa(cfg: dict[str, Any], device: torch.device) -> LeJEPAViTC
         progress = tqdm(loaders.train, desc=f"vit lejepa pretrain epoch {epoch}", leave=False)
         for views, _ in progress:
             view_list = [v.to(device, non_blocking=True) for v in _as_view_list(views)]
-            batch_size = view_list[0].shape[0]
+            batch_size = int(view_list[0].shape[0])
 
             optimizer.zero_grad(set_to_none=True)
             with autocast(enabled=use_amp):
@@ -108,7 +118,8 @@ def pretrain_vit_lejepa(cfg: dict[str, Any], device: torch.device) -> LeJEPAViTC
         avg_loss = total_loss / max(seen, 1)
         avg_pred = total_prediction / max(seen, 1)
         avg_sig = total_sigreg / max(seen, 1)
-        print(f"epoch={epoch:03d} vit_lejepa_loss={avg_loss:.4f} pred={avg_pred:.4f} sigreg={avg_sig:.4f}")
+        lr = float(optimizer.param_groups[0]["lr"])
+        print(f"epoch={epoch:03d} vit_lejepa_loss={avg_loss:.4f} pred={avg_pred:.4f} sigreg={avg_sig:.4f} lr={lr:.6g}")
 
         payload = {
             "epoch": epoch,
@@ -128,12 +139,35 @@ def pretrain_vit_lejepa(cfg: dict[str, Any], device: torch.device) -> LeJEPAViTC
             },
             "config": cfg,
         }
-        save_checkpoint(cfg["checkpoints"]["backbone_last_path"], payload)
+
+        last_path = cfg["checkpoints"]["backbone_last_path"]
+        save_checkpoint(last_path, payload)
+        if str(last_path) not in candidate_paths:
+            candidate_paths.append(str(last_path))
+
+        if save_candidate_every > 0 and epoch % save_candidate_every == 0:
+            last_path_obj = Path(last_path)
+            candidate_path = last_path_obj.with_name(
+                last_path_obj.stem.replace("_last", "") + f"_epoch_{epoch:03d}" + last_path_obj.suffix
+            )
+            save_checkpoint(candidate_path, payload)
+            if str(candidate_path) not in candidate_paths:
+                candidate_paths.append(str(candidate_path))
+
         if avg_loss < best_loss:
             best_loss = avg_loss
-            save_checkpoint(best_path, payload)
+            save_checkpoint(loss_best_target, payload)
+            if str(loss_best_target) not in candidate_paths:
+                candidate_paths.append(str(loss_best_target))
 
-    # Load best pretraining checkpoint before probe training.
+    maybe_select_checkpoint_by_knn(
+        cfg=cfg,
+        model=model,
+        candidate_paths=candidate_paths,
+        best_path=best_path,
+        device=device,
+    )
+
     best_ckpt = load_checkpoint(best_path, map_location=device)
     model.load_state_dict(best_ckpt["model_state"])
     return model
@@ -146,14 +180,11 @@ def train_vit_linear_probe(cfg: dict[str, Any], pretrained: LeJEPAViTCifar, devi
     for p in model.backbone.parameters():
         p.requires_grad_(False)
 
-    optimizer = torch.optim.AdamW(
-        model.classifier.parameters(),
-        lr=float(cfg["training"].get("probe_learning_rate", 0.001)),
-        weight_decay=float(cfg["training"].get("probe_weight_decay", cfg["training"].get("weight_decay", 0.0))),
-    )
-    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+    optimizer = _build_probe_optimizer(cfg, model.classifier.parameters())
+    scheduler = build_warmup_cosine_scheduler(
         optimizer,
-        T_max=int(cfg["training"].get("probe_epochs", 50)),
+        warmup_epochs=int(cfg["training"].get("probe_warmup_epochs", 0)),
+        total_epochs=int(cfg["training"].get("probe_epochs", 50)),
     )
     loss_fn = nn.CrossEntropyLoss()
     use_amp = bool(cfg["training"].get("amp", True)) and device.type == "cuda"
@@ -190,9 +221,10 @@ def train_vit_linear_probe(cfg: dict[str, Any], pretrained: LeJEPAViTCifar, devi
         val = evaluate(model, loaders.val, device)
         train_loss = total_loss / max(seen, 1)
         train_acc = correct / max(seen, 1)
+        lr = float(optimizer.param_groups[0]["lr"])
         print(
             f"probe_epoch={epoch:03d} train_loss={train_loss:.4f} "
-            f"train_acc={train_acc:.4f} val_loss={val.loss:.4f} val_acc={val.accuracy:.4f}"
+            f"train_acc={train_acc:.4f} val_loss={val.loss:.4f} val_acc={val.accuracy:.4f} lr={lr:.6g}"
         )
 
         payload = {
@@ -210,7 +242,6 @@ def train_vit_linear_probe(cfg: dict[str, Any], pretrained: LeJEPAViTCifar, devi
             best_epoch = epoch
             save_checkpoint(cfg["checkpoints"]["probe_best_path"], payload)
 
-    # Evaluate best probe.
     best_ckpt = load_checkpoint(cfg["checkpoints"]["probe_best_path"], map_location=device)
     model.load_state_dict(best_ckpt["model_state"])
     test = evaluate(model, loaders.test, device)
@@ -222,10 +253,10 @@ def train_vit_linear_probe(cfg: dict[str, Any], pretrained: LeJEPAViTCifar, devi
     return model
 
 
-def train_vit_lejepa(config_path: str) -> dict[str, float]:
+def train_vit_lejepa(config_path: str) -> dict[str, float | str]:
     cfg = load_yaml(config_path)
     set_seed(int(cfg["project"]["seed"]))
     device = get_device()
     pretrained = pretrain_vit_lejepa(cfg, device)
-    probe = train_vit_linear_probe(cfg, pretrained, device)
+    train_vit_linear_probe(cfg, pretrained, device)
     return {"status": "completed", "architecture": str(cfg["model"].get("architecture"))}
