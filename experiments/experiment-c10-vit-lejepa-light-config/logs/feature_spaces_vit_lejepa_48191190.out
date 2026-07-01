@@ -1,0 +1,11 @@
+ERROR: could not find ViT training resolved config in experiments/experiment-c10-vit-lejepa-light-config/configs
+Expected pattern: resolved_*train_vit_lejepa*.yaml
+Available configs:
+experiments/experiment-c10-vit-lejepa-light-config/configs/original_cifar10_vit_lejepa.yaml
+experiments/experiment-c10-vit-lejepa-light-config/configs/resolved_20260629_214516_train_lejepa_lejepa_188012.yaml
+experiments/experiment-c10-vit-lejepa-light-config/configs/resolved_20260701_110327_evaluate_alignment_lejepa_predicted_lejepa_490010.yaml
+experiments/experiment-c10-vit-lejepa-light-config/configs/resolved_20260701_110455_evaluate_representation_lejepa_lejepa_684966.yaml
+experiments/experiment-c10-vit-lejepa-light-config/configs/resolved_20260701_110459_evaluate_alignment_lejepa_true_lejepa_227963.yaml
+experiments/experiment-c10-vit-lejepa-light-config/configs/resolved_20260701_114139_evaluate_representation_vit_lejepa_vit_lejepa_419772.yaml
+experiments/experiment-c10-vit-lejepa-light-config/configs/resolved_20260701_114143_evaluate_vit_alignment_vit_lejepa_token_gradient_predicted_vit_lejepa_868701.yaml
+experiments/experiment-c10-vit-lejepa-light-config/configs/resolved_20260701_114143_evaluate_vit_alignment_vit_lejepa_token_gradient_true_vit_lejepa_375767.yaml

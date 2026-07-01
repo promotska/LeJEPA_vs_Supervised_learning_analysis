@@ -52,6 +52,18 @@ fi
 
 echo "Using training resolved config: ${TRAIN_CONFIG}"
 
+BACKBONE_CHECKPOINT="${EXP_DIR}/checkpoints/resnet18_lejepa_backbone_last.pt"
+
+if [ ! -f "${BACKBONE_CHECKPOINT}" ]; then
+  echo "ERROR: missing checkpoint: ${BACKBONE_CHECKPOINT}"
+  echo "Available checkpoints:"
+  find "${EXP_DIR}/checkpoints" -maxdepth 1 -type f | sort || true
+  exit 1
+fi
+
+echo "Using backbone checkpoint: ${BACKBONE_CHECKPOINT}"
+
 python -u scripts/evaluate_lejepa_feature_spaces.py \
   --config "${TRAIN_CONFIG}" \
+  --checkpoint "${BACKBONE_CHECKPOINT}" \
   --feature-source "${FEATURE_SOURCE}"

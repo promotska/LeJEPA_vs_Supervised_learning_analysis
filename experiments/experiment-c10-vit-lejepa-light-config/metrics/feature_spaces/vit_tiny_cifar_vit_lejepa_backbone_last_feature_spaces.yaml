@@ -1,0 +1,140 @@
+config: configs/cifar10_vit_lejepa.yaml
+checkpoint: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_backbone_last.pt
+architecture: vit_tiny_cifar
+elapsed_minutes: 0.9899703542391459
+results:
+- feature_source: backbone
+  bank_diagnostics:
+    raw_feature_std_mean: 0.3621314764022827
+    raw_feature_std_min: 0.28551435470581055
+    raw_feature_norm_mean: 5.860104084014893
+    feature_dim: 192
+    num_samples: 50000
+  query_diagnostics:
+    raw_feature_std_mean: 0.3617611825466156
+    raw_feature_std_min: 0.28455138206481934
+    raw_feature_norm_mean: 5.85863733291626
+    feature_dim: 192
+    num_samples: 10000
+  knn:
+    results:
+    - k: 1
+      accuracy: 0.238
+      correct: 2380
+      total: 10000
+    - k: 5
+      accuracy: 0.2706
+      correct: 2706
+      total: 10000
+    - k: 10
+      accuracy: 0.2913
+      correct: 2913
+      total: 10000
+    - k: 20
+      accuracy: 0.3133
+      correct: 3133
+      total: 10000
+    - k: 50
+      accuracy: 0.329
+      correct: 3290
+      total: 10000
+    - &id001
+      k: 100
+      accuracy: 0.3344
+      correct: 3344
+      total: 10000
+    best: *id001
+    bank_samples: 50000
+    query_samples: 10000
+    feature_dim: 192
+    temperature: 0.07
+- feature_source: projector
+  bank_diagnostics:
+    raw_feature_std_mean: 0.9975218772888184
+    raw_feature_std_min: 0.8299964070320129
+    raw_feature_norm_mean: 16.01857566833496
+    feature_dim: 256
+    num_samples: 50000
+  query_diagnostics:
+    raw_feature_std_mean: 0.9957793354988098
+    raw_feature_std_min: 0.8251446485519409
+    raw_feature_norm_mean: 16.0108699798584
+    feature_dim: 256
+    num_samples: 10000
+  knn:
+    results:
+    - k: 1
+      accuracy: 0.2421
+      correct: 2421
+      total: 10000
+    - k: 5
+      accuracy: 0.266
+      correct: 2660
+      total: 10000
+    - k: 10
+      accuracy: 0.2816
+      correct: 2816
+      total: 10000
+    - k: 20
+      accuracy: 0.2969
+      correct: 2969
+      total: 10000
+    - k: 50
+      accuracy: 0.32
+      correct: 3200
+      total: 10000
+    - &id002
+      k: 100
+      accuracy: 0.3236
+      correct: 3236
+      total: 10000
+    best: *id002
+    bank_samples: 50000
+    query_samples: 10000
+    feature_dim: 256
+    temperature: 0.07
+- feature_source: predictor
+  bank_diagnostics:
+    raw_feature_std_mean: 0.6475706100463867
+    raw_feature_std_min: 0.4359431266784668
+    raw_feature_norm_mean: 10.361989974975586
+    feature_dim: 256
+    num_samples: 50000
+  query_diagnostics:
+    raw_feature_std_mean: 0.6471907496452332
+    raw_feature_std_min: 0.4361552298069
+    raw_feature_norm_mean: 10.365880966186523
+    feature_dim: 256
+    num_samples: 10000
+  knn:
+    results:
+    - k: 1
+      accuracy: 0.2535
+      correct: 2535
+      total: 10000
+    - k: 5
+      accuracy: 0.2883
+      correct: 2883
+      total: 10000
+    - k: 10
+      accuracy: 0.3112
+      correct: 3112
+      total: 10000
+    - k: 20
+      accuracy: 0.3212
+      correct: 3212
+      total: 10000
+    - k: 50
+      accuracy: 0.3305
+      correct: 3305
+      total: 10000
+    - &id003
+      k: 100
+      accuracy: 0.3346
+      correct: 3346
+      total: 10000
+    best: *id003
+    bank_samples: 50000
+    query_samples: 10000
+    feature_dim: 256
+    temperature: 0.07
