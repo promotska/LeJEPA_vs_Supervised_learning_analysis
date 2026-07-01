@@ -1,0 +1,42 @@
+mode: lejepa
+architecture: vit_tiny_cifar
+checkpoint_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_probe_best.pt
+classifier_or_probe_accuracy:
+  accuracy: 0.3218
+  correct: 3218
+  total: 10000
+knn:
+  feature_bank: full_train_eval_transform
+  query: test
+  bank_samples: 50000
+  query_samples: 10000
+  feature_dim: 192
+  temperature: 0.07
+  results:
+  - k: 1
+    accuracy: 0.2383
+    correct: 2383
+    total: 10000
+  - k: 5
+    accuracy: 0.2704
+    correct: 2704
+    total: 10000
+  - k: 10
+    accuracy: 0.2919
+    correct: 2919
+    total: 10000
+  - k: 20
+    accuracy: 0.3126
+    correct: 3126
+    total: 10000
+  - k: 50
+    accuracy: 0.329
+    correct: 3290
+    total: 10000
+  - &id001
+    k: 100
+    accuracy: 0.3349
+    correct: 3349
+    total: 10000
+  best: *id001
+elapsed_minutes: 0.6515918890635173

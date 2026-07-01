@@ -1,0 +1,7 @@
+Evaluating LeJEPA feature spaces
+  config: configs/cifar10_vit_lejepa.yaml
+  checkpoint: outputs/checkpoints/vit_lejepa_backbone_last.pt
+  device: cuda
+  batch_size: 256
+  max_bank_samples: 50000
+  max_test_samples: 10000

@@ -1,0 +1,501 @@
+experiment:
+  name: experiment-c10-vit-lejepa-light-config
+  root: experiments
+  dir: experiments/experiment-c10-vit-lejepa-light-config
+  created_at_utc: '2026-06-29T19:45:16+00:00'
+  updated_at_utc: '2026-07-01T09:05:55+00:00'
+git:
+  branch: ananas-code
+  commit: adc676f356c7bf01fe592fd111528dd55b873f2c
+  commit_short: adc676f
+  is_dirty: true
+  remote: git@github.com:promotska/LeJEPA_vs_Supervised_learning_analysis.git
+runs:
+- run_id: 20260629_214516_train_lejepa_lejepa_188012
+  run_kind: train_lejepa
+  mode: lejepa
+  status: completed
+  updated_at_utc: '2026-06-29T20:51:08+00:00'
+  command: scripts/train_lejepa.py --config configs/cifar10_vit_lejepa.yaml
+  config_snapshot_path: experiments/experiment-c10-vit-lejepa-light-config/configs/original_cifar10_vit_lejepa.yaml
+  resolved_config_path: experiments/experiment-c10-vit-lejepa-light-config/configs/resolved_20260629_214516_train_lejepa_lejepa_188012.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn2882.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    slurm_job_id: '48107588'
+    slurm_job_name: cv-r18-lejepa
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_vit_lejepa_sigreg
+    seed: 42
+    output_dir: experiments/experiment-c10-vit-lejepa-light-config
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 4
+    batch_size: 128
+    val_fraction: 0.1
+  model:
+    architecture: vit_tiny_cifar
+    image_size: 32
+    patch_size: 4
+    num_classes: 10
+    embed_dim: 192
+    depth: 6
+    num_heads: 3
+    mlp_ratio: 4.0
+    dropout: 0.0
+    attn_dropout: 0.0
+    projection_dim: 256
+    prediction_dim: 512
+  training:
+    pretrain_epochs: 200
+    probe_epochs: 100
+    learning_rate: 0.0005
+    probe_learning_rate: 0.001
+    weight_decay: 0.05
+    probe_weight_decay: 0.0001
+    grad_clip_norm: 1.0
+    amp: true
+    save_every_epoch: false
+  checkpoints:
+    backbone_best_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_backbone_best.pt
+    backbone_last_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_backbone_last.pt
+    probe_best_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_probe_best.pt
+    probe_last_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_probe_last.pt
+  evaluation:
+    layers:
+    - blocks.1
+    - blocks.3
+    - blocks.5
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    gradcam_target: predicted
+    vit_xai_method: token_gradient
+    attention_head_fusion: mean
+    attention_discard_ratio: 0.0
+    checkpoint_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_probe_best.pt
+    output_csv: experiments/experiment-c10-vit-lejepa-light-config/metrics/stage2_vit_lejepa_lsas.csv
+    figure_dir: experiments/experiment-c10-vit-lejepa-light-config/figures/vit_lejepa
+    representation_batch_size: 256
+    representation_max_test_samples: 10000
+    representation_max_bank_samples: 50000
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 256
+  extra:
+    note: LeJEPA pretraining and linear-probe training completed
+    result:
+      status: completed
+      architecture: vit_tiny_cifar
+- run_id: 20260701_110327_evaluate_alignment_lejepa_predicted_lejepa_490010
+  run_kind: evaluate_alignment_lejepa_predicted
+  mode: lejepa
+  status: failed
+  updated_at_utc: '2026-07-01T09:03:30+00:00'
+  command: scripts/evaluate_alignment.py --config configs/cifar10_vit_lejepa.yaml
+    --mode lejepa --gradcam-target predicted
+  config_snapshot_path: experiments/experiment-c10-vit-lejepa-light-config/configs/original_cifar10_vit_lejepa.yaml
+  resolved_config_path: experiments/experiment-c10-vit-lejepa-light-config/configs/resolved_20260701_110327_evaluate_alignment_lejepa_predicted_lejepa_490010.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn1111.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    slurm_job_id: '48181793'
+    slurm_job_name: cv-c10-r18-lejepa-eval
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_vit_lejepa_sigreg
+    seed: 42
+    output_dir: experiments/experiment-c10-vit-lejepa-light-config
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 4
+    batch_size: 64
+    val_fraction: 0.1
+  model:
+    architecture: vit_tiny_cifar
+    image_size: 32
+    patch_size: 4
+    num_classes: 10
+    embed_dim: 192
+    depth: 6
+    num_heads: 3
+    mlp_ratio: 4.0
+    dropout: 0.0
+    attn_dropout: 0.0
+    projection_dim: 256
+    prediction_dim: 512
+  training:
+    pretrain_epochs: 200
+    probe_epochs: 100
+    learning_rate: 0.0005
+    probe_learning_rate: 0.001
+    weight_decay: 0.05
+    probe_weight_decay: 0.0001
+    grad_clip_norm: 1.0
+    amp: true
+    save_every_epoch: false
+  checkpoints:
+    backbone_best_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_backbone_best.pt
+    backbone_last_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_backbone_last.pt
+    probe_best_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_probe_best.pt
+    probe_last_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_probe_last.pt
+  evaluation:
+    layers:
+    - blocks.1
+    - blocks.3
+    - blocks.5
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    gradcam_target: predicted
+    vit_xai_method: token_gradient
+    attention_head_fusion: mean
+    attention_discard_ratio: 0.0
+    checkpoint_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_probe_best.pt
+    output_csv: experiments/experiment-c10-vit-lejepa-light-config/metrics/stage2_vit_lejepa_lsas_predicted.csv
+    figure_dir: experiments/experiment-c10-vit-lejepa-light-config/figures/target_predicted
+    representation_batch_size: 256
+    representation_max_test_samples: 10000
+    representation_max_bank_samples: 50000
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 256
+  extra:
+    error: AttributeError("Module 'LinearProbeViTCifar' has no child 'blocks' in path
+      'blocks.1'.")
+    traceback: "Traceback (most recent call last):\n  File \"/leonardo_scratch/large/userexternal/apromots/doubleN/cv/scripts/evaluate_alignment.py\"\
+      , line 141, in evaluate_layer_alignment\n    target_layers = {layer_name: get_module_by_name(model,\
+      \ layer_name) for layer_name in layers}\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
+      \  File \"/leonardo_scratch/large/userexternal/apromots/doubleN/cv/scripts/evaluate_alignment.py\"\
+      , line 141, in <dictcomp>\n    target_layers = {layer_name: get_module_by_name(model,\
+      \ layer_name) for layer_name in layers}\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
+      \  File \"/leonardo_scratch/large/userexternal/apromots/doubleN/cv/src/utils.py\"\
+      , line 58, in get_module_by_name\n    raise AttributeError(f\"Module '{type(current).__name__}'\
+      \ has no child '{attr}' in path '{name}'.\")\nAttributeError: Module 'LinearProbeViTCifar'\
+      \ has no child 'blocks' in path 'blocks.1'.\n"
+- run_id: 20260701_110455_evaluate_representation_lejepa_lejepa_684966
+  run_kind: evaluate_representation_lejepa
+  mode: lejepa
+  status: completed
+  updated_at_utc: '2026-07-01T09:05:55+00:00'
+  command: scripts/evaluate_representation.py --config configs/cifar10_vit_lejepa.yaml
+    --mode lejepa
+  config_snapshot_path: experiments/experiment-c10-vit-lejepa-light-config/configs/original_cifar10_vit_lejepa.yaml
+  resolved_config_path: experiments/experiment-c10-vit-lejepa-light-config/configs/resolved_20260701_110455_evaluate_representation_lejepa_lejepa_684966.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn0639.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    slurm_job_id: '48181790'
+    slurm_job_name: cv-repr-lejepa
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_vit_lejepa_sigreg
+    seed: 42
+    output_dir: experiments/experiment-c10-vit-lejepa-light-config
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 4
+    batch_size: 256
+    val_fraction: 0.1
+  model:
+    architecture: vit_tiny_cifar
+    image_size: 32
+    patch_size: 4
+    num_classes: 10
+    embed_dim: 192
+    depth: 6
+    num_heads: 3
+    mlp_ratio: 4.0
+    dropout: 0.0
+    attn_dropout: 0.0
+    projection_dim: 256
+    prediction_dim: 512
+  training:
+    pretrain_epochs: 200
+    probe_epochs: 100
+    learning_rate: 0.0005
+    probe_learning_rate: 0.001
+    weight_decay: 0.05
+    probe_weight_decay: 0.0001
+    grad_clip_norm: 1.0
+    amp: true
+    save_every_epoch: false
+  checkpoints:
+    backbone_best_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_backbone_best.pt
+    backbone_last_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_backbone_last.pt
+    probe_best_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_probe_best.pt
+    probe_last_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_probe_last.pt
+  evaluation:
+    layers:
+    - blocks.1
+    - blocks.3
+    - blocks.5
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    gradcam_target: predicted
+    vit_xai_method: token_gradient
+    attention_head_fusion: mean
+    attention_discard_ratio: 0.0
+    checkpoint_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_probe_best.pt
+    output_csv: experiments/experiment-c10-vit-lejepa-light-config/metrics/stage2_vit_lejepa_lsas.csv
+    figure_dir: experiments/experiment-c10-vit-lejepa-light-config/figures/vit_lejepa
+    representation_batch_size: 256
+    representation_max_test_samples: 10000
+    representation_max_bank_samples: 50000
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 256
+  extra:
+    representation_metrics:
+      mode: lejepa
+      architecture: vit_tiny_cifar
+      checkpoint_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_probe_best.pt
+      classifier_or_probe_accuracy:
+        accuracy: 0.3218
+        correct: 3218
+        total: 10000
+      knn:
+        feature_bank: full_train_eval_transform
+        query: test
+        bank_samples: 50000
+        query_samples: 10000
+        feature_dim: 192
+        temperature: 0.07
+        results:
+        - k: 1
+          accuracy: 0.2383
+          correct: 2383
+          total: 10000
+        - k: 5
+          accuracy: 0.2704
+          correct: 2704
+          total: 10000
+        - k: 10
+          accuracy: 0.2919
+          correct: 2919
+          total: 10000
+        - k: 20
+          accuracy: 0.3126
+          correct: 3126
+          total: 10000
+        - k: 50
+          accuracy: 0.329
+          correct: 3290
+          total: 10000
+        - &id001
+          k: 100
+          accuracy: 0.3349
+          correct: 3349
+          total: 10000
+        best: *id001
+      elapsed_minutes: 0.6515918890635173
+    output_yaml: experiments/experiment-c10-vit-lejepa-light-config/metrics/representation_lejepa.yaml
+    output_csv: experiments/experiment-c10-vit-lejepa-light-config/metrics/representation_lejepa.csv
+- run_id: 20260701_110459_evaluate_alignment_lejepa_true_lejepa_227963
+  run_kind: evaluate_alignment_lejepa_true
+  mode: lejepa
+  status: failed
+  updated_at_utc: '2026-07-01T09:05:15+00:00'
+  command: scripts/evaluate_alignment.py --config configs/cifar10_vit_lejepa.yaml
+    --mode lejepa --gradcam-target true
+  config_snapshot_path: experiments/experiment-c10-vit-lejepa-light-config/configs/original_cifar10_vit_lejepa.yaml
+  resolved_config_path: experiments/experiment-c10-vit-lejepa-light-config/configs/resolved_20260701_110459_evaluate_alignment_lejepa_true_lejepa_227963.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn1141.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    slurm_job_id: '48181795'
+    slurm_job_name: cv-c10-r18-lejepa-eval
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_vit_lejepa_sigreg
+    seed: 42
+    output_dir: experiments/experiment-c10-vit-lejepa-light-config
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 4
+    batch_size: 64
+    val_fraction: 0.1
+  model:
+    architecture: vit_tiny_cifar
+    image_size: 32
+    patch_size: 4
+    num_classes: 10
+    embed_dim: 192
+    depth: 6
+    num_heads: 3
+    mlp_ratio: 4.0
+    dropout: 0.0
+    attn_dropout: 0.0
+    projection_dim: 256
+    prediction_dim: 512
+  training:
+    pretrain_epochs: 200
+    probe_epochs: 100
+    learning_rate: 0.0005
+    probe_learning_rate: 0.001
+    weight_decay: 0.05
+    probe_weight_decay: 0.0001
+    grad_clip_norm: 1.0
+    amp: true
+    save_every_epoch: false
+  checkpoints:
+    backbone_best_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_backbone_best.pt
+    backbone_last_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_backbone_last.pt
+    probe_best_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_probe_best.pt
+    probe_last_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_probe_last.pt
+  evaluation:
+    layers:
+    - blocks.1
+    - blocks.3
+    - blocks.5
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    gradcam_target: 'true'
+    vit_xai_method: token_gradient
+    attention_head_fusion: mean
+    attention_discard_ratio: 0.0
+    checkpoint_path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_probe_best.pt
+    output_csv: experiments/experiment-c10-vit-lejepa-light-config/metrics/stage2_vit_lejepa_lsas_true.csv
+    figure_dir: experiments/experiment-c10-vit-lejepa-light-config/figures/target_true
+    representation_batch_size: 256
+    representation_max_test_samples: 10000
+    representation_max_bank_samples: 50000
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 256
+  extra:
+    error: AttributeError("Module 'LinearProbeViTCifar' has no child 'blocks' in path
+      'blocks.1'.")
+    traceback: "Traceback (most recent call last):\n  File \"/leonardo_scratch/large/userexternal/apromots/doubleN/cv/scripts/evaluate_alignment.py\"\
+      , line 141, in evaluate_layer_alignment\n    target_layers = {layer_name: get_module_by_name(model,\
+      \ layer_name) for layer_name in layers}\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
+      \  File \"/leonardo_scratch/large/userexternal/apromots/doubleN/cv/scripts/evaluate_alignment.py\"\
+      , line 141, in <dictcomp>\n    target_layers = {layer_name: get_module_by_name(model,\
+      \ layer_name) for layer_name in layers}\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
+      \  File \"/leonardo_scratch/large/userexternal/apromots/doubleN/cv/src/utils.py\"\
+      , line 58, in get_module_by_name\n    raise AttributeError(f\"Module '{type(current).__name__}'\
+      \ has no child '{attr}' in path '{name}'.\")\nAttributeError: Module 'LinearProbeViTCifar'\
+      \ has no child 'blocks' in path 'blocks.1'.\n"
+latest_status: completed
+artifacts:
+  configs:
+  - path: experiments/experiment-c10-vit-lejepa-light-config/configs/original_cifar10_vit_lejepa.yaml
+    size_bytes: 2101
+    modified_utc: '2026-06-29T18:59:33+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-config/configs/resolved_20260629_214516_train_lejepa_lejepa_188012.yaml
+    size_bytes: 3214
+    modified_utc: '2026-06-29T19:45:16+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-config/configs/resolved_20260701_110327_evaluate_alignment_lejepa_predicted_lejepa_490010.yaml
+    size_bytes: 3299
+    modified_utc: '2026-07-01T09:03:27+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-config/configs/resolved_20260701_110455_evaluate_representation_lejepa_lejepa_684966.yaml
+    size_bytes: 3268
+    modified_utc: '2026-07-01T09:04:55+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-config/configs/resolved_20260701_110459_evaluate_alignment_lejepa_true_lejepa_227963.yaml
+    size_bytes: 3271
+    modified_utc: '2026-07-01T09:04:59+00:00'
+  checkpoints:
+  - path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_backbone_best.pt
+    size_bytes: 38383272
+    modified_utc: '2026-06-29T20:41:33+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_backbone_last.pt
+    size_bytes: 38383272
+    modified_utc: '2026-06-29T20:41:50+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_probe_best.pt
+    size_bytes: 10839552
+    modified_utc: '2026-06-29T20:49:05+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-config/checkpoints/vit_lejepa_probe_last.pt
+    size_bytes: 10839552
+    modified_utc: '2026-06-29T20:51:07+00:00'
+  metrics:
+  - path: experiments/experiment-c10-vit-lejepa-light-config/metrics/representation_lejepa.csv
+    size_bytes: 1357
+    modified_utc: '2026-07-01T09:05:55+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-config/metrics/representation_lejepa.yaml
+    size_bytes: 839
+    modified_utc: '2026-07-01T09:05:54+00:00'
+  figures: []
+  logs:
+  - path: experiments/experiment-c10-vit-lejepa-light-config/logs/eval_lejepa_predicted_48181793.err
+    size_bytes: 2244
+    modified_utc: '2026-07-01T09:03:30+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-config/logs/eval_lejepa_predicted_48181793.out
+    size_bytes: 2372
+    modified_utc: '2026-07-01T09:03:28+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-config/logs/eval_lejepa_true_48181795.err
+    size_bytes: 2244
+    modified_utc: '2026-07-01T09:05:16+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-config/logs/eval_lejepa_true_48181795.out
+    size_bytes: 2352
+    modified_utc: '2026-07-01T09:05:00+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-config/logs/repr_lejepa_48181790.err
+    size_bytes: 9279
+    modified_utc: '2026-07-01T09:05:54+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-config/logs/repr_lejepa_48181790.out
+    size_bytes: 2541
+    modified_utc: '2026-07-01T09:05:55+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-config/logs/train_lejepa_48107588.err
+    size_bytes: 15195879
+    modified_utc: '2026-06-29T20:51:06+00:00'
+  - path: experiments/experiment-c10-vit-lejepa-light-config/logs/train_lejepa_48107588.out
+    size_bytes: 21593
+    modified_utc: '2026-06-29T20:51:09+00:00'

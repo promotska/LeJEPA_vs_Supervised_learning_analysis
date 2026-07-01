@@ -1,0 +1,90 @@
+project:
+  name: cifar10_vit_lejepa_sigreg
+  seed: 42
+  output_dir: outputs
+
+experiment:
+  root: experiments
+  name: experiment-vit-lejepa
+  relocate_checkpoint_path: true
+
+data:
+  root: datasets
+  dataset: CIFAR10
+  num_workers: 4
+  batch_size: 128
+  val_fraction: 0.1
+
+model:
+  architecture: vit_tiny_cifar
+  image_size: 32
+  patch_size: 4
+  num_classes: 10
+  embed_dim: 192
+  depth: 6
+  num_heads: 3
+  mlp_ratio: 4.0
+  dropout: 0.0
+  attn_dropout: 0.0
+  projection_dim: 256
+  prediction_dim: 512
+
+training:
+  pretrain_epochs: 200
+  probe_epochs: 100
+  learning_rate: 0.0005
+  probe_learning_rate: 0.001
+  weight_decay: 0.05
+  probe_weight_decay: 0.0001
+  grad_clip_norm: 1.0
+  amp: true
+  save_every_epoch: false
+
+lejepa:
+  sigreg_implementation: official   # official requires: pip install lejepa
+  sigreg_num_slices: 1024
+  sigreg_num_points: 17
+  prediction_weight: 1.0
+  sigreg_weight: 0.01
+  normalize_prediction: true
+
+lejepa_views:
+  num_global_views: 2
+  num_local_views: 0
+  global_scale: [0.6, 1.0]
+  local_scale: [0.4, 0.8]
+  color_jitter_strength: 0.25
+  grayscale_p: 0.1
+  global_blur_p: 0.0
+  local_blur_p: 0.0
+
+checkpoints:
+  backbone_best_path: outputs/checkpoints/vit_lejepa_backbone_best.pt
+  backbone_last_path: outputs/checkpoints/vit_lejepa_backbone_last.pt
+  probe_best_path: outputs/checkpoints/vit_lejepa_probe_best.pt
+  probe_last_path: outputs/checkpoints/vit_lejepa_probe_last.pt
+
+evaluation:
+  layers:
+    - blocks.1
+    - blocks.3
+    - blocks.5
+  max_samples: 1000
+  batch_size: 64
+  num_visualizations: 4
+  save_visualizations: true
+  gradcam_target: predicted
+  vit_xai_method: token_gradient   # options: token_gradient, attention_rollout
+  attention_head_fusion: mean
+  attention_discard_ratio: 0.0
+
+  checkpoint_path: outputs/checkpoints/vit_lejepa_probe_best.pt
+  output_csv: outputs/metrics/stage2_vit_lejepa_lsas.csv
+  figure_dir: outputs/figures/vit_lejepa
+
+  representation_batch_size: 256
+  representation_max_test_samples: 10000
+  representation_max_bank_samples: 50000
+  knn_ks: [1, 5, 10, 20, 50, 100]
+  knn_temperature: 0.07
+  knn_query_chunk_size: 256
