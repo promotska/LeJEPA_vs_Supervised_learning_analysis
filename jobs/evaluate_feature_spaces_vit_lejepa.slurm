@@ -26,6 +26,7 @@ cd "${PROJECT_DIR}"
 
 source "${VENV_DIR}/bin/activate"
 
+export PYTHONPATH="${PROJECT_DIR}:${PYTHONPATH:-}"
 export HF_DATASETS_OFFLINE=1
 export HF_HUB_OFFLINE=1
 
@@ -34,9 +35,23 @@ export MKL_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export OPENBLAS_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export NUMEXPR_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 
-CONFIG="${CONFIG_PATH:-configs/cifar10_vit_lejepa.yaml}"
+: "${EXPERIMENT_NAME:?EXPERIMENT_NAME is required}"
+
+EXP_DIR="experiments/${EXPERIMENT_NAME}"
 FEATURE_SOURCE="${FEATURE_SOURCE:-all}"
 
+TRAIN_CONFIG="$(find "${EXP_DIR}/configs" -maxdepth 1 -type f -name "resolved_*train_vit_lejepa*.yaml" | sort | tail -n 1)"
+
+if [ -z "${TRAIN_CONFIG}" ]; then
+  echo "ERROR: could not find ViT training resolved config in ${EXP_DIR}/configs"
+  echo "Expected pattern: resolved_*train_vit_lejepa*.yaml"
+  echo "Available configs:"
+  find "${EXP_DIR}/configs" -maxdepth 1 -type f | sort || true
+  exit 1
+fi
+
+echo "Using training resolved config: ${TRAIN_CONFIG}"
+
 python -u scripts/evaluate_lejepa_feature_spaces.py \
-  --config "${CONFIG}" \
+  --config "${TRAIN_CONFIG}" \
   --feature-source "${FEATURE_SOURCE}"

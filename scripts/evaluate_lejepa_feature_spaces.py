@@ -48,7 +48,16 @@ def _load_lejepa_model(cfg: dict[str, Any], checkpoint_path: str | Path, device:
             "Use a LeJEPA backbone checkpoint saved during pretraining."
         )
 
-    model = build_lejepa_model(cfg).to(device)
+    checkpoint_cfg = checkpoint.get("config")
+    if isinstance(checkpoint_cfg, dict):
+        model_cfg = checkpoint_cfg
+        print("Building LeJEPA model from checkpoint['config'] to avoid config/checkpoint shape mismatch.")
+        print(f"  checkpoint model config: {model_cfg.get('model', {})}")
+    else:
+        model_cfg = cfg
+        print("WARNING: checkpoint has no config; building model from provided config.")
+
+    model = build_lejepa_model(model_cfg).to(device)
     model.load_state_dict(checkpoint["model_state"], strict=True)
     model.eval()
 
