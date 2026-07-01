@@ -101,6 +101,15 @@ def evaluate_vit_alignment(
 ) -> None:
     cfg = load_yaml(config_path)
 
+    architecture = str(cfg.get("model", {}).get("architecture", "")).lower()
+
+    if not architecture.startswith("vit"):
+        raise ValueError(
+            "You are using the ViT evaluator on a non-ViT config. "
+            "Use scripts/evaluate_alignment.py for ResNet/CNN models. "
+            f"Got architecture={architecture!r}, mode={mode!r}."
+        )
+
     if gradcam_target_override is not None:
         cfg.setdefault("evaluation", {})
         cfg["evaluation"]["gradcam_target"] = gradcam_target_override

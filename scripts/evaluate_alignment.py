@@ -84,6 +84,15 @@ def evaluate_layer_alignment(
 ) -> None:
     cfg = load_yaml(config_path)
 
+    architecture = str(cfg.get("model", {}).get("architecture", "")).lower()
+
+    if architecture.startswith("vit"):
+        raise ValueError(
+            "You are using the ResNet/CNN evaluator on a ViT config. "
+            "Use scripts/evaluate_vit_alignment.py instead, or submit with target 'vit_lejepa' / 'vit_supervised'. "
+            f"Got architecture={architecture!r}, mode={mode!r}."
+        )
+
     if gradcam_target_override is not None:
         cfg.setdefault("evaluation", {})
         cfg["evaluation"]["gradcam_target"] = gradcam_target_override
