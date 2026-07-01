@@ -22,6 +22,10 @@ from src.training.train_lejepa import (
 from src.training.train_vit_supervised import evaluate
 from src.utils import get_device, load_yaml, set_seed
 
+torch.backends.cuda.matmul.allow_tf32 = True
+torch.backends.cudnn.allow_tf32 = True
+torch.set_float32_matmul_precision("high")
+
 
 def _build_vit_lejepa_loss(cfg: dict[str, Any]) -> MultiViewLeJEPASIGRegLoss:
     lejepa_cfg = cfg.get("lejepa", {})

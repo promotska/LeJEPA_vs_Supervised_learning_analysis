@@ -22,6 +22,10 @@ from src.training.losses import MultiViewLeJEPASIGRegLoss, build_sigreg_from_con
 from src.training.train_supervised import evaluate
 from src.utils import ensure_dir, get_device, load_yaml, set_seed
 
+torch.backends.cuda.matmul.allow_tf32 = True
+torch.backends.cudnn.allow_tf32 = True
+torch.set_float32_matmul_precision("high")
+
 
 def _as_view_list(views) -> list[torch.Tensor]:
     if isinstance(views, torch.Tensor):

@@ -1,18 +1,18 @@
 project:
-  name: cifar10_vit_lejepa_sigreg_fix2
+  name: cifar10_vit_lejepa_v4_short_lr2e4
   seed: 42
   output_dir: outputs
 
 experiment:
   root: experiments
-  name: experiment-c10-vit-lejepa-fix2
+  name: experiment-c10-vit-lejepa-v4-short-lr2e4
   relocate_checkpoint_path: true
 
 data:
   root: datasets
   dataset: CIFAR10
-  num_workers: 4
-  batch_size: 256
+  num_workers: 8
+  batch_size: 512
   val_fraction: 0.1
 
 model:
@@ -30,12 +30,12 @@ model:
   prediction_dim: 512
 
 training:
-  pretrain_epochs: 400
-  warmup_epochs: 10
+  pretrain_epochs: 100
+  warmup_epochs: 5
   probe_epochs: 150
   probe_warmup_epochs: 5
 
-  learning_rate: 0.0005
+  learning_rate: 0.0002
   weight_decay: 0.05
 
   probe_optimizer: sgd
@@ -69,7 +69,7 @@ lejepa_views:
 checkpoint_selection:
   enabled: true
   select_backbone_by: knn
-  save_candidate_every_epochs: 20
+  save_candidate_every_epochs: 10
   batch_size: 256
   max_bank_samples: 10000
   max_test_samples: 2000

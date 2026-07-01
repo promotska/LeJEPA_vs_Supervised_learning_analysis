@@ -1,11 +1,13 @@
 project:
-  name: cifar10_resnet18_lejepa_v3
+  name: cifar10_resnet18_lejepa_v4_proj_512
   seed: 42
   output_dir: outputs
+
 experiment:
   root: experiments
-  name: experiment-c10-r18-lejepa-v3
+  name: experiment-c10-r18-lejepa-v4-proj-512
   relocate_checkpoint_path: true
+
 method:
   name: faithful_lejepa_method_reproduction
   deviations:
@@ -14,19 +16,22 @@ method:
   - ResNet-18 uses a CIFAR stem: 3x3 stride-1 convolution and no maxpool.
   - The objective uses official SIGReg and JEPA prediction without stop-gradient,
     teacher branch, or EMA.
+
 data:
   root: datasets
   dataset: CIFAR10
-  num_workers: 4
+  num_workers: 8
   batch_size: 256
   val_fraction: 0.1
+
 model:
   architecture: resnet18_cifar
   image_size: 32
   num_classes: 10
   feature_dim: 512
-  projection_dim: 256
+  projection_dim: 512
   prediction_dim: 512
+
 training:
   pretrain_epochs: 400
   probe_epochs: 150
@@ -42,6 +47,7 @@ training:
   probe_optimizer: sgd
   probe_momentum: 0.9
   probe_nesterov: true
+
 lejepa:
   sigreg_implementation: official
   sigreg_num_slices: 1024
@@ -49,6 +55,7 @@ lejepa:
   prediction_weight: 1.0
   sigreg_weight: 0.005
   normalize_prediction: true
+
 lejepa_views:
   num_global_views: 2
   num_local_views: 0
@@ -62,12 +69,14 @@ lejepa_views:
   grayscale_p: 0.1
   global_blur_p: 0.0
   local_blur_p: 0.0
+
 checkpoints:
   backbone_best_path: outputs/checkpoints/resnet18_lejepa_backbone_best.pt
   backbone_last_path: outputs/checkpoints/resnet18_lejepa_backbone_last.pt
   probe_best_path: outputs/checkpoints/resnet18_lejepa_probe_best.pt
   probe_last_path: outputs/checkpoints/resnet18_lejepa_probe_last.pt
   backbone_loss_best_path: outputs/checkpoints/resnet18_lejepa_backbone_loss_best.pt
+
 evaluation:
   layers:
   - backbone.layer1
@@ -94,6 +103,7 @@ evaluation:
   checkpoint_path: outputs/checkpoints/resnet18_lejepa_probe_best.pt
   output_csv: outputs/metrics/stage1_lejepa_lsas.csv
   figure_dir: outputs/figures/lejepa
+  
 checkpoint_selection:
   enabled: true
   select_backbone_by: knn
