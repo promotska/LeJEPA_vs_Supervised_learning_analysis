@@ -1,11 +1,11 @@
 project:
-  name: cifar10_vit_lejepa_v4_short_lr1e4_sig005
+  name: cifar10_vit_lejepa_v5_short_lr15e4_sig005
   seed: 42
   output_dir: outputs
 
 experiment:
   root: experiments
-  name: experiment-c10-vit-lejepa-v4-short-lr1e4-sig005
+  name: experiment-c10-vit-lejepa-v5-short-lr15e4-sig005
   relocate_checkpoint_path: true
 
 data:
