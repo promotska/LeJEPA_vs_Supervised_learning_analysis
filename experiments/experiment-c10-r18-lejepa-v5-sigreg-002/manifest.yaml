@@ -1,0 +1,674 @@
+experiment:
+  name: experiment-c10-r18-lejepa-v5-sigreg-002
+  root: experiments
+  dir: experiments/experiment-c10-r18-lejepa-v5-sigreg-002
+  created_at_utc: '2026-07-02T08:25:17+00:00'
+  updated_at_utc: '2026-07-02T10:12:40+00:00'
+git:
+  branch: ananas-code
+  commit: 5850f1501253e34edcb2204cfc2fe8374c848f88
+  commit_short: 5850f15
+  is_dirty: true
+  remote: git@github.com:promotska/LeJEPA_vs_Supervised_learning_analysis.git
+runs:
+- run_id: 20260702_102517_train_lejepa_lejepa_3412555
+  run_kind: train_lejepa
+  mode: lejepa
+  status: completed
+  updated_at_utc: '2026-07-02T09:39:54+00:00'
+  command: scripts/train_lejepa.py --config configs/cifar10_resnet18_lejepa_v5_sigreg_002.yaml
+  config_snapshot_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/configs/original_cifar10_resnet18_lejepa_v5_sigreg_002.yaml
+  resolved_config_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/configs/resolved_20260702_102517_train_lejepa_lejepa_3412555.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn2472.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    slurm_job_id: '48265189'
+    slurm_job_name: cv-r18-lejepa
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_resnet18_lejepa_v5_sigreg_002
+    seed: 42
+    output_dir: experiments/experiment-c10-r18-lejepa-v5-sigreg-002
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 8
+    batch_size: 256
+    val_fraction: 0.1
+  model:
+    architecture: resnet18_cifar
+    image_size: 32
+    num_classes: 10
+    feature_dim: 512
+    projection_dim: 256
+    prediction_dim: 512
+  training:
+    pretrain_epochs: 400
+    probe_epochs: 150
+    learning_rate: 0.001
+    probe_learning_rate: 0.05
+    weight_decay: 0.0005
+    probe_weight_decay: 0.0
+    grad_clip_norm: 1.0
+    amp: true
+    save_every_epoch: false
+    warmup_epochs: 10
+    probe_warmup_epochs: 5
+    probe_optimizer: sgd
+    probe_momentum: 0.9
+    probe_nesterov: true
+  checkpoints:
+    backbone_best_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_best.pt
+    backbone_last_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_last.pt
+    probe_best_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_probe_best.pt
+    probe_last_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_probe_last.pt
+    backbone_loss_best_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_loss_best.pt
+  evaluation:
+    layers:
+    - backbone.layer1
+    - backbone.layer2
+    - backbone.layer3
+    - backbone.layer4
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    gradcam_target: predicted
+    representation_batch_size: 256
+    representation_max_test_samples: 10000
+    representation_max_bank_samples: 50000
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 256
+    checkpoint_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_probe_best.pt
+    output_csv: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas.csv
+    figure_dir: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/lejepa
+  extra:
+    note: LeJEPA pretraining and linear-probe training completed
+    result:
+      status: completed
+      architecture: resnet18_cifar
+- run_id: 20260702_121015_evaluate_representation_lejepa_lejepa_2149752
+  run_kind: evaluate_representation_lejepa
+  mode: lejepa
+  status: completed
+  updated_at_utc: '2026-07-02T10:11:14+00:00'
+  command: scripts/evaluate_representation.py --config configs/cifar10_resnet18_lejepa_v5_sigreg_002.yaml
+    --mode lejepa
+  config_snapshot_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/configs/original_cifar10_resnet18_lejepa_v5_sigreg_002.yaml
+  resolved_config_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/configs/resolved_20260702_121015_evaluate_representation_lejepa_lejepa_2149752.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn2584.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    slurm_job_id: '48275895'
+    slurm_job_name: cv-repr-lejepa
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_resnet18_lejepa_v5_sigreg_002
+    seed: 42
+    output_dir: experiments/experiment-c10-r18-lejepa-v5-sigreg-002
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 8
+    batch_size: 256
+    val_fraction: 0.1
+  model:
+    architecture: resnet18_cifar
+    image_size: 32
+    num_classes: 10
+    feature_dim: 512
+    projection_dim: 256
+    prediction_dim: 512
+  training:
+    pretrain_epochs: 400
+    probe_epochs: 150
+    learning_rate: 0.001
+    probe_learning_rate: 0.05
+    weight_decay: 0.0005
+    probe_weight_decay: 0.0
+    grad_clip_norm: 1.0
+    amp: true
+    save_every_epoch: false
+    warmup_epochs: 10
+    probe_warmup_epochs: 5
+    probe_optimizer: sgd
+    probe_momentum: 0.9
+    probe_nesterov: true
+  checkpoints:
+    backbone_best_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_best.pt
+    backbone_last_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_last.pt
+    probe_best_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_probe_best.pt
+    probe_last_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_probe_last.pt
+    backbone_loss_best_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_loss_best.pt
+  evaluation:
+    layers:
+    - backbone.layer1
+    - backbone.layer2
+    - backbone.layer3
+    - backbone.layer4
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    gradcam_target: predicted
+    representation_batch_size: 256
+    representation_max_test_samples: 10000
+    representation_max_bank_samples: 50000
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 256
+    checkpoint_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_probe_best.pt
+    output_csv: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas.csv
+    figure_dir: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/lejepa
+  extra:
+    representation_metrics:
+      mode: lejepa
+      architecture: resnet18_cifar
+      checkpoint_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_probe_best.pt
+      classifier_or_probe_accuracy:
+        accuracy: 0.6814
+        correct: 6814
+        total: 10000
+      knn:
+        feature_bank: full_train_eval_transform
+        query: test
+        bank_samples: 50000
+        query_samples: 10000
+        feature_dim: 512
+        temperature: 0.07
+        results:
+        - k: 1
+          accuracy: 0.5949
+          correct: 5949
+          total: 10000
+        - k: 5
+          accuracy: 0.6398
+          correct: 6398
+          total: 10000
+        - k: 10
+          accuracy: 0.6614
+          correct: 6614
+          total: 10000
+        - k: 20
+          accuracy: 0.672
+          correct: 6720
+          total: 10000
+        - &id001
+          k: 50
+          accuracy: 0.676
+          correct: 6760
+          total: 10000
+        - k: 100
+          accuracy: 0.6751
+          correct: 6751
+          total: 10000
+        best: *id001
+      elapsed_minutes: 0.6066324194272359
+    output_yaml: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/representation_lejepa.yaml
+    output_csv: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/representation_lejepa.csv
+- run_id: 20260702_121020_evaluate_alignment_lejepa_predicted_lejepa_2699754
+  run_kind: evaluate_alignment_lejepa_predicted
+  mode: lejepa
+  status: completed
+  updated_at_utc: '2026-07-02T10:11:28+00:00'
+  command: scripts/evaluate_alignment.py --config configs/cifar10_resnet18_lejepa_v5_sigreg_002.yaml
+    --mode lejepa --gradcam-target predicted
+  config_snapshot_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/configs/original_cifar10_resnet18_lejepa_v5_sigreg_002.yaml
+  resolved_config_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/configs/resolved_20260702_121020_evaluate_alignment_lejepa_predicted_lejepa_2699754.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn2623.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    slurm_job_id: '48275931'
+    slurm_job_name: cv-c10-r18-lejepa-eval
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_resnet18_lejepa_v5_sigreg_002
+    seed: 42
+    output_dir: experiments/experiment-c10-r18-lejepa-v5-sigreg-002
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 8
+    batch_size: 64
+    val_fraction: 0.1
+  model:
+    architecture: resnet18_cifar
+    image_size: 32
+    num_classes: 10
+    feature_dim: 512
+    projection_dim: 256
+    prediction_dim: 512
+  training:
+    pretrain_epochs: 400
+    probe_epochs: 150
+    learning_rate: 0.001
+    probe_learning_rate: 0.05
+    weight_decay: 0.0005
+    probe_weight_decay: 0.0
+    grad_clip_norm: 1.0
+    amp: true
+    save_every_epoch: false
+    warmup_epochs: 10
+    probe_warmup_epochs: 5
+    probe_optimizer: sgd
+    probe_momentum: 0.9
+    probe_nesterov: true
+  checkpoints:
+    backbone_best_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_best.pt
+    backbone_last_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_last.pt
+    probe_best_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_probe_best.pt
+    probe_last_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_probe_last.pt
+    backbone_loss_best_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_loss_best.pt
+  evaluation:
+    layers:
+    - backbone.layer1
+    - backbone.layer2
+    - backbone.layer3
+    - backbone.layer4
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    gradcam_target: predicted
+    representation_batch_size: 256
+    representation_max_test_samples: 10000
+    representation_max_bank_samples: 50000
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 256
+    checkpoint_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_probe_best.pt
+    output_csv: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas_predicted.csv
+    figure_dir: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_predicted
+  extra:
+    processed_images: 1000
+    rows: 4000
+    accuracy_on_evaluated_subset: 0.696
+    xai_method: gradcam
+    gradcam_target: predicted
+    output_csv: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas_predicted.csv
+    curve_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas_predicted_curve.png
+    elapsed_minutes: 0.8426199634869893
+- run_id: 20260702_121134_evaluate_alignment_lejepa_true_lejepa_4189783
+  run_kind: evaluate_alignment_lejepa_true
+  mode: lejepa
+  status: completed
+  updated_at_utc: '2026-07-02T10:12:40+00:00'
+  command: scripts/evaluate_alignment.py --config configs/cifar10_resnet18_lejepa_v5_sigreg_002.yaml
+    --mode lejepa --gradcam-target true
+  config_snapshot_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/configs/original_cifar10_resnet18_lejepa_v5_sigreg_002.yaml
+  resolved_config_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/configs/resolved_20260702_121134_evaluate_alignment_lejepa_true_lejepa_4189783.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn2482.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    slurm_job_id: '48275960'
+    slurm_job_name: cv-c10-r18-lejepa-eval
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_resnet18_lejepa_v5_sigreg_002
+    seed: 42
+    output_dir: experiments/experiment-c10-r18-lejepa-v5-sigreg-002
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 8
+    batch_size: 64
+    val_fraction: 0.1
+  model:
+    architecture: resnet18_cifar
+    image_size: 32
+    num_classes: 10
+    feature_dim: 512
+    projection_dim: 256
+    prediction_dim: 512
+  training:
+    pretrain_epochs: 400
+    probe_epochs: 150
+    learning_rate: 0.001
+    probe_learning_rate: 0.05
+    weight_decay: 0.0005
+    probe_weight_decay: 0.0
+    grad_clip_norm: 1.0
+    amp: true
+    save_every_epoch: false
+    warmup_epochs: 10
+    probe_warmup_epochs: 5
+    probe_optimizer: sgd
+    probe_momentum: 0.9
+    probe_nesterov: true
+  checkpoints:
+    backbone_best_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_best.pt
+    backbone_last_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_last.pt
+    probe_best_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_probe_best.pt
+    probe_last_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_probe_last.pt
+    backbone_loss_best_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_loss_best.pt
+  evaluation:
+    layers:
+    - backbone.layer1
+    - backbone.layer2
+    - backbone.layer3
+    - backbone.layer4
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    gradcam_target: 'true'
+    representation_batch_size: 256
+    representation_max_test_samples: 10000
+    representation_max_bank_samples: 50000
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 256
+    checkpoint_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_probe_best.pt
+    output_csv: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas_true.csv
+    figure_dir: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_true
+  extra:
+    processed_images: 1000
+    rows: 4000
+    accuracy_on_evaluated_subset: 0.696
+    xai_method: gradcam
+    gradcam_target: 'true'
+    output_csv: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas_true.csv
+    curve_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas_true_curve.png
+    elapsed_minutes: 0.8574257055918376
+latest_status: completed
+artifacts:
+  configs:
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/configs/original_cifar10_resnet18_lejepa_v5_sigreg_002.yaml
+    size_bytes: 2739
+    modified_utc: '2026-07-02T08:21:04+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/configs/resolved_20260702_102517_train_lejepa_lejepa_3412555.yaml
+    size_bytes: 4002
+    modified_utc: '2026-07-02T08:25:17+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/configs/resolved_20260702_121015_evaluate_representation_lejepa_lejepa_2149752.yaml
+    size_bytes: 4056
+    modified_utc: '2026-07-02T10:10:15+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/configs/resolved_20260702_121020_evaluate_alignment_lejepa_predicted_lejepa_2699754.yaml
+    size_bytes: 4091
+    modified_utc: '2026-07-02T10:10:20+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/configs/resolved_20260702_121134_evaluate_alignment_lejepa_true_lejepa_4189783.yaml
+    size_bytes: 4063
+    modified_utc: '2026-07-02T10:11:34+00:00'
+  checkpoints:
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_best.pt
+    size_bytes: 142157554
+    modified_utc: '2026-07-02T09:31:57+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_epoch_020.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T08:29:50+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_epoch_040.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T08:33:06+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_epoch_060.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T08:36:21+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_epoch_080.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T08:39:36+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_epoch_100.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T08:42:52+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_epoch_120.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T08:46:07+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_epoch_140.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T08:49:21+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_epoch_160.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T08:52:35+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_epoch_180.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T08:55:49+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_epoch_200.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T08:59:03+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_epoch_220.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T09:02:18+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_epoch_240.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T09:05:32+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_epoch_260.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T09:08:45+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_epoch_280.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T09:12:00+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_epoch_300.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T09:15:17+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_epoch_320.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T09:18:30+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_epoch_340.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T09:21:42+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_epoch_360.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T09:24:55+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_epoch_380.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T09:28:07+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_epoch_400.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T09:31:19+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_last.pt
+    size_bytes: 142153074
+    modified_utc: '2026-07-02T09:31:18+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_loss_best.pt
+    size_bytes: 142154864
+    modified_utc: '2026-07-02T09:28:07+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_probe_best.pt
+    size_bytes: 44856826
+    modified_utc: '2026-07-02T09:35:32+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_probe_last.pt
+    size_bytes: 44856826
+    modified_utc: '2026-07-02T09:39:52+00:00'
+  metrics:
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/checkpoint_selection/backbone_checkpoint_selection_knn.csv
+    size_bytes: 21134
+    modified_utc: '2026-07-02T09:31:55+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/checkpoint_selection/backbone_checkpoint_selection_knn.yaml
+    size_bytes: 3556
+    modified_utc: '2026-07-02T09:31:55+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/feature_spaces/resnet18_cifar_resnet18_lejepa_backbone_last_feature_spaces.csv
+    size_bytes: 5563
+    modified_utc: '2026-07-02T10:12:38+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/feature_spaces/resnet18_cifar_resnet18_lejepa_backbone_last_feature_spaces.yaml
+    size_bytes: 3341
+    modified_utc: '2026-07-02T10:12:38+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/representation_lejepa.csv
+    size_bytes: 1392
+    modified_utc: '2026-07-02T10:11:14+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/representation_lejepa.yaml
+    size_bytes: 844
+    modified_utc: '2026-07-02T10:11:14+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas_predicted.csv
+    size_bytes: 438708
+    modified_utc: '2026-07-02T10:11:27+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas_predicted_curve.png
+    size_bytes: 89916
+    modified_utc: '2026-07-02T10:11:28+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas_true.csv
+    size_bytes: 418946
+    modified_utc: '2026-07-02T10:12:39+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas_true_curve.png
+    size_bytes: 86329
+    modified_utc: '2026-07-02T10:12:40+00:00'
+  figures:
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_predicted/sample_000_backbone_layer1.png
+    size_bytes: 43660
+    modified_utc: '2026-07-02T10:11:15+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_predicted/sample_000_backbone_layer2.png
+    size_bytes: 41534
+    modified_utc: '2026-07-02T10:11:16+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_predicted/sample_000_backbone_layer3.png
+    size_bytes: 39984
+    modified_utc: '2026-07-02T10:11:17+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_predicted/sample_000_backbone_layer4.png
+    size_bytes: 39298
+    modified_utc: '2026-07-02T10:11:19+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_predicted/sample_001_backbone_layer1.png
+    size_bytes: 42763
+    modified_utc: '2026-07-02T10:11:15+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_predicted/sample_001_backbone_layer2.png
+    size_bytes: 41179
+    modified_utc: '2026-07-02T10:11:16+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_predicted/sample_001_backbone_layer3.png
+    size_bytes: 39365
+    modified_utc: '2026-07-02T10:11:18+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_predicted/sample_001_backbone_layer4.png
+    size_bytes: 38113
+    modified_utc: '2026-07-02T10:11:19+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_predicted/sample_002_backbone_layer1.png
+    size_bytes: 43996
+    modified_utc: '2026-07-02T10:11:15+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_predicted/sample_002_backbone_layer2.png
+    size_bytes: 42246
+    modified_utc: '2026-07-02T10:11:16+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_predicted/sample_002_backbone_layer3.png
+    size_bytes: 40820
+    modified_utc: '2026-07-02T10:11:18+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_predicted/sample_002_backbone_layer4.png
+    size_bytes: 38902
+    modified_utc: '2026-07-02T10:11:19+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_predicted/sample_003_backbone_layer1.png
+    size_bytes: 41592
+    modified_utc: '2026-07-02T10:11:16+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_predicted/sample_003_backbone_layer2.png
+    size_bytes: 41984
+    modified_utc: '2026-07-02T10:11:16+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_predicted/sample_003_backbone_layer3.png
+    size_bytes: 40348
+    modified_utc: '2026-07-02T10:11:18+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_predicted/sample_003_backbone_layer4.png
+    size_bytes: 38439
+    modified_utc: '2026-07-02T10:11:19+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_true/sample_000_backbone_layer1.png
+    size_bytes: 42173
+    modified_utc: '2026-07-02T10:12:26+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_true/sample_000_backbone_layer2.png
+    size_bytes: 39993
+    modified_utc: '2026-07-02T10:12:27+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_true/sample_000_backbone_layer3.png
+    size_bytes: 38438
+    modified_utc: '2026-07-02T10:12:28+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_true/sample_000_backbone_layer4.png
+    size_bytes: 37744
+    modified_utc: '2026-07-02T10:12:30+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_true/sample_001_backbone_layer1.png
+    size_bytes: 41173
+    modified_utc: '2026-07-02T10:12:26+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_true/sample_001_backbone_layer2.png
+    size_bytes: 39571
+    modified_utc: '2026-07-02T10:12:27+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_true/sample_001_backbone_layer3.png
+    size_bytes: 37718
+    modified_utc: '2026-07-02T10:12:28+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_true/sample_001_backbone_layer4.png
+    size_bytes: 36390
+    modified_utc: '2026-07-02T10:12:30+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_true/sample_002_backbone_layer1.png
+    size_bytes: 42423
+    modified_utc: '2026-07-02T10:12:27+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_true/sample_002_backbone_layer2.png
+    size_bytes: 40656
+    modified_utc: '2026-07-02T10:12:27+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_true/sample_002_backbone_layer3.png
+    size_bytes: 39241
+    modified_utc: '2026-07-02T10:12:29+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_true/sample_002_backbone_layer4.png
+    size_bytes: 37182
+    modified_utc: '2026-07-02T10:12:30+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_true/sample_003_backbone_layer1.png
+    size_bytes: 39960
+    modified_utc: '2026-07-02T10:12:27+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_true/sample_003_backbone_layer2.png
+    size_bytes: 40335
+    modified_utc: '2026-07-02T10:12:28+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_true/sample_003_backbone_layer3.png
+    size_bytes: 38708
+    modified_utc: '2026-07-02T10:12:29+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_true/sample_003_backbone_layer4.png
+    size_bytes: 36768
+    modified_utc: '2026-07-02T10:12:30+00:00'
+  logs:
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/logs/eval_lejepa_predicted_48275931.err
+    size_bytes: 4799
+    modified_utc: '2026-07-02T10:11:27+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/logs/eval_lejepa_predicted_48275931.out
+    size_bytes: 3199
+    modified_utc: '2026-07-02T10:11:40+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/logs/eval_lejepa_true_48275960.err
+    size_bytes: 4629
+    modified_utc: '2026-07-02T10:12:38+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/logs/eval_lejepa_true_48275960.out
+    size_bytes: 3126
+    modified_utc: '2026-07-02T10:12:40+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/logs/feature_spaces_lejepa_48276053.err
+    size_bytes: 17128
+    modified_utc: '2026-07-02T10:12:38+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/logs/feature_spaces_lejepa_48276053.out
+    size_bytes: 1595
+    modified_utc: '2026-07-02T10:12:38+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/logs/repr_lejepa_48275895.err
+    size_bytes: 7673
+    modified_utc: '2026-07-02T10:11:14+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/logs/repr_lejepa_48275895.out
+    size_bytes: 2610
+    modified_utc: '2026-07-02T10:11:26+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/logs/train_lejepa_48265189.err
+    size_bytes: 15287586
+    modified_utc: '2026-07-02T09:39:52+00:00'
+  - path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/logs/train_lejepa_48265189.out
+    size_bytes: 48002
+    modified_utc: '2026-07-02T09:40:12+00:00'

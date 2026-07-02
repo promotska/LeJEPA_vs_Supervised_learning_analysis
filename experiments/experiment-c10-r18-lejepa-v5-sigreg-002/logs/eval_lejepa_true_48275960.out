@@ -1,0 +1,52 @@
+Started at: Thu Jul  2 12:08:53 CEST 2026
+Node: lrdn2482.leonardo.local
+Config path: configs/cifar10_resnet18_lejepa_v5_sigreg_002.yaml
+Grad-CAM target: true
+Thu Jul  2 12:08:53 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.274.02             Driver Version: 535.274.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM-64GB           On  | 00000000:56:00.0 Off |                    0 |
+| N/A   43C    P0              60W / 464W |      0MiB / 65536MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+Using device: cuda
+ResNet alignment evaluation settings:
+  mode: lejepa
+  gradcam_target: true
+  checkpoint: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_probe_best.pt
+  output_csv: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas_true.csv
+  figure_dir: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/target_true
+  max_samples: 1000
+  batch_size: 64
+  layers: ['backbone.layer1', 'backbone.layer2', 'backbone.layer3', 'backbone.layer4']
+
+Evaluation completed.
+Saved CSV: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas_true.csv
+Saved curve: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas_true_curve.png
+Processed images: 1000
+Rows: 4000
+Expected rows: 4000
+Accuracy on evaluated subset: 0.6960
+Elapsed: 0.86 min
+
+Mean metrics per layer:
+                     lsas  corr_pca_xai  soft_iou_pca_xai
+layer                                                    
+backbone.layer1  0.235317      0.199591          0.271042
+backbone.layer2  0.178871      0.054401          0.303342
+backbone.layer3  0.271466      0.185306          0.357627
+backbone.layer4  0.476197      0.421642          0.530752
+Finished at: Thu Jul  2 12:12:53 CEST 2026

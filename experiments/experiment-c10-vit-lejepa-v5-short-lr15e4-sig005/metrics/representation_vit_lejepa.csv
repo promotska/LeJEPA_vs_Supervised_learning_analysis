@@ -1,0 +1,7 @@
+mode,architecture,checkpoint_path,classifier_or_probe_accuracy,classifier_or_probe_correct,classifier_or_probe_total,knn_k,knn_accuracy,knn_correct,knn_total,bank_samples,query_samples,feature_dim,temperature,elapsed_minutes
+vit_lejepa,vit_tiny_cifar,experiments/experiment-c10-vit-lejepa-v5-short-lr15e4-sig005/checkpoints/vit_lejepa_probe_best.pt,0.3953,3953,10000,1,0.3339,3339,10000,50000,10000,192,0.07,0.5242628574371337
+vit_lejepa,vit_tiny_cifar,experiments/experiment-c10-vit-lejepa-v5-short-lr15e4-sig005/checkpoints/vit_lejepa_probe_best.pt,0.3953,3953,10000,5,0.3767,3767,10000,50000,10000,192,0.07,0.5242628574371337
+vit_lejepa,vit_tiny_cifar,experiments/experiment-c10-vit-lejepa-v5-short-lr15e4-sig005/checkpoints/vit_lejepa_probe_best.pt,0.3953,3953,10000,10,0.4001,4001,10000,50000,10000,192,0.07,0.5242628574371337
+vit_lejepa,vit_tiny_cifar,experiments/experiment-c10-vit-lejepa-v5-short-lr15e4-sig005/checkpoints/vit_lejepa_probe_best.pt,0.3953,3953,10000,20,0.4164,4164,10000,50000,10000,192,0.07,0.5242628574371337
+vit_lejepa,vit_tiny_cifar,experiments/experiment-c10-vit-lejepa-v5-short-lr15e4-sig005/checkpoints/vit_lejepa_probe_best.pt,0.3953,3953,10000,50,0.4276,4276,10000,50000,10000,192,0.07,0.5242628574371337
+vit_lejepa,vit_tiny_cifar,experiments/experiment-c10-vit-lejepa-v5-short-lr15e4-sig005/checkpoints/vit_lejepa_probe_best.pt,0.3953,3953,10000,100,0.4266,4266,10000,50000,10000,192,0.07,0.5242628574371337

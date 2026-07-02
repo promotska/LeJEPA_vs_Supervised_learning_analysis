@@ -1,0 +1,122 @@
+project:
+  name: cifar10_resnet18_lejepa_v5_sigreg_002
+  seed: 42
+  output_dir: experiments/experiment-c10-r18-lejepa-v5-sigreg-002
+experiment:
+  root: experiments
+  name: experiment-c10-r18-lejepa-v5-sigreg-002
+  relocate_checkpoint_path: true
+method:
+  name: faithful_lejepa_method_reproduction
+  deviations:
+  - CIFAR-10 uses 32x32 images, so the official global/local multi-crop recipe is
+    adapted to CIFAR resolution.
+  - ResNet-18 uses a CIFAR stem: 3x3 stride-1 convolution and no maxpool.
+  - The objective uses official SIGReg and JEPA prediction without stop-gradient,
+    teacher branch, or EMA.
+data:
+  root: datasets
+  dataset: CIFAR10
+  num_workers: 8
+  batch_size: 256
+  val_fraction: 0.1
+model:
+  architecture: resnet18_cifar
+  image_size: 32
+  num_classes: 10
+  feature_dim: 512
+  projection_dim: 256
+  prediction_dim: 512
+training:
+  pretrain_epochs: 400
+  probe_epochs: 150
+  learning_rate: 0.001
+  probe_learning_rate: 0.05
+  weight_decay: 0.0005
+  probe_weight_decay: 0.0
+  grad_clip_norm: 1.0
+  amp: true
+  save_every_epoch: false
+  warmup_epochs: 10
+  probe_warmup_epochs: 5
+  probe_optimizer: sgd
+  probe_momentum: 0.9
+  probe_nesterov: true
+lejepa:
+  sigreg_implementation: official
+  sigreg_num_slices: 1024
+  sigreg_num_points: 17
+  prediction_weight: 1.0
+  sigreg_weight: 0.002
+  normalize_prediction: true
+lejepa_views:
+  num_global_views: 2
+  num_local_views: 0
+  global_scale:
+  - 0.6
+  - 1.0
+  local_scale:
+  - 0.4
+  - 0.8
+  color_jitter_strength: 0.25
+  grayscale_p: 0.1
+  global_blur_p: 0.0
+  local_blur_p: 0.0
+checkpoints:
+  backbone_best_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_best.pt
+  backbone_last_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_last.pt
+  probe_best_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_probe_best.pt
+  probe_last_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_probe_last.pt
+  backbone_loss_best_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_backbone_loss_best.pt
+evaluation:
+  layers:
+  - backbone.layer1
+  - backbone.layer2
+  - backbone.layer3
+  - backbone.layer4
+  max_samples: 1000
+  batch_size: 64
+  num_visualizations: 4
+  save_visualizations: true
+  gradcam_target: predicted
+  representation_batch_size: 256
+  representation_max_test_samples: 10000
+  representation_max_bank_samples: 50000
+  knn_ks:
+  - 1
+  - 5
+  - 10
+  - 20
+  - 50
+  - 100
+  knn_temperature: 0.07
+  knn_query_chunk_size: 256
+  checkpoint_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints/resnet18_lejepa_probe_best.pt
+  output_csv: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas.csv
+  figure_dir: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures/lejepa
+checkpoint_selection:
+  enabled: true
+  select_backbone_by: knn
+  save_candidate_every_epochs: 20
+  batch_size: 256
+  max_bank_samples: 10000
+  max_test_samples: 2000
+  knn_ks:
+  - 20
+  - 50
+  - 100
+  temperature: 0.07
+  query_chunk_size: 256
+_experiment:
+  name: experiment-c10-r18-lejepa-v5-sigreg-002
+  dir: experiments/experiment-c10-r18-lejepa-v5-sigreg-002
+  run_id: 20260702_121015_evaluate_representation_lejepa_lejepa_2149752
+  run_kind: evaluate_representation_lejepa
+  mode: lejepa
+  manifest_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/manifest.yaml
+  config_snapshot_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/configs/original_cifar10_resnet18_lejepa_v5_sigreg_002.yaml
+  resolved_config_path: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/configs/resolved_20260702_121015_evaluate_representation_lejepa_lejepa_2149752.yaml
+  checkpoints_dir: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/checkpoints
+  metrics_dir: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics
+  figures_dir: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/figures
+  logs_dir: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/logs
