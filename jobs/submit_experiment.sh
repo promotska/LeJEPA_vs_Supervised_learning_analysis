@@ -11,6 +11,8 @@ if [ $# -lt 3 ]; then
   echo "  eval_true"
   echo "  repr"
   echo "  feature_spaces"
+  echo "  grounded"
+  echo "  grounded_true"
   echo ""
   echo "Targets:"
   echo "  supervised        ResNet supervised"
@@ -205,6 +207,39 @@ submit_vit_lejepa_feature_spaces() {
     jobs/evaluate_feature_spaces_vit_lejepa.slurm
 }
 
+
+submit_grounded_predicted() {
+  sbatch \
+    --export="${EXPORT_BASE},GROUNDED_TARGET=predicted" \
+    --output="${EXP_DIR}/logs/grounded_${TARGET}_predicted_%j.out" \
+    --error="${EXP_DIR}/logs/grounded_${TARGET}_predicted_%j.err" \
+    jobs/evaluate_grounded_alignment.slurm
+}
+
+submit_grounded_true() {
+  sbatch \
+    --export="${EXPORT_BASE},GROUNDED_TARGET=true" \
+    --output="${EXP_DIR}/logs/grounded_${TARGET}_true_%j.out" \
+    --error="${EXP_DIR}/logs/grounded_${TARGET}_true_%j.err" \
+    jobs/evaluate_grounded_alignment.slurm
+}
+
+submit_lei_lsas() {
+  sbatch \
+    --export="${EXPORT_BASE},LEI_METRIC=lsas,LEI_THRESHOLD=${LEI_THRESHOLD:-0.30}" \
+    --output="${EXP_DIR}/logs/lei_lsas_%j.out" \
+    --error="${EXP_DIR}/logs/lei_lsas_%j.err" \
+    jobs/compute_lei_experiment.slurm
+}
+
+submit_lei_glsas() {
+  sbatch \
+    --export="${EXPORT_BASE},LEI_METRIC=g_lsas,LEI_THRESHOLD=${LEI_THRESHOLD:-0.30}" \
+    --output="${EXP_DIR}/logs/lei_glsas_%j.out" \
+    --error="${EXP_DIR}/logs/lei_glsas_%j.err" \
+    jobs/compute_lei_experiment.slurm
+}
+
 case "${MODE}:${TARGET}" in
   train:supervised)
     submit_supervised_train
@@ -281,9 +316,25 @@ case "${MODE}:${TARGET}" in
     submit_vit_lejepa_feature_spaces
     ;;
 
+
+  grounded:supervised|grounded:lejepa|grounded:vit_supervised|grounded:vit_lejepa)
+    submit_grounded_predicted
+    ;;
+  grounded_true:supervised|grounded_true:lejepa|grounded_true:vit_supervised|grounded_true:vit_lejepa)
+    submit_grounded_true
+    ;;
+
+
+  lei:supervised|lei:lejepa|lei:both|lei:vit_supervised|lei:vit_lejepa)
+    submit_lei_lsas
+    ;;
+  glei:supervised|glei:lejepa|glei:vit_supervised|glei:vit_lejepa)
+    submit_lei_glsas
+    ;;
+
   *)
     echo "Invalid combination: mode=${MODE}, target=${TARGET}"
-    echo "Valid modes: train, eval, eval_true, repr, feature_spaces"
+    echo "Valid modes: train, eval, eval_true, repr, feature_spaces, grounded, grounded_true, lei, glei"
     echo "Valid targets: supervised, lejepa, both, vit_supervised, vit_lejepa"
     echo ""
     echo "Note: feature_spaces is valid only for targets: lejepa, vit_lejepa"

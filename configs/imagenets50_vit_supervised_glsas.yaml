@@ -1,0 +1,87 @@
+project:
+  name: imagenets50_vit_supervised_glsas
+  seed: 42
+  output_dir: outputs
+experiment:
+  root: experiments
+  name: experiment-imagenets50-vit-supervised-glsas
+  relocate_checkpoint_path: true
+method:
+  name: supervised_vit_imagenets50_glsas
+  deviations:
+  - Compact ViT-S/16-style model trained from scratch.
+  - Masks are used only for grounded evaluation, not training.
+data:
+  root: datasets/imagenet_s50/classification
+  dataset: ImageFolder
+  image_size: 224
+  resize_size: 256
+  num_workers: 8
+  batch_size: 128
+  val_fraction: 0.1
+model:
+  architecture: vit_small_patch16_224
+  image_size: 224
+  patch_size: 16
+  num_classes: 50
+  embed_dim: 384
+  depth: 12
+  num_heads: 6
+  mlp_ratio: 4.0
+  dropout: 0.1
+  attn_dropout: 0.1
+training:
+  epochs: 100
+  optimizer: adamw
+  learning_rate: 0.0003
+  scheduler: cosine
+  weight_decay: 0.05
+  amp: true
+  grad_clip_norm: 1.0
+checkpoints:
+  best_path: outputs/checkpoints/imagenets50_vit_supervised_best.pt
+  last_path: outputs/checkpoints/imagenets50_vit_supervised_last.pt
+evaluation:
+  layers:
+  - blocks.2
+  - blocks.5
+  - blocks.8
+  - blocks.11
+  max_samples: 1000
+  batch_size: 32
+  num_visualizations: 8
+  save_visualizations: true
+  gradcam_target: predicted
+  vit_xai_method: token_gradient
+  attention_head_fusion: mean
+  attention_discard_ratio: 0.0
+  representation_batch_size: 128
+  representation_max_test_samples: null
+  representation_max_bank_samples: null
+  knn_ks:
+  - 1
+  - 5
+  - 10
+  - 20
+  - 50
+  - 100
+  knn_temperature: 0.07
+  knn_query_chunk_size: 128
+  checkpoint_path: outputs/checkpoints/imagenets50_vit_supervised_best.pt
+  output_csv: outputs/metrics/imagenets50_vit_supervised_lsas.csv
+  figure_dir: outputs/figures/imagenets50_vit_supervised
+grounded_evaluation:
+  dataset: folder_masks
+  image_root: datasets/imagenet_s50/classification/val
+  mask_root: datasets/imagenet_s50/masks/val
+  target: predicted
+  batch_size: 16
+  max_samples: 500
+  top_frac: 0.2
+  stability: true
+  stability_aug_strength: 0.2
+  stability_grayscale_p: 0.0
+  lei_threshold: 0.3
+  output_csv: outputs/metrics/imagenets50_vit_supervised_g_lsas.csv
+  figure_dir: outputs/figures/imagenets50_vit_supervised_g_lsas
+  vit_xai_method: token_gradient

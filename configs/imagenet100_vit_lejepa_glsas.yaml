@@ -1,20 +1,17 @@
 project:
-  name: imagenet100_vit_lejepa_sigreg
+  name: imagenet100_vit_lejepa_glsas
   seed: 42
   output_dir: outputs
-
 experiment:
   root: experiments
-  name: experiment-imagenet100-vit-lejepa-sigreg
+  name: experiment-imagenet100-vit-lejepa-glsas
   relocate_checkpoint_path: true
-
 method:
-  name: faithful_lejepa_method_reproduction
+  name: vit_lejepa_sigreg_imagenet100_glsas
   deviations:
-    - Uses ImageNet-100 instead of ImageNet-1K for course-scale compute and controlled comparison.
-    - Uses a ViT-S/16-style backbone trained from scratch, not a larger ImageNet-1K-scale model.
-    - The objective uses official SIGReg and JEPA prediction without stop-gradient, teacher branch, or EMA.
-
+  - 'ViT LeJEPA hyperparameters transfer best CIFAR trend for representation: lr=2e-4,
+    SIGReg=0.005, 256/512 head.'
+  - Masks are used only for grounded evaluation, not training.
 data:
   root: datasets/imagenet100
   dataset: ImageFolder
@@ -23,7 +20,6 @@ data:
   num_workers: 8
   batch_size: 128
   val_fraction: 0.1
-
 model:
   architecture: vit_small_patch16_224
   image_size: 224
@@ -35,50 +31,67 @@ model:
   mlp_ratio: 4.0
   dropout: 0.1
   attn_dropout: 0.1
-  projection_dim: 512
-  prediction_dim: 1024
-
+  projection_dim: 256
+  prediction_dim: 512
 training:
-  pretrain_epochs: 200
+  pretrain_epochs: 100
+  warmup_epochs: 5
   probe_epochs: 100
-  learning_rate: 0.0005
-  probe_learning_rate: 0.003
+  probe_warmup_epochs: 5
+  learning_rate: 0.0002
   weight_decay: 0.05
-  probe_weight_decay: 0.0001
+  probe_optimizer: sgd
+  probe_learning_rate: 0.05
+  probe_momentum: 0.9
+  probe_nesterov: true
+  probe_weight_decay: 0.0
   grad_clip_norm: 1.0
   amp: true
   save_every_epoch: false
-
 lejepa:
   sigreg_implementation: official
   sigreg_num_slices: 1024
   sigreg_num_points: 17
   prediction_weight: 1.0
-  sigreg_weight: 0.01
+  sigreg_weight: 0.005
   normalize_prediction: true
-
 lejepa_views:
   num_global_views: 2
-  num_local_views: 6
-  global_scale: [0.4, 1.0]
-  local_scale: [0.05, 0.4]
-  color_jitter_strength: 0.4
-  grayscale_p: 0.2
-  global_blur_p: 0.1
-  local_blur_p: 0.5
-
+  num_local_views: 0
+  global_scale:
+  - 0.6
+  - 1.0
+  local_scale:
+  - 0.4
+  - 0.8
+  color_jitter_strength: 0.25
+  grayscale_p: 0.1
+  global_blur_p: 0.0
+  local_blur_p: 0.0
+checkpoint_selection:
+  enabled: true
+  select_backbone_by: knn
+  save_candidate_every_epochs: 10
+  batch_size: 128
+  max_bank_samples: 20000
+  max_test_samples: 5000
+  knn_ks:
+  - 50
+  - 100
+  temperature: 0.07
+  query_chunk_size: 128
 checkpoints:
   backbone_best_path: outputs/checkpoints/imagenet100_vit_lejepa_backbone_best.pt
+  backbone_loss_best_path: outputs/checkpoints/imagenet100_vit_lejepa_backbone_loss_best.pt
   backbone_last_path: outputs/checkpoints/imagenet100_vit_lejepa_backbone_last.pt
   probe_best_path: outputs/checkpoints/imagenet100_vit_lejepa_probe_best.pt
   probe_last_path: outputs/checkpoints/imagenet100_vit_lejepa_probe_last.pt
-
 evaluation:
   layers:
-    - blocks.2
-    - blocks.5
-    - blocks.8
-    - blocks.11
+  - blocks.2
+  - blocks.5
+  - blocks.8
+  - blocks.11
   max_samples: 1000
   batch_size: 32
   num_visualizations: 8
@@ -90,9 +103,30 @@ evaluation:
   representation_batch_size: 128
   representation_max_test_samples: null
   representation_max_bank_samples: null
-  knn_ks: [1, 5, 10, 20, 50, 100]
+  knn_ks:
+  - 1
+  - 5
+  - 10
+  - 20
+  - 50
+  - 100
   knn_temperature: 0.07
   knn_query_chunk_size: 128
   checkpoint_path: outputs/checkpoints/imagenet100_vit_lejepa_probe_best.pt
   output_csv: outputs/metrics/imagenet100_vit_lejepa_lsas.csv
   figure_dir: outputs/figures/imagenet100_vit_lejepa
+grounded_evaluation:
+  dataset: folder_masks
+  image_root: datasets/imagenet_s50/classification/val
+  mask_root: datasets/imagenet_s50/masks/val
+  target: predicted
+  batch_size: 16
+  max_samples: 500
+  top_frac: 0.2
+  stability: true
+  stability_aug_strength: 0.2
+  stability_grayscale_p: 0.0
+  lei_threshold: 0.3
+  output_csv: outputs/metrics/imagenet100_vit_lejepa_g_lsas.csv
+  figure_dir: outputs/figures/imagenet100_vit_lejepa_g_lsas
+  vit_xai_method: token_gradient
