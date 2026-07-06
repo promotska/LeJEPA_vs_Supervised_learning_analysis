@@ -1,0 +1,15 @@
+csv_path: experiments/experiment-c10-vit-lejepa-v4-short-lr2e4-sig005/metrics/stage2_vit_lejepa_lsas_token_gradient_true.csv
+metric: lsas
+threshold: 0.3
+relative_threshold: 0.9
+num_layers: 4
+peak_layer: blocks.1
+peak_value: 0.2810046850052022
+auc: 0.2452817611156497
+emergence_layer: null
+emergence_layer_index: null
+normalized_emergence_index: null
+relative_emergence_threshold_value: 0.252904216504682
+relative_emergence_layer: blocks.1
+relative_emergence_layer_index: 0
+normalized_relative_emergence_index: 0.0

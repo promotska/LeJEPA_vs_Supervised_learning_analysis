@@ -1,0 +1,318 @@
+Job started at: Sun Jul  5 22:39:53 CEST 2026
+Node: lrdn2957.leonardo.local
+Config path: configs/imagenet100_resnet18_lejepa_glsas.yaml
+Project dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+Venv dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv
+Experiment name: experiment-imagenet100-r18-lejepa
+Sun Jul  5 22:39:53 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.274.02             Driver Version: 535.274.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM-64GB           On  | 00000000:C8:00.0 Off |                    0 |
+| N/A   43C    P0              60W / 463W |      0MiB / 65536MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+LeJEPA pretraining method:
+  architecture: resnet18_imagenet
+  sigreg_implementation: official
+  num_global_views: 2
+  num_local_views: 0
+  scheduler: warmup_cosine warmup_epochs=10
+  checkpoint_selection: enabled=True metric=knn
+  stop_gradient: false
+  teacher_student_or_ema: false
+epoch=001 lejepa_loss=0.0207 pred=0.0028 sigreg=8.9295 lr=0.0001
+epoch=002 lejepa_loss=0.0088 pred=0.0019 sigreg=3.4317 lr=0.00015
+epoch=003 lejepa_loss=0.0070 pred=0.0015 sigreg=2.7410 lr=0.0002
+epoch=004 lejepa_loss=0.0062 pred=0.0012 sigreg=2.5200 lr=0.00025
+epoch=005 lejepa_loss=0.0059 pred=0.0011 sigreg=2.4031 lr=0.0003
+epoch=006 lejepa_loss=0.0056 pred=0.0010 sigreg=2.3013 lr=0.00035
+epoch=007 lejepa_loss=0.0054 pred=0.0009 sigreg=2.2328 lr=0.0004
+epoch=008 lejepa_loss=0.0052 pred=0.0009 sigreg=2.1605 lr=0.00045
+epoch=009 lejepa_loss=0.0051 pred=0.0009 sigreg=2.1239 lr=0.0005
+epoch=010 lejepa_loss=0.0050 pred=0.0009 sigreg=2.0753 lr=0.0005
+epoch=011 lejepa_loss=0.0049 pred=0.0008 sigreg=2.0243 lr=0.000499966
+epoch=012 lejepa_loss=0.0047 pred=0.0008 sigreg=1.9683 lr=0.000499863
+epoch=013 lejepa_loss=0.0047 pred=0.0008 sigreg=1.9443 lr=0.000499692
+epoch=014 lejepa_loss=0.0046 pred=0.0008 sigreg=1.9017 lr=0.000499453
+epoch=015 lejepa_loss=0.0045 pred=0.0008 sigreg=1.8701 lr=0.000499146
+epoch=016 lejepa_loss=0.0044 pred=0.0007 sigreg=1.8362 lr=0.000498771
+epoch=017 lejepa_loss=0.0043 pred=0.0007 sigreg=1.8027 lr=0.000498327
+epoch=018 lejepa_loss=0.0043 pred=0.0007 sigreg=1.7817 lr=0.000497816
+epoch=019 lejepa_loss=0.0042 pred=0.0007 sigreg=1.7619 lr=0.000497237
+epoch=020 lejepa_loss=0.0042 pred=0.0007 sigreg=1.7390 lr=0.00049659
+epoch=021 lejepa_loss=0.0041 pred=0.0007 sigreg=1.7207 lr=0.000495876
+epoch=022 lejepa_loss=0.0041 pred=0.0007 sigreg=1.7029 lr=0.000495095
+epoch=023 lejepa_loss=0.0040 pred=0.0007 sigreg=1.6809 lr=0.000494247
+epoch=024 lejepa_loss=0.0040 pred=0.0007 sigreg=1.6645 lr=0.000493332
+epoch=025 lejepa_loss=0.0040 pred=0.0007 sigreg=1.6503 lr=0.00049235
+epoch=026 lejepa_loss=0.0039 pred=0.0007 sigreg=1.6359 lr=0.000491302
+epoch=027 lejepa_loss=0.0039 pred=0.0006 sigreg=1.6219 lr=0.000490188
+epoch=028 lejepa_loss=0.0039 pred=0.0006 sigreg=1.6064 lr=0.000489009
+epoch=029 lejepa_loss=0.0038 pred=0.0006 sigreg=1.5927 lr=0.000487764
+epoch=030 lejepa_loss=0.0038 pred=0.0006 sigreg=1.5832 lr=0.000486454
+epoch=031 lejepa_loss=0.0038 pred=0.0006 sigreg=1.5707 lr=0.00048508
+epoch=032 lejepa_loss=0.0037 pred=0.0006 sigreg=1.5578 lr=0.000483641
+epoch=033 lejepa_loss=0.0037 pred=0.0006 sigreg=1.5490 lr=0.000482139
+epoch=034 lejepa_loss=0.0037 pred=0.0006 sigreg=1.5393 lr=0.000480572
+epoch=035 lejepa_loss=0.0037 pred=0.0006 sigreg=1.5310 lr=0.000478943
+epoch=036 lejepa_loss=0.0037 pred=0.0006 sigreg=1.5202 lr=0.000477252
+epoch=037 lejepa_loss=0.0036 pred=0.0006 sigreg=1.5134 lr=0.000475498
+epoch=038 lejepa_loss=0.0036 pred=0.0006 sigreg=1.5018 lr=0.000473682
+epoch=039 lejepa_loss=0.0036 pred=0.0006 sigreg=1.4965 lr=0.000471806
+epoch=040 lejepa_loss=0.0036 pred=0.0006 sigreg=1.4869 lr=0.000469868
+epoch=041 lejepa_loss=0.0036 pred=0.0006 sigreg=1.4789 lr=0.000467871
+epoch=042 lejepa_loss=0.0035 pred=0.0006 sigreg=1.4715 lr=0.000465814
+epoch=043 lejepa_loss=0.0035 pred=0.0006 sigreg=1.4623 lr=0.000463698
+epoch=044 lejepa_loss=0.0035 pred=0.0006 sigreg=1.4540 lr=0.000461524
+epoch=045 lejepa_loss=0.0035 pred=0.0006 sigreg=1.4464 lr=0.000459292
+epoch=046 lejepa_loss=0.0035 pred=0.0006 sigreg=1.4434 lr=0.000457002
+epoch=047 lejepa_loss=0.0035 pred=0.0006 sigreg=1.4345 lr=0.000454656
+epoch=048 lejepa_loss=0.0035 pred=0.0006 sigreg=1.4295 lr=0.000452254
+epoch=049 lejepa_loss=0.0034 pred=0.0006 sigreg=1.4201 lr=0.000449797
+epoch=050 lejepa_loss=0.0034 pred=0.0006 sigreg=1.4140 lr=0.000447285
+epoch=051 lejepa_loss=0.0034 pred=0.0006 sigreg=1.4163 lr=0.000444719
+epoch=052 lejepa_loss=0.0034 pred=0.0006 sigreg=1.4051 lr=0.0004421
+epoch=053 lejepa_loss=0.0034 pred=0.0006 sigreg=1.4013 lr=0.000439429
+epoch=054 lejepa_loss=0.0034 pred=0.0006 sigreg=1.3992 lr=0.000436705
+epoch=055 lejepa_loss=0.0034 pred=0.0006 sigreg=1.3938 lr=0.000433931
+epoch=056 lejepa_loss=0.0034 pred=0.0006 sigreg=1.3909 lr=0.000431106
+epoch=057 lejepa_loss=0.0033 pred=0.0006 sigreg=1.3825 lr=0.000428232
+epoch=058 lejepa_loss=0.0033 pred=0.0006 sigreg=1.3822 lr=0.000425309
+epoch=059 lejepa_loss=0.0033 pred=0.0006 sigreg=1.3758 lr=0.000422338
+epoch=060 lejepa_loss=0.0033 pred=0.0006 sigreg=1.3742 lr=0.00041932
+epoch=061 lejepa_loss=0.0033 pred=0.0006 sigreg=1.3710 lr=0.000416256
+epoch=062 lejepa_loss=0.0033 pred=0.0006 sigreg=1.3657 lr=0.000413146
+epoch=063 lejepa_loss=0.0033 pred=0.0006 sigreg=1.3602 lr=0.000409992
+epoch=064 lejepa_loss=0.0033 pred=0.0006 sigreg=1.3571 lr=0.000406794
+epoch=065 lejepa_loss=0.0033 pred=0.0006 sigreg=1.3545 lr=0.000403553
+epoch=066 lejepa_loss=0.0033 pred=0.0006 sigreg=1.3493 lr=0.00040027
+epoch=067 lejepa_loss=0.0032 pred=0.0006 sigreg=1.3476 lr=0.000396946
+epoch=068 lejepa_loss=0.0032 pred=0.0005 sigreg=1.3429 lr=0.000393582
+epoch=069 lejepa_loss=0.0032 pred=0.0005 sigreg=1.3384 lr=0.000390179
+epoch=070 lejepa_loss=0.0032 pred=0.0006 sigreg=1.3384 lr=0.000386737
+epoch=071 lejepa_loss=0.0032 pred=0.0005 sigreg=1.3328 lr=0.000383258
+epoch=072 lejepa_loss=0.0032 pred=0.0005 sigreg=1.3309 lr=0.000379742
+epoch=073 lejepa_loss=0.0032 pred=0.0005 sigreg=1.3271 lr=0.000376191
+epoch=074 lejepa_loss=0.0032 pred=0.0005 sigreg=1.3235 lr=0.000372606
+epoch=075 lejepa_loss=0.0032 pred=0.0005 sigreg=1.3194 lr=0.000368987
+epoch=076 lejepa_loss=0.0032 pred=0.0005 sigreg=1.3174 lr=0.000365335
+epoch=077 lejepa_loss=0.0032 pred=0.0005 sigreg=1.3134 lr=0.000361652
+epoch=078 lejepa_loss=0.0032 pred=0.0005 sigreg=1.3103 lr=0.000357939
+epoch=079 lejepa_loss=0.0032 pred=0.0005 sigreg=1.3109 lr=0.000354195
+epoch=080 lejepa_loss=0.0031 pred=0.0005 sigreg=1.3074 lr=0.000350424
+epoch=081 lejepa_loss=0.0031 pred=0.0005 sigreg=1.3028 lr=0.000346625
+epoch=082 lejepa_loss=0.0031 pred=0.0005 sigreg=1.3053 lr=0.000342799
+epoch=083 lejepa_loss=0.0031 pred=0.0005 sigreg=1.3003 lr=0.000338948
+epoch=084 lejepa_loss=0.0031 pred=0.0005 sigreg=1.2986 lr=0.000335073
+epoch=085 lejepa_loss=0.0031 pred=0.0005 sigreg=1.2955 lr=0.000331175
+epoch=086 lejepa_loss=0.0031 pred=0.0005 sigreg=1.2959 lr=0.000327254
+epoch=087 lejepa_loss=0.0031 pred=0.0005 sigreg=1.2935 lr=0.000323313
+epoch=088 lejepa_loss=0.0031 pred=0.0005 sigreg=1.2911 lr=0.000319351
+epoch=089 lejepa_loss=0.0031 pred=0.0005 sigreg=1.2913 lr=0.00031537
+epoch=090 lejepa_loss=0.0031 pred=0.0005 sigreg=1.2832 lr=0.000311371
+epoch=091 lejepa_loss=0.0031 pred=0.0005 sigreg=1.2803 lr=0.000307356
+epoch=092 lejepa_loss=0.0031 pred=0.0005 sigreg=1.2785 lr=0.000303325
+epoch=093 lejepa_loss=0.0031 pred=0.0005 sigreg=1.2775 lr=0.000299279
+epoch=094 lejepa_loss=0.0031 pred=0.0005 sigreg=1.2736 lr=0.00029522
+epoch=095 lejepa_loss=0.0031 pred=0.0005 sigreg=1.2741 lr=0.000291149
+epoch=096 lejepa_loss=0.0030 pred=0.0005 sigreg=1.2713 lr=0.000287066
+epoch=097 lejepa_loss=0.0030 pred=0.0005 sigreg=1.2669 lr=0.000282973
+epoch=098 lejepa_loss=0.0030 pred=0.0005 sigreg=1.2653 lr=0.000278871
+epoch=099 lejepa_loss=0.0030 pred=0.0005 sigreg=1.2620 lr=0.000274761
+epoch=100 lejepa_loss=0.0030 pred=0.0005 sigreg=1.2608 lr=0.000270645
+epoch=101 lejepa_loss=0.0030 pred=0.0005 sigreg=1.2602 lr=0.000266523
+epoch=102 lejepa_loss=0.0030 pred=0.0005 sigreg=1.2577 lr=0.000262396
+epoch=103 lejepa_loss=0.0030 pred=0.0005 sigreg=1.2544 lr=0.000258266
+epoch=104 lejepa_loss=0.0030 pred=0.0005 sigreg=1.2499 lr=0.000254133
+epoch=105 lejepa_loss=0.0030 pred=0.0005 sigreg=1.2497 lr=0.00025
+epoch=106 lejepa_loss=0.0030 pred=0.0005 sigreg=1.2507 lr=0.000245867
+epoch=107 lejepa_loss=0.0030 pred=0.0005 sigreg=1.2451 lr=0.000241734
+epoch=108 lejepa_loss=0.0030 pred=0.0005 sigreg=1.2452 lr=0.000237604
+epoch=109 lejepa_loss=0.0030 pred=0.0005 sigreg=1.2442 lr=0.000233477
+epoch=110 lejepa_loss=0.0030 pred=0.0005 sigreg=1.2384 lr=0.000229355
+epoch=111 lejepa_loss=0.0030 pred=0.0005 sigreg=1.2373 lr=0.000225239
+epoch=112 lejepa_loss=0.0030 pred=0.0005 sigreg=1.2352 lr=0.000221129
+epoch=113 lejepa_loss=0.0030 pred=0.0005 sigreg=1.2361 lr=0.000217027
+epoch=114 lejepa_loss=0.0030 pred=0.0005 sigreg=1.2362 lr=0.000212934
+epoch=115 lejepa_loss=0.0029 pred=0.0005 sigreg=1.2312 lr=0.000208851
+epoch=116 lejepa_loss=0.0029 pred=0.0005 sigreg=1.2325 lr=0.00020478
+epoch=117 lejepa_loss=0.0029 pred=0.0005 sigreg=1.2302 lr=0.000200721
+epoch=118 lejepa_loss=0.0029 pred=0.0005 sigreg=1.2296 lr=0.000196675
+epoch=119 lejepa_loss=0.0029 pred=0.0005 sigreg=1.2262 lr=0.000192644
+epoch=120 lejepa_loss=0.0029 pred=0.0005 sigreg=1.2253 lr=0.000188629
+epoch=121 lejepa_loss=0.0029 pred=0.0005 sigreg=1.2259 lr=0.00018463
+epoch=122 lejepa_loss=0.0029 pred=0.0005 sigreg=1.2230 lr=0.000180649
+epoch=123 lejepa_loss=0.0029 pred=0.0005 sigreg=1.2208 lr=0.000176687
+epoch=124 lejepa_loss=0.0029 pred=0.0005 sigreg=1.2174 lr=0.000172746
+epoch=125 lejepa_loss=0.0029 pred=0.0005 sigreg=1.2163 lr=0.000168825
+epoch=126 lejepa_loss=0.0029 pred=0.0005 sigreg=1.2149 lr=0.000164927
+epoch=127 lejepa_loss=0.0029 pred=0.0005 sigreg=1.2156 lr=0.000161052
+epoch=128 lejepa_loss=0.0029 pred=0.0005 sigreg=1.2141 lr=0.000157201
+epoch=129 lejepa_loss=0.0029 pred=0.0005 sigreg=1.2099 lr=0.000153375
+epoch=130 lejepa_loss=0.0029 pred=0.0005 sigreg=1.2098 lr=0.000149576
+epoch=131 lejepa_loss=0.0029 pred=0.0005 sigreg=1.2073 lr=0.000145805
+epoch=132 lejepa_loss=0.0029 pred=0.0004 sigreg=1.2074 lr=0.000142061
+epoch=133 lejepa_loss=0.0029 pred=0.0004 sigreg=1.2062 lr=0.000138348
+epoch=134 lejepa_loss=0.0029 pred=0.0004 sigreg=1.2045 lr=0.000134665
+epoch=135 lejepa_loss=0.0029 pred=0.0004 sigreg=1.2042 lr=0.000131013
+epoch=136 lejepa_loss=0.0028 pred=0.0004 sigreg=1.2004 lr=0.000127394
+epoch=137 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1986 lr=0.000123809
+epoch=138 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1979 lr=0.000120258
+epoch=139 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1973 lr=0.000116742
+epoch=140 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1991 lr=0.000113263
+epoch=141 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1946 lr=0.000109821
+epoch=142 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1942 lr=0.000106418
+epoch=143 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1941 lr=0.000103054
+epoch=144 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1902 lr=9.97297e-05
+epoch=145 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1906 lr=9.64468e-05
+epoch=146 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1897 lr=9.32059e-05
+epoch=147 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1878 lr=9.00079e-05
+epoch=148 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1859 lr=8.68536e-05
+epoch=149 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1865 lr=8.37439e-05
+epoch=150 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1849 lr=8.06796e-05
+epoch=151 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1827 lr=7.76616e-05
+epoch=152 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1831 lr=7.46908e-05
+epoch=153 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1816 lr=7.17679e-05
+epoch=154 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1792 lr=6.88937e-05
+epoch=155 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1796 lr=6.6069e-05
+epoch=156 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1795 lr=6.32946e-05
+epoch=157 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1780 lr=6.05713e-05
+epoch=158 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1758 lr=5.78997e-05
+epoch=159 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1732 lr=5.52807e-05
+epoch=160 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1745 lr=5.27149e-05
+epoch=161 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1730 lr=5.0203e-05
+epoch=162 lejepa_loss=0.0028 pred=0.0004 sigreg=1.1728 lr=4.77458e-05
+epoch=163 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1720 lr=4.53438e-05
+epoch=164 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1728 lr=4.29978e-05
+epoch=165 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1697 lr=4.07084e-05
+epoch=166 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1692 lr=3.84762e-05
+epoch=167 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1701 lr=3.63018e-05
+epoch=168 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1677 lr=3.41859e-05
+epoch=169 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1664 lr=3.21289e-05
+epoch=170 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1673 lr=3.01316e-05
+epoch=171 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1635 lr=2.81943e-05
+epoch=172 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1658 lr=2.63177e-05
+epoch=173 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1668 lr=2.45022e-05
+epoch=174 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1669 lr=2.27484e-05
+epoch=175 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1631 lr=2.10567e-05
+epoch=176 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1601 lr=1.94276e-05
+epoch=177 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1633 lr=1.78615e-05
+epoch=178 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1656 lr=1.63589e-05
+epoch=179 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1636 lr=1.49202e-05
+epoch=180 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1626 lr=1.35457e-05
+epoch=181 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1619 lr=1.22359e-05
+epoch=182 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1636 lr=1.09911e-05
+epoch=183 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1602 lr=9.81158e-06
+epoch=184 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1627 lr=8.69777e-06
+epoch=185 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1633 lr=7.64993e-06
+epoch=186 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1612 lr=6.66835e-06
+epoch=187 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1626 lr=5.75329e-06
+epoch=188 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1613 lr=4.90501e-06
+epoch=189 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1603 lr=4.12373e-06
+epoch=190 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1598 lr=3.40967e-06
+epoch=191 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1600 lr=2.76303e-06
+epoch=192 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1593 lr=2.18398e-06
+epoch=193 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1604 lr=1.67268e-06
+epoch=194 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1592 lr=1.22927e-06
+epoch=195 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1577 lr=8.53877e-07
+epoch=196 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1605 lr=5.46593e-07
+epoch=197 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1608 lr=3.07508e-07
+epoch=198 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1580 lr=1.36686e-07
+epoch=199 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1599 lr=3.41738e-08
+epoch=200 lejepa_loss=0.0027 pred=0.0004 sigreg=1.1595 lr=0
+Backbone checkpoint selection by frozen-backbone kNN:
+  candidates: 12
+  k values: [20, 50, 100]
+  max_bank_samples: 20000
+  max_test_samples: 5000
+
+Evaluating candidate: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_last.pt
+
+Evaluating candidate: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_loss_best.pt
+
+Evaluating candidate: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_020.pt
+
+Evaluating candidate: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_040.pt
+
+Evaluating candidate: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_060.pt
+
+Evaluating candidate: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_080.pt
+
+Evaluating candidate: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_100.pt
+
+Evaluating candidate: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_120.pt
+
+Evaluating candidate: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_140.pt
+
+Evaluating candidate: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_160.pt
+
+Evaluating candidate: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_180.pt
+
+Evaluating candidate: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_200.pt
+
+Backbone checkpoint selection completed.
+  selected: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_140.pt
+  best kNN: 0.0748 at k=50
+  saved CSV: experiments/experiment-imagenet100-r18-lejepa/metrics/checkpoint_selection/backbone_checkpoint_selection_knn.csv
+  overwritten backbone_best_path: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_best.pt
+probe_epoch=001 train_loss=4.5523 train_acc=0.1329 val_loss=4.4974 val_acc=0.2125 lr=0.02
+probe_epoch=002 train_loss=4.4033 train_acc=0.2228 val_loss=4.3112 val_acc=0.2385 lr=0.03
+probe_epoch=003 train_loss=4.2026 train_acc=0.2391 val_loss=4.0931 val_acc=0.2461 lr=0.04
+probe_epoch=004 train_loss=3.9831 train_acc=0.2464 val_loss=3.8709 val_acc=0.2540 lr=0.05
+probe_epoch=005 train_loss=3.7672 train_acc=0.2535 val_loss=3.6635 val_acc=0.2597 lr=0.05
+probe_epoch=006 train_loss=3.5872 train_acc=0.2603 val_loss=3.5093 val_acc=0.2664 lr=0.0499863
+probe_epoch=007 train_loss=3.4493 train_acc=0.2671 val_loss=3.3910 val_acc=0.2701 lr=0.0499453
+probe_epoch=008 train_loss=3.3431 train_acc=0.2717 val_loss=3.2996 val_acc=0.2734 lr=0.0498771
+probe_epoch=009 train_loss=3.2593 train_acc=0.2762 val_loss=3.2270 val_acc=0.2768 lr=0.0497816
+probe_epoch=010 train_loss=3.1909 train_acc=0.2802 val_loss=3.1681 val_acc=0.2791 lr=0.049659
+probe_epoch=011 train_loss=3.1363 train_acc=0.2828 val_loss=3.1188 val_acc=0.2817 lr=0.0495095
+probe_epoch=012 train_loss=3.0901 train_acc=0.2859 val_loss=3.0776 val_acc=0.2840 lr=0.0493332
+probe_epoch=013 train_loss=3.0516 train_acc=0.2886 val_loss=3.0430 val_acc=0.2868 lr=0.0491302
+probe_epoch=014 train_loss=3.0193 train_acc=0.2914 val_loss=3.0133 val_acc=0.2906 lr=0.0489009
+probe_epoch=015 train_loss=2.9871 train_acc=0.2942 val_loss=2.9861 val_acc=0.2925 lr=0.0486454
+probe_epoch=016 train_loss=2.9619 train_acc=0.2960 val_loss=2.9634 val_acc=0.2946 lr=0.0483641
+probe_epoch=017 train_loss=2.9394 train_acc=0.2970 val_loss=2.9421 val_acc=0.2977 lr=0.0480572
+probe_epoch=018 train_loss=2.9194 train_acc=0.2987 val_loss=2.9239 val_acc=0.2981 lr=0.0477252
+probe_epoch=019 train_loss=2.9014 train_acc=0.3004 val_loss=2.9073 val_acc=0.2996 lr=0.0473682
+probe_epoch=020 train_loss=2.8839 train_acc=0.3031 val_loss=2.8921 val_acc=0.3003 lr=0.0469868
+probe_epoch=021 train_loss=2.8692 train_acc=0.3030 val_loss=2.8788 val_acc=0.3022 lr=0.0465814
+probe_epoch=022 train_loss=2.8544 train_acc=0.3054 val_loss=2.8661 val_acc=0.3037 lr=0.0461524
+probe_epoch=023 train_loss=2.8415 train_acc=0.3068 val_loss=2.8543 val_acc=0.3036 lr=0.0457002
+probe_epoch=024 train_loss=2.8305 train_acc=0.3078 val_loss=2.8433 val_acc=0.3062 lr=0.0452254
+probe_epoch=025 train_loss=2.8197 train_acc=0.3091 val_loss=2.8337 val_acc=0.3065 lr=0.0447285
+probe_epoch=026 train_loss=2.8081 train_acc=0.3099 val_loss=2.8244 val_acc=0.3078 lr=0.04421
+probe_epoch=027 train_loss=2.7998 train_acc=0.3112 val_loss=2.8161 val_acc=0.3084 lr=0.0436705
+probe_epoch=028 train_loss=2.7915 train_acc=0.3121 val_loss=2.8079 val_acc=0.3097 lr=0.0431106
+probe_epoch=029 train_loss=2.7832 train_acc=0.3128 val_loss=2.8010 val_acc=0.3104 lr=0.0425309
+probe_epoch=030 train_loss=2.7739 train_acc=0.3145 val_loss=2.7939 val_acc=0.3102 lr=0.041932
+probe_epoch=031 train_loss=2.7681 train_acc=0.3144 val_loss=2.7874 val_acc=0.3125 lr=0.0413146
+probe_epoch=032 train_loss=2.7611 train_acc=0.3152 val_loss=2.7812 val_acc=0.3125 lr=0.0406794
+probe_epoch=033 train_loss=2.7539 train_acc=0.3158 val_loss=2.7750 val_acc=0.3129 lr=0.040027
+probe_epoch=034 train_loss=2.7485 train_acc=0.3174 val_loss=2.7695 val_acc=0.3133 lr=0.0393582
+probe_epoch=035 train_loss=2.7425 train_acc=0.3175 val_loss=2.7650 val_acc=0.3129 lr=0.0386737
+probe_epoch=036 train_loss=2.7371 train_acc=0.3189 val_loss=2.7601 val_acc=0.3152 lr=0.0379742
+probe_epoch=037 train_loss=2.7328 train_acc=0.3189 val_loss=2.7548 val_acc=0.3151 lr=0.0372606
+probe_epoch=038 train_loss=2.7273 train_acc=0.3191 val_loss=2.7508 val_acc=0.3159 lr=0.0365335
+probe_epoch=039 train_loss=2.7232 train_acc=0.3208 val_loss=2.7466 val_acc=0.3163 lr=0.0357939
+probe_epoch=040 train_loss=2.7180 train_acc=0.3210 val_loss=2.7430 val_acc=0.3163 lr=0.0350424
+probe_epoch=041 train_loss=2.7151 train_acc=0.3210 val_loss=2.7396 val_acc=0.3177 lr=0.0342799
+probe_epoch=042 train_loss=2.7112 train_acc=0.3213 val_loss=2.7356 val_acc=0.3179 lr=0.0335073
+probe_epoch=043 train_loss=2.7059 train_acc=0.3230 val_loss=2.7324 val_acc=0.3171 lr=0.0327254
+probe_epoch=044 train_loss=2.7027 train_acc=0.3231 val_loss=2.7293 val_acc=0.3186 lr=0.0319351
+probe_epoch=045 train_loss=2.6984 train_acc=0.3236 val_loss=2.7262 val_acc=0.3191 lr=0.0311371
+probe_epoch=046 train_loss=2.6958 train_acc=0.3241 val_loss=2.7235 val_acc=0.3189 lr=0.0303325
+probe_epoch=047 train_loss=2.6935 train_acc=0.3239 val_loss=2.7210 val_acc=0.3183 lr=0.029522
+probe_epoch=048 train_loss=2.6899 train_acc=0.3249 val_loss=2.7184 val_acc=0.3193 lr=0.0287066

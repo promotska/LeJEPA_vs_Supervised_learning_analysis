@@ -1,0 +1,49 @@
+enabled: true
+select_backbone_by: knn
+selected_checkpoint_path: experiments/experiment-imagenets50-vit-lejepa/checkpoints/imagenets50_vit_lejepa_backbone_epoch_080.pt
+selected_epoch: 80
+best_knn_accuracy: 0.1675531914893617
+knn_k: 50
+num_candidates: 12
+candidate_paths:
+- experiments/experiment-imagenets50-vit-lejepa/checkpoints/imagenets50_vit_lejepa_backbone_last.pt
+- experiments/experiment-imagenets50-vit-lejepa/checkpoints/imagenets50_vit_lejepa_backbone_loss_best.pt
+- experiments/experiment-imagenets50-vit-lejepa/checkpoints/imagenets50_vit_lejepa_backbone_epoch_010.pt
+- experiments/experiment-imagenets50-vit-lejepa/checkpoints/imagenets50_vit_lejepa_backbone_epoch_020.pt
+- experiments/experiment-imagenets50-vit-lejepa/checkpoints/imagenets50_vit_lejepa_backbone_epoch_030.pt
+- experiments/experiment-imagenets50-vit-lejepa/checkpoints/imagenets50_vit_lejepa_backbone_epoch_040.pt
+- experiments/experiment-imagenets50-vit-lejepa/checkpoints/imagenets50_vit_lejepa_backbone_epoch_050.pt
+- experiments/experiment-imagenets50-vit-lejepa/checkpoints/imagenets50_vit_lejepa_backbone_epoch_060.pt
+- experiments/experiment-imagenets50-vit-lejepa/checkpoints/imagenets50_vit_lejepa_backbone_epoch_070.pt
+- experiments/experiment-imagenets50-vit-lejepa/checkpoints/imagenets50_vit_lejepa_backbone_epoch_080.pt
+- experiments/experiment-imagenets50-vit-lejepa/checkpoints/imagenets50_vit_lejepa_backbone_epoch_090.pt
+- experiments/experiment-imagenets50-vit-lejepa/checkpoints/imagenets50_vit_lejepa_backbone_epoch_100.pt
+selection_csv: experiments/experiment-imagenets50-vit-lejepa/metrics/checkpoint_selection/backbone_checkpoint_selection_knn.csv
+selection_yaml: experiments/experiment-imagenets50-vit-lejepa/metrics/checkpoint_selection/backbone_checkpoint_selection_knn.yaml
+settings:
+  max_bank_samples: 20000
+  max_test_samples: 5000
+  knn_ks:
+  - 50
+  - 100
+  temperature: 0.07
+  query_chunk_size: 128
+best_row:
+  checkpoint_path: experiments/experiment-imagenets50-vit-lejepa/checkpoints/imagenets50_vit_lejepa_backbone_epoch_080.pt
+  checkpoint_epoch: 80
+  pretrain_loss: 0.00805180271980548
+  prediction_loss: 0.002186069887431614
+  sigreg_loss: 1.1731576814293598
+  knn_k: 50
+  knn_accuracy: 0.1675531914893617
+  knn_correct: 126
+  knn_total: 752
+  bank_samples: 20000
+  query_samples: 752
+  feature_dim: 384
+  bank_std_mean: 0.7346086502075195
+  bank_std_min: 0.5226083993911743
+  bank_norm_mean: 15.647374153137207
+  query_std_mean: 0.7638649940490723
+  query_std_min: 0.5684065222740173
+  query_norm_mean: 15.646785736083984

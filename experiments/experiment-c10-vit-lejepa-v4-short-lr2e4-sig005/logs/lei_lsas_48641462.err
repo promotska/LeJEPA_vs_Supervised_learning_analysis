@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/scripts/compute_lei_for_experiment.py", line 94, in <module>
+    main()
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/scripts/compute_lei_for_experiment.py", line 70, in main
+    result = compute_layer_emergence_index(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/src/evaluation/lei.py", line 53, in compute_layer_emergence_index
+    auc = float(np.trapz(grouped["mean"].values, dx=1.0) / max(len(grouped) - 1, 1))
+                ^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/numpy/__init__.py", line 792, in __getattr__
+    raise AttributeError(f"module {__name__!r} has no attribute {attr!r}")
+AttributeError: module 'numpy' has no attribute 'trapz'. Did you mean: 'trace'?

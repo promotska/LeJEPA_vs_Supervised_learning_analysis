@@ -1,0 +1,50 @@
+enabled: true
+select_backbone_by: knn
+selected_checkpoint_path: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_140.pt
+selected_epoch: 140
+best_knn_accuracy: 0.0748
+knn_k: 50
+num_candidates: 12
+candidate_paths:
+- experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_last.pt
+- experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_loss_best.pt
+- experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_020.pt
+- experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_040.pt
+- experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_060.pt
+- experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_080.pt
+- experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_100.pt
+- experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_120.pt
+- experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_140.pt
+- experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_160.pt
+- experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_180.pt
+- experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_200.pt
+selection_csv: experiments/experiment-imagenet100-r18-lejepa/metrics/checkpoint_selection/backbone_checkpoint_selection_knn.csv
+selection_yaml: experiments/experiment-imagenet100-r18-lejepa/metrics/checkpoint_selection/backbone_checkpoint_selection_knn.yaml
+settings:
+  max_bank_samples: 20000
+  max_test_samples: 5000
+  knn_ks:
+  - 20
+  - 50
+  - 100
+  temperature: 0.07
+  query_chunk_size: 128
+best_row:
+  checkpoint_path: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_epoch_140.pt
+  checkpoint_epoch: 140
+  pretrain_loss: 0.002836514474626899
+  prediction_loss: 0.00043825769269558904
+  sigreg_loss: 1.199143968186937
+  knn_k: 50
+  knn_accuracy: 0.0748
+  knn_correct: 374
+  knn_total: 5000
+  bank_samples: 20000
+  query_samples: 5000
+  feature_dim: 512
+  bank_std_mean: 0.02605506032705307
+  bank_std_min: 0.00020536434021778405
+  bank_norm_mean: 0.9726510047912598
+  query_std_mean: 0.029073398560285568
+  query_std_min: 0.0007718366687186062
+  query_norm_mean: 0.9824702143669128

@@ -1,0 +1,15 @@
+csv_path: experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas_token_gradient_predicted.csv
+metric: lsas
+threshold: 0.3
+relative_threshold: 0.9
+num_layers: 3
+peak_layer: blocks.1
+peak_value: 0.17717426613152926
+auc: 0.11176085305775448
+emergence_layer: null
+emergence_layer_index: null
+normalized_emergence_index: null
+relative_emergence_threshold_value: 0.15945683951837633
+relative_emergence_layer: blocks.1
+relative_emergence_layer_index: 0
+normalized_relative_emergence_index: 0.0

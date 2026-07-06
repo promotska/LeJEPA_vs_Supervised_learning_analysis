@@ -1,0 +1,2 @@
+csv_path,metric,threshold,relative_threshold,num_layers,peak_layer,peak_value,auc,emergence_layer,emergence_layer_index,normalized_emergence_index,relative_emergence_threshold_value,relative_emergence_layer,relative_emergence_layer_index,normalized_relative_emergence_index
+experiments/experiment-c10-r18-sup/metrics/stage1_supervised_lsas_predicted.csv,lsas,0.3,0.9,4,backbone.layer4,0.4257347229569277,0.2904035347267284,backbone.layer3,2,0.6666666666666666,0.38316125066123496,backbone.layer4,3,1.0

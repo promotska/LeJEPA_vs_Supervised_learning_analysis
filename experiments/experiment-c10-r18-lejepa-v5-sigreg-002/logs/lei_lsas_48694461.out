@@ -1,0 +1,11 @@
+Computed Layer Emergence Index files:
+- source: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas_predicted.csv
+  csv:    experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas_predicted_lsas_lei.csv
+  yaml:   experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas_predicted_lsas_lei.yaml
+  peak:   backbone.layer4=0.5018
+  LEI:    backbone.layer4
+- source: experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas_true.csv
+  csv:    experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas_true_lsas_lei.csv
+  yaml:   experiments/experiment-c10-r18-lejepa-v5-sigreg-002/metrics/stage1_lejepa_lsas_true_lsas_lei.yaml
+  peak:   backbone.layer4=0.4762
+  LEI:    backbone.layer4

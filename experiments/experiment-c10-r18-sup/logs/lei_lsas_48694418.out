@@ -1,0 +1,11 @@
+Computed Layer Emergence Index files:
+- source: experiments/experiment-c10-r18-sup/metrics/stage1_supervised_lsas_predicted.csv
+  csv:    experiments/experiment-c10-r18-sup/metrics/stage1_supervised_lsas_predicted_lsas_lei.csv
+  yaml:   experiments/experiment-c10-r18-sup/metrics/stage1_supervised_lsas_predicted_lsas_lei.yaml
+  peak:   backbone.layer4=0.4257
+  LEI:    backbone.layer3
+- source: experiments/experiment-c10-r18-sup/metrics/stage1_supervised_lsas_true.csv
+  csv:    experiments/experiment-c10-r18-sup/metrics/stage1_supervised_lsas_true_lsas_lei.csv
+  yaml:   experiments/experiment-c10-r18-sup/metrics/stage1_supervised_lsas_true_lsas_lei.yaml
+  peak:   backbone.layer4=0.4227
+  LEI:    backbone.layer3

@@ -1,0 +1,21 @@
+Computed Layer Emergence Index files:
+- source: experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas_token_gradient_true.csv
+  csv:    experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas_token_gradient_true_lsas_lei.csv
+  yaml:   experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas_token_gradient_true_lsas_lei.yaml
+  peak:   blocks.1=0.1775
+  LEI:    None
+- source: experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas_token_gradient_predicted.csv
+  csv:    experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas_token_gradient_predicted_lsas_lei.csv
+  yaml:   experiments/experiment-c10-vit-sup/metrics/stage2_vit_supervised_lsas_token_gradient_predicted_lsas_lei.yaml
+  peak:   blocks.1=0.1772
+  LEI:    None
+- source: experiments/experiment-c10-vit-sup/metrics/att_rollout/stage2_vit_supervised_lsas_attention_rollout_true.csv
+  csv:    experiments/experiment-c10-vit-sup/metrics/att_rollout/stage2_vit_supervised_lsas_attention_rollout_true_lsas_lei.csv
+  yaml:   experiments/experiment-c10-vit-sup/metrics/att_rollout/stage2_vit_supervised_lsas_attention_rollout_true_lsas_lei.yaml
+  peak:   blocks.3=0.2318
+  LEI:    None
+- source: experiments/experiment-c10-vit-sup/metrics/att_rollout/stage2_vit_supervised_lsas_attention_rollout_predicted.csv
+  csv:    experiments/experiment-c10-vit-sup/metrics/att_rollout/stage2_vit_supervised_lsas_attention_rollout_predicted_lsas_lei.csv
+  yaml:   experiments/experiment-c10-vit-sup/metrics/att_rollout/stage2_vit_supervised_lsas_attention_rollout_predicted_lsas_lei.yaml
+  peak:   blocks.3=0.2318
+  LEI:    None

@@ -1,0 +1,135 @@
+Job started at: Sun Jul  5 22:39:53 CEST 2026
+Node: lrdn1972.leonardo.local
+Project dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+Venv dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv
+Config path: configs/imagenets50_resnet18_supervised_glsas.yaml
+Experiment name: experiment-imagenets50-r18-sup
+Sun Jul  5 22:39:53 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.274.02             Driver Version: 535.274.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM-64GB           On  | 00000000:C8:00.0 Off |                    0 |
+| N/A   43C    P0              64W / 462W |      0MiB / 65536MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+Supervised training settings:
+  config: experiments/experiment-imagenets50-r18-sup/configs/resolved_20260705_224143_train_supervised_supervised_773302.yaml
+  architecture: resnet18_imagenet
+  dataset: ImageFolder
+  device: cuda
+  amp: True
+  epochs: 100
+epoch=001 train_loss=2.7474 train_acc=0.2813 val_loss=3.1815 val_acc=0.2971
+epoch=002 train_loss=1.8137 train_acc=0.5024 val_loss=2.0675 val_acc=0.4548
+epoch=003 train_loss=1.4612 train_acc=0.5955 val_loss=1.8468 val_acc=0.5185
+epoch=004 train_loss=1.2432 train_acc=0.6522 val_loss=1.4166 val_acc=0.6081
+epoch=005 train_loss=1.0853 train_acc=0.6924 val_loss=1.4428 val_acc=0.6151
+epoch=006 train_loss=0.9661 train_acc=0.7272 val_loss=1.3061 val_acc=0.6449
+epoch=007 train_loss=0.8730 train_acc=0.7516 val_loss=1.1866 val_acc=0.6767
+epoch=008 train_loss=0.7903 train_acc=0.7741 val_loss=1.1000 val_acc=0.7023
+epoch=009 train_loss=0.7226 train_acc=0.7899 val_loss=1.1859 val_acc=0.6741
+epoch=010 train_loss=0.6677 train_acc=0.8059 val_loss=1.1726 val_acc=0.6882
+epoch=011 train_loss=0.6064 train_acc=0.8227 val_loss=0.9798 val_acc=0.7358
+epoch=012 train_loss=0.5563 train_acc=0.8367 val_loss=1.0049 val_acc=0.7375
+epoch=013 train_loss=0.5128 train_acc=0.8484 val_loss=1.1810 val_acc=0.6981
+epoch=014 train_loss=0.4742 train_acc=0.8604 val_loss=0.9405 val_acc=0.7573
+epoch=015 train_loss=0.4412 train_acc=0.8685 val_loss=1.0268 val_acc=0.7461
+epoch=016 train_loss=0.4060 train_acc=0.8767 val_loss=1.2210 val_acc=0.6924
+epoch=017 train_loss=0.3760 train_acc=0.8858 val_loss=1.0180 val_acc=0.7343
+epoch=018 train_loss=0.3449 train_acc=0.8953 val_loss=0.9999 val_acc=0.7438
+epoch=019 train_loss=0.3110 train_acc=0.9053 val_loss=1.0142 val_acc=0.7526
+epoch=020 train_loss=0.2971 train_acc=0.9084 val_loss=1.0071 val_acc=0.7557
+epoch=021 train_loss=0.2692 train_acc=0.9169 val_loss=1.0134 val_acc=0.7560
+epoch=022 train_loss=0.2506 train_acc=0.9227 val_loss=0.9572 val_acc=0.7632
+epoch=023 train_loss=0.2288 train_acc=0.9299 val_loss=1.0264 val_acc=0.7568
+epoch=024 train_loss=0.2101 train_acc=0.9343 val_loss=1.1035 val_acc=0.7402
+epoch=025 train_loss=0.1986 train_acc=0.9382 val_loss=1.0142 val_acc=0.7622
+epoch=026 train_loss=0.1875 train_acc=0.9418 val_loss=1.2243 val_acc=0.7268
+epoch=027 train_loss=0.1638 train_acc=0.9491 val_loss=0.9501 val_acc=0.7734
+epoch=028 train_loss=0.1544 train_acc=0.9517 val_loss=1.0063 val_acc=0.7717
+epoch=029 train_loss=0.1456 train_acc=0.9546 val_loss=0.9762 val_acc=0.7725
+epoch=030 train_loss=0.1397 train_acc=0.9569 val_loss=0.9482 val_acc=0.7822
+epoch=031 train_loss=0.1329 train_acc=0.9585 val_loss=0.9439 val_acc=0.7880
+epoch=032 train_loss=0.1216 train_acc=0.9623 val_loss=1.0258 val_acc=0.7695
+epoch=033 train_loss=0.1120 train_acc=0.9656 val_loss=0.9600 val_acc=0.7753
+epoch=034 train_loss=0.1050 train_acc=0.9684 val_loss=1.0297 val_acc=0.7812
+epoch=035 train_loss=0.0988 train_acc=0.9699 val_loss=1.0884 val_acc=0.7605
+epoch=036 train_loss=0.0965 train_acc=0.9703 val_loss=0.9727 val_acc=0.7816
+epoch=037 train_loss=0.0845 train_acc=0.9742 val_loss=0.9100 val_acc=0.7965
+epoch=038 train_loss=0.0774 train_acc=0.9773 val_loss=0.9711 val_acc=0.7892
+epoch=039 train_loss=0.0699 train_acc=0.9791 val_loss=0.8880 val_acc=0.8083
+epoch=040 train_loss=0.0636 train_acc=0.9813 val_loss=0.9853 val_acc=0.7822
+epoch=041 train_loss=0.0648 train_acc=0.9809 val_loss=0.9535 val_acc=0.7971
+epoch=042 train_loss=0.0628 train_acc=0.9810 val_loss=0.9472 val_acc=0.7894
+epoch=043 train_loss=0.0583 train_acc=0.9830 val_loss=0.8952 val_acc=0.7976
+epoch=044 train_loss=0.0506 train_acc=0.9859 val_loss=0.9036 val_acc=0.8097
+epoch=045 train_loss=0.0422 train_acc=0.9881 val_loss=0.8547 val_acc=0.8110
+epoch=046 train_loss=0.0440 train_acc=0.9873 val_loss=0.8815 val_acc=0.8127
+epoch=047 train_loss=0.0390 train_acc=0.9892 val_loss=0.8952 val_acc=0.8120
+epoch=048 train_loss=0.0402 train_acc=0.9888 val_loss=0.8802 val_acc=0.8131
+epoch=049 train_loss=0.0343 train_acc=0.9903 val_loss=0.8748 val_acc=0.8057
+epoch=050 train_loss=0.0287 train_acc=0.9928 val_loss=0.8538 val_acc=0.8117
+epoch=051 train_loss=0.0268 train_acc=0.9932 val_loss=0.8262 val_acc=0.8237
+epoch=052 train_loss=0.0226 train_acc=0.9941 val_loss=0.8362 val_acc=0.8209
+epoch=053 train_loss=0.0210 train_acc=0.9951 val_loss=0.8110 val_acc=0.8257
+epoch=054 train_loss=0.0181 train_acc=0.9958 val_loss=0.8033 val_acc=0.8265
+epoch=055 train_loss=0.0169 train_acc=0.9963 val_loss=0.7996 val_acc=0.8273
+epoch=056 train_loss=0.0131 train_acc=0.9973 val_loss=0.7751 val_acc=0.8296
+epoch=057 train_loss=0.0153 train_acc=0.9966 val_loss=0.8201 val_acc=0.8221
+epoch=058 train_loss=0.0152 train_acc=0.9964 val_loss=0.7668 val_acc=0.8318
+epoch=059 train_loss=0.0110 train_acc=0.9978 val_loss=0.7744 val_acc=0.8307
+epoch=060 train_loss=0.0097 train_acc=0.9984 val_loss=0.7435 val_acc=0.8366
+epoch=061 train_loss=0.0091 train_acc=0.9985 val_loss=0.7582 val_acc=0.8370
+epoch=062 train_loss=0.0088 train_acc=0.9983 val_loss=0.7418 val_acc=0.8394
+epoch=063 train_loss=0.0083 train_acc=0.9985 val_loss=0.7304 val_acc=0.8403
+epoch=064 train_loss=0.0075 train_acc=0.9987 val_loss=0.7407 val_acc=0.8394
+epoch=065 train_loss=0.0062 train_acc=0.9992 val_loss=0.7241 val_acc=0.8403
+epoch=066 train_loss=0.0065 train_acc=0.9991 val_loss=0.7255 val_acc=0.8394
+epoch=067 train_loss=0.0061 train_acc=0.9991 val_loss=0.7194 val_acc=0.8381
+epoch=068 train_loss=0.0054 train_acc=0.9993 val_loss=0.7196 val_acc=0.8397
+epoch=069 train_loss=0.0053 train_acc=0.9993 val_loss=0.7180 val_acc=0.8412
+epoch=070 train_loss=0.0055 train_acc=0.9992 val_loss=0.7082 val_acc=0.8422
+epoch=071 train_loss=0.0053 train_acc=0.9993 val_loss=0.6993 val_acc=0.8436
+epoch=072 train_loss=0.0043 train_acc=0.9995 val_loss=0.6997 val_acc=0.8456
+epoch=073 train_loss=0.0042 train_acc=0.9995 val_loss=0.6941 val_acc=0.8445
+epoch=074 train_loss=0.0045 train_acc=0.9994 val_loss=0.6976 val_acc=0.8420
+epoch=075 train_loss=0.0046 train_acc=0.9994 val_loss=0.6936 val_acc=0.8442
+epoch=076 train_loss=0.0042 train_acc=0.9995 val_loss=0.6864 val_acc=0.8440
+epoch=077 train_loss=0.0038 train_acc=0.9996 val_loss=0.6897 val_acc=0.8460
+epoch=078 train_loss=0.0038 train_acc=0.9995 val_loss=0.6822 val_acc=0.8449
+epoch=079 train_loss=0.0035 train_acc=0.9996 val_loss=0.6833 val_acc=0.8470
+epoch=080 train_loss=0.0039 train_acc=0.9996 val_loss=0.6811 val_acc=0.8448
+epoch=081 train_loss=0.0034 train_acc=0.9996 val_loss=0.6804 val_acc=0.8451
+epoch=082 train_loss=0.0032 train_acc=0.9997 val_loss=0.6821 val_acc=0.8445
+epoch=083 train_loss=0.0036 train_acc=0.9997 val_loss=0.6751 val_acc=0.8459
+epoch=084 train_loss=0.0031 train_acc=0.9998 val_loss=0.6762 val_acc=0.8457
+epoch=085 train_loss=0.0032 train_acc=0.9997 val_loss=0.6726 val_acc=0.8457
+epoch=086 train_loss=0.0032 train_acc=0.9997 val_loss=0.6720 val_acc=0.8460
+epoch=087 train_loss=0.0032 train_acc=0.9996 val_loss=0.6734 val_acc=0.8485
+epoch=088 train_loss=0.0030 train_acc=0.9997 val_loss=0.6732 val_acc=0.8476
+epoch=089 train_loss=0.0035 train_acc=0.9996 val_loss=0.6722 val_acc=0.8462
+epoch=090 train_loss=0.0030 train_acc=0.9997 val_loss=0.6717 val_acc=0.8473
+epoch=091 train_loss=0.0029 train_acc=0.9997 val_loss=0.6716 val_acc=0.8481
+epoch=092 train_loss=0.0029 train_acc=0.9998 val_loss=0.6702 val_acc=0.8471
+epoch=093 train_loss=0.0030 train_acc=0.9997 val_loss=0.6713 val_acc=0.8481
+epoch=094 train_loss=0.0030 train_acc=0.9997 val_loss=0.6700 val_acc=0.8468
+epoch=095 train_loss=0.0032 train_acc=0.9997 val_loss=0.6689 val_acc=0.8473
+epoch=096 train_loss=0.0033 train_acc=0.9997 val_loss=0.6705 val_acc=0.8470
+epoch=097 train_loss=0.0028 train_acc=0.9998 val_loss=0.6696 val_acc=0.8462
+epoch=098 train_loss=0.0028 train_acc=0.9998 val_loss=0.6698 val_acc=0.8474
+epoch=099 train_loss=0.0028 train_acc=0.9998 val_loss=0.6690 val_acc=0.8482
+epoch=100 train_loss=0.0028 train_acc=0.9998 val_loss=0.6684 val_acc=0.8477
+final_test_loss=0.7847 final_test_acc=0.8191 best_val_acc=0.8485 best_epoch=87
+Job finished at: Mon Jul  6 00:39:37 CEST 2026
