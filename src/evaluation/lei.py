@@ -8,6 +8,14 @@ import pandas as pd
 import yaml
 
 
+def layer_sort_key(layer: str):
+    parts = str(layer).replace("_", ".").split(".")
+    nums = [int(p) for p in parts if p.isdigit()]
+    if nums:
+        return (0, nums[-1], str(layer))
+    return (1, 0, str(layer))
+
+
 def _infer_layer_order(layers: list[str]) -> list[str]:
     def key(layer: str):
         parts = layer.replace("_", ".").split(".")
@@ -52,6 +60,15 @@ def compute_layer_emergence_index(
 
     if metric not in df.columns:
         raise ValueError(f"{csv_path} does not contain metric column {metric!r}.")
+    
+    df = df.copy()
+    df[metric] = pd.to_numeric(df[metric], errors="coerce")
+    df = df.dropna(subset=["layer", metric])
+
+    if df.empty:
+        raise ValueError(
+            f"{csv_path} contains no valid non-NaN values for metric {metric!r}."
+        )
 
     grouped = (
         df.groupby("layer", as_index=False)
