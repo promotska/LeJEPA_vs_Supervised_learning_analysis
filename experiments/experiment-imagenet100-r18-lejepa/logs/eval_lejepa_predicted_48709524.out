@@ -1,0 +1,52 @@
+Started at: Mon Jul  6 14:30:56 CEST 2026
+Node: lrdn0248.leonardo.local
+Config path: configs/imagenet100_resnet18_lejepa_glsas.yaml
+Grad-CAM target: predicted
+Mon Jul  6 14:30:56 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.274.02             Driver Version: 535.274.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM-64GB           On  | 00000000:8F:00.0 Off |                    0 |
+| N/A   43C    P0              61W / 452W |      0MiB / 65536MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+Using device: cuda
+ResNet alignment evaluation settings:
+  mode: lejepa
+  gradcam_target: predicted
+  checkpoint: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_probe_best.pt
+  output_csv: experiments/experiment-imagenet100-r18-lejepa/metrics/imagenet100_resnet18_lejepa_lsas_predicted.csv
+  figure_dir: experiments/experiment-imagenet100-r18-lejepa/figures/target_predicted
+  max_samples: 1000
+  batch_size: 32
+  layers: ['backbone.layer1', 'backbone.layer2', 'backbone.layer3', 'backbone.layer4']
+
+Evaluation completed.
+Saved CSV: experiments/experiment-imagenet100-r18-lejepa/metrics/imagenet100_resnet18_lejepa_lsas_predicted.csv
+Saved curve: experiments/experiment-imagenet100-r18-lejepa/metrics/imagenet100_resnet18_lejepa_lsas_predicted_curve.png
+Processed images: 1000
+Rows: 4000
+Expected rows: 4000
+Accuracy on evaluated subset: 0.2960
+Elapsed: 1.10 min
+
+Mean metrics per layer:
+                     lsas  corr_pca_xai  soft_iou_pca_xai
+layer                                                    
+backbone.layer1  0.197447      0.095926          0.298968
+backbone.layer2  0.168173      0.067111          0.269235
+backbone.layer3  0.142921      0.031893          0.253948
+backbone.layer4  0.581006      0.623800          0.538211
+Finished at: Mon Jul  6 14:34:25 CEST 2026

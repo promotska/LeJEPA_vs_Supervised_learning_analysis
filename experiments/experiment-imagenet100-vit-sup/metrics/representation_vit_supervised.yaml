@@ -1,0 +1,42 @@
+mode: vit_supervised
+architecture: vit_small_patch16_224
+checkpoint_path: experiments/experiment-imagenet100-vit-sup/checkpoints/imagenet100_vit_supervised_best.pt
+classifier_or_probe_accuracy:
+  accuracy: 0.5734
+  correct: 2867
+  total: 5000
+knn:
+  feature_bank: full_train_eval_transform
+  query: test
+  bank_samples: 126325
+  query_samples: 5000
+  feature_dim: 384
+  temperature: 0.07
+  results:
+  - k: 1
+    accuracy: 0.5556
+    correct: 2778
+    total: 5000
+  - k: 5
+    accuracy: 0.5724
+    correct: 2862
+    total: 5000
+  - k: 10
+    accuracy: 0.5774
+    correct: 2887
+    total: 5000
+  - &id001
+    k: 20
+    accuracy: 0.5786
+    correct: 2893
+    total: 5000
+  - k: 50
+    accuracy: 0.5762
+    correct: 2881
+    total: 5000
+  - k: 100
+    accuracy: 0.5748
+    correct: 2874
+    total: 5000
+  best: *id001
+elapsed_minutes: 2.2863375147183738

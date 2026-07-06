@@ -1,0 +1,52 @@
+Started at: Mon Jul  6 12:58:00 CEST 2026
+Node: lrdn2222.leonardo.local
+Config path: configs/imagenet100_resnet18_supervised_glsas.yaml
+Grad-CAM target: predicted
+Mon Jul  6 12:58:00 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.274.02             Driver Version: 535.274.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM-64GB           On  | 00000000:C8:00.0 Off |                    0 |
+| N/A   42C    P0              60W / 456W |      0MiB / 65536MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+Using device: cuda
+ResNet alignment evaluation settings:
+  mode: supervised
+  gradcam_target: predicted
+  checkpoint: experiments/experiment-imagenet100-r18-sup/checkpoints/imagenet100_resnet18_supervised_best.pt
+  output_csv: experiments/experiment-imagenet100-r18-sup/metrics/imagenet100_resnet18_supervised_lsas_predicted.csv
+  figure_dir: experiments/experiment-imagenet100-r18-sup/figures/target_predicted
+  max_samples: 1000
+  batch_size: 32
+  layers: ['backbone.layer1', 'backbone.layer2', 'backbone.layer3', 'backbone.layer4']
+
+Evaluation completed.
+Saved CSV: experiments/experiment-imagenet100-r18-sup/metrics/imagenet100_resnet18_supervised_lsas_predicted.csv
+Saved curve: experiments/experiment-imagenet100-r18-sup/metrics/imagenet100_resnet18_supervised_lsas_predicted_curve.png
+Processed images: 1000
+Rows: 4000
+Expected rows: 4000
+Accuracy on evaluated subset: 0.8090
+Elapsed: 0.84 min
+
+Mean metrics per layer:
+                     lsas  corr_pca_xai  soft_iou_pca_xai
+layer                                                    
+backbone.layer1  0.200742      0.106919          0.294565
+backbone.layer2  0.210326      0.082803          0.337849
+backbone.layer3  0.175648      0.094110          0.257185
+backbone.layer4  0.447182      0.364864          0.529501
+Finished at: Mon Jul  6 13:00:57 CEST 2026

@@ -1,0 +1,7 @@
+mode,architecture,checkpoint_path,classifier_or_probe_accuracy,classifier_or_probe_correct,classifier_or_probe_total,knn_k,knn_accuracy,knn_correct,knn_total,bank_samples,query_samples,feature_dim,temperature,elapsed_minutes
+vit_supervised,vit_small_patch16_224,experiments/experiment-imagenets50-vit-sup/checkpoints/imagenets50_vit_supervised_best.pt,0.6223404255319149,468,752,1,0.6210106382978723,467,752,64431,752,384,0.07,1.0835731188456217
+vit_supervised,vit_small_patch16_224,experiments/experiment-imagenets50-vit-sup/checkpoints/imagenets50_vit_supervised_best.pt,0.6223404255319149,468,752,5,0.6289893617021277,473,752,64431,752,384,0.07,1.0835731188456217
+vit_supervised,vit_small_patch16_224,experiments/experiment-imagenets50-vit-sup/checkpoints/imagenets50_vit_supervised_best.pt,0.6223404255319149,468,752,10,0.6343085106382979,477,752,64431,752,384,0.07,1.0835731188456217
+vit_supervised,vit_small_patch16_224,experiments/experiment-imagenets50-vit-sup/checkpoints/imagenets50_vit_supervised_best.pt,0.6223404255319149,468,752,20,0.636968085106383,479,752,64431,752,384,0.07,1.0835731188456217
+vit_supervised,vit_small_patch16_224,experiments/experiment-imagenets50-vit-sup/checkpoints/imagenets50_vit_supervised_best.pt,0.6223404255319149,468,752,50,0.6316489361702128,475,752,64431,752,384,0.07,1.0835731188456217
+vit_supervised,vit_small_patch16_224,experiments/experiment-imagenets50-vit-sup/checkpoints/imagenets50_vit_supervised_best.pt,0.6223404255319149,468,752,100,0.6276595744680851,472,752,64431,752,384,0.07,1.0835731188456217

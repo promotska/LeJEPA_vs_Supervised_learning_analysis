@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/scripts/evaluate_grounded_alignment.py", line 24, in <module>
+    from src.visualization.plot_grounded_curves import save_grounded_layer_curve
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/src/visualization/plot_grounded_curves.py", line 9, in <module>
+    from src.evaluation.lei import layer_sort_key
+ImportError: cannot import name 'layer_sort_key' from 'src.evaluation.lei' (/leonardo_scratch/large/userexternal/apromots/doubleN/cv/src/evaluation/lei.py)

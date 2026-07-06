@@ -1,0 +1,100 @@
+project:
+  name: imagenet100_vit_supervised_glsas
+  seed: 42
+  output_dir: experiments/experiment-imagenet100-vit-sup
+experiment:
+  root: experiments
+  name: experiment-imagenet100-vit-supervised-glsas
+  relocate_checkpoint_path: true
+method:
+  name: supervised_vit_imagenet100_glsas
+  deviations:
+  - Compact ViT-S/16-style model trained from scratch.
+  - Masks are used only for grounded evaluation, not training.
+data:
+  root: datasets/imagenet100
+  dataset: ImageFolder
+  image_size: 224
+  resize_size: 256
+  num_workers: 8
+  batch_size: 128
+  val_fraction: 0.1
+model:
+  architecture: vit_small_patch16_224
+  image_size: 224
+  patch_size: 16
+  num_classes: 100
+  embed_dim: 384
+  depth: 12
+  num_heads: 6
+  mlp_ratio: 4.0
+  dropout: 0.1
+  attn_dropout: 0.1
+training:
+  epochs: 100
+  optimizer: adamw
+  learning_rate: 0.0003
+  scheduler: cosine
+  weight_decay: 0.05
+  amp: true
+  grad_clip_norm: 1.0
+checkpoints:
+  best_path: experiments/experiment-imagenet100-vit-sup/checkpoints/imagenet100_vit_supervised_best.pt
+  last_path: experiments/experiment-imagenet100-vit-sup/checkpoints/imagenet100_vit_supervised_last.pt
+evaluation:
+  layers:
+  - blocks.2
+  - blocks.5
+  - blocks.8
+  - blocks.11
+  max_samples: 1000
+  batch_size: 32
+  num_visualizations: 8
+  save_visualizations: true
+  gradcam_target: predicted
+  vit_xai_method: token_gradient
+  attention_head_fusion: mean
+  attention_discard_ratio: 0.0
+  representation_batch_size: 128
+  representation_max_test_samples: null
+  representation_max_bank_samples: null
+  knn_ks:
+  - 1
+  - 5
+  - 10
+  - 20
+  - 50
+  - 100
+  knn_temperature: 0.07
+  knn_query_chunk_size: 128
+  checkpoint_path: experiments/experiment-imagenet100-vit-sup/checkpoints/imagenet100_vit_supervised_best.pt
+  output_csv: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_lsas.csv
+  figure_dir: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised
+grounded_evaluation:
+  dataset: folder_masks
+  image_root: datasets/imagenet_s50/classification/val
+  mask_root: datasets/imagenet_s50/masks/val
+  target: predicted
+  batch_size: 16
+  max_samples: 500
+  top_frac: 0.2
+  stability: true
+  stability_aug_strength: 0.2
+  stability_grayscale_p: 0.0
+  lei_threshold: 0.3
+  output_csv: outputs/metrics/imagenet100_vit_supervised_g_lsas.csv
+  figure_dir: outputs/figures/imagenet100_vit_supervised_g_lsas
+  vit_xai_method: token_gradient
+_experiment:
+  name: experiment-imagenet100-vit-sup
+  dir: experiments/experiment-imagenet100-vit-sup
+  run_id: 20260706_125947_evaluate_representation_vit_supervised_vit_supervised_1517526
+  run_kind: evaluate_representation_vit_supervised
+  mode: vit_supervised
+  manifest_path: experiments/experiment-imagenet100-vit-sup/manifest.yaml
+  config_snapshot_path: experiments/experiment-imagenet100-vit-sup/configs/original_imagenet100_vit_supervised_glsas.yaml
+  resolved_config_path: experiments/experiment-imagenet100-vit-sup/configs/resolved_20260706_125947_evaluate_representation_vit_supervised_vit_supervised_1517526.yaml
+  checkpoints_dir: experiments/experiment-imagenet100-vit-sup/checkpoints
+  metrics_dir: experiments/experiment-imagenet100-vit-sup/metrics
+  figures_dir: experiments/experiment-imagenet100-vit-sup/figures
+  logs_dir: experiments/experiment-imagenet100-vit-sup/logs

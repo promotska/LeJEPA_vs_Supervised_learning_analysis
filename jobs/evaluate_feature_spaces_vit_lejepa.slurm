@@ -94,7 +94,31 @@ echo "Confirmed ViT architecture: ${ARCH}"
 
 echo "Using training resolved config: ${TRAIN_CONFIG}"
 
-BACKBONE_CHECKPOINT="${EXP_DIR}/checkpoints/vit_lejepa_backbone_last.pt"
+FEATURE_CHECKPOINT="${FEATURE_CHECKPOINT:-best}"
+
+case "${FEATURE_CHECKPOINT}" in
+  best)
+    BACKBONE_CHECKPOINT="${EXP_DIR}/checkpoints/vit_lejepa_backbone_best.pt"
+    ;;
+  last)
+    FEATURE_CHECKPOINT="${FEATURE_CHECKPOINT:-best}"
+
+case "${FEATURE_CHECKPOINT}" in
+  best)
+    BACKBONE_CHECKPOINT="${EXP_DIR}/checkpoints/vit_lejepa_backbone_best.pt"
+    ;;
+  last)
+    BACKBONE_CHECKPOINT="${EXP_DIR}/checkpoints/vit_lejepa_backbone_last.pt"
+    ;;
+  *)
+    BACKBONE_CHECKPOINT="${FEATURE_CHECKPOINT}"
+    ;;
+esac
+    ;;
+  *)
+    BACKBONE_CHECKPOINT="${FEATURE_CHECKPOINT}"
+    ;;
+esac
 
 if [ ! -f "${BACKBONE_CHECKPOINT}" ]; then
   echo "ERROR: missing checkpoint: ${BACKBONE_CHECKPOINT}"

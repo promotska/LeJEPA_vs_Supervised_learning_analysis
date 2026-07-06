@@ -1,0 +1,7 @@
+mode,architecture,checkpoint_path,classifier_or_probe_accuracy,classifier_or_probe_correct,classifier_or_probe_total,knn_k,knn_accuracy,knn_correct,knn_total,bank_samples,query_samples,feature_dim,temperature,elapsed_minutes
+vit_lejepa,vit_small_patch16_224,experiments/experiment-imagenet100-vit-lejepa/checkpoints/imagenet100_vit_lejepa_probe_best.pt,0.2528,1264,5000,1,0.1322,661,5000,126325,5000,384,0.07,2.323200980822245
+vit_lejepa,vit_small_patch16_224,experiments/experiment-imagenet100-vit-lejepa/checkpoints/imagenet100_vit_lejepa_probe_best.pt,0.2528,1264,5000,5,0.1552,776,5000,126325,5000,384,0.07,2.323200980822245
+vit_lejepa,vit_small_patch16_224,experiments/experiment-imagenet100-vit-lejepa/checkpoints/imagenet100_vit_lejepa_probe_best.pt,0.2528,1264,5000,10,0.171,855,5000,126325,5000,384,0.07,2.323200980822245
+vit_lejepa,vit_small_patch16_224,experiments/experiment-imagenet100-vit-lejepa/checkpoints/imagenet100_vit_lejepa_probe_best.pt,0.2528,1264,5000,20,0.18,900,5000,126325,5000,384,0.07,2.323200980822245
+vit_lejepa,vit_small_patch16_224,experiments/experiment-imagenet100-vit-lejepa/checkpoints/imagenet100_vit_lejepa_probe_best.pt,0.2528,1264,5000,50,0.1938,969,5000,126325,5000,384,0.07,2.323200980822245
+vit_lejepa,vit_small_patch16_224,experiments/experiment-imagenet100-vit-lejepa/checkpoints/imagenet100_vit_lejepa_probe_best.pt,0.2528,1264,5000,100,0.2014,1007,5000,126325,5000,384,0.07,2.323200980822245

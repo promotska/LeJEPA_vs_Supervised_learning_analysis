@@ -1,0 +1,41 @@
+Job started at: Mon Jul  6 12:57:58 CEST 2026
+Node: lrdn1939.leonardo.local
+Config path: configs/imagenet100_vit_lejepa_glsas.yaml
+Mon Jul  6 12:57:58 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.274.02             Driver Version: 535.274.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM-64GB           On  | 00000000:C8:00.0 Off |                    0 |
+| N/A   43C    P0              62W / 461W |      0MiB / 65536MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+Using device: cuda
+Representation evaluation settings:
+  mode: vit_lejepa
+  architecture: vit_small_patch16_224
+  checkpoint: experiments/experiment-imagenet100-vit-lejepa/checkpoints/imagenet100_vit_lejepa_probe_best.pt
+  batch_size: 128
+  max_test_samples: None
+  max_bank_samples: None
+  kNN ks: [1, 5, 10, 20, 50, 100]
+  feature bank: full train set with eval transforms
+  query set: test set
+
+Representation evaluation completed.
+Classifier/probe accuracy: 0.2528
+Best kNN accuracy: 0.2014 at k=100
+Saved YAML: experiments/experiment-imagenet100-vit-lejepa/metrics/representation_vit_lejepa.yaml
+Saved CSV: experiments/experiment-imagenet100-vit-lejepa/metrics/representation_vit_lejepa.csv
+Job finished at: Mon Jul  6 13:02:17 CEST 2026

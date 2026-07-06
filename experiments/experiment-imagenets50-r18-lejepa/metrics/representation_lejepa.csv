@@ -1,0 +1,7 @@
+mode,architecture,checkpoint_path,classifier_or_probe_accuracy,classifier_or_probe_correct,classifier_or_probe_total,knn_k,knn_accuracy,knn_correct,knn_total,bank_samples,query_samples,feature_dim,temperature,elapsed_minutes
+lejepa,resnet18_imagenet,experiments/experiment-imagenets50-r18-lejepa/checkpoints/imagenets50_resnet18_lejepa_probe_best.pt,0.5132978723404256,386,752,1,0.4162234042553192,313,752,64431,752,512,0.07,1.2936134497324625
+lejepa,resnet18_imagenet,experiments/experiment-imagenets50-r18-lejepa/checkpoints/imagenets50_resnet18_lejepa_probe_best.pt,0.5132978723404256,386,752,5,0.46143617021276595,347,752,64431,752,512,0.07,1.2936134497324625
+lejepa,resnet18_imagenet,experiments/experiment-imagenets50-r18-lejepa/checkpoints/imagenets50_resnet18_lejepa_probe_best.pt,0.5132978723404256,386,752,10,0.4773936170212766,359,752,64431,752,512,0.07,1.2936134497324625
+lejepa,resnet18_imagenet,experiments/experiment-imagenets50-r18-lejepa/checkpoints/imagenets50_resnet18_lejepa_probe_best.pt,0.5132978723404256,386,752,20,0.4920212765957447,370,752,64431,752,512,0.07,1.2936134497324625
+lejepa,resnet18_imagenet,experiments/experiment-imagenets50-r18-lejepa/checkpoints/imagenets50_resnet18_lejepa_probe_best.pt,0.5132978723404256,386,752,50,0.4946808510638298,372,752,64431,752,512,0.07,1.2936134497324625
+lejepa,resnet18_imagenet,experiments/experiment-imagenets50-r18-lejepa/checkpoints/imagenets50_resnet18_lejepa_probe_best.pt,0.5132978723404256,386,752,100,0.4747340425531915,357,752,64431,752,512,0.07,1.2936134497324625

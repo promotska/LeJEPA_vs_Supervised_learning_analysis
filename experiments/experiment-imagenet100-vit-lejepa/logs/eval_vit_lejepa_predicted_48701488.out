@@ -1,0 +1,50 @@
+Job started at: Mon Jul  6 12:58:00 CEST 2026
+Node: lrdn3018.leonardo.local
+Config path: configs/imagenet100_vit_lejepa_glsas.yaml
+Mon Jul  6 12:58:00 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.274.02             Driver Version: 535.274.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM-64GB           On  | 00000000:C8:00.0 Off |                    0 |
+| N/A   43C    P0              63W / 463W |      0MiB / 65536MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+Using device: cuda
+ViT alignment evaluation settings:
+  mode: vit_lejepa
+  xai_method: token_gradient
+  gradcam_target: predicted
+  checkpoint: experiments/experiment-imagenet100-vit-lejepa/checkpoints/imagenet100_vit_lejepa_probe_best.pt
+  layers: ['blocks.2', 'blocks.5', 'blocks.8', 'blocks.11']
+  max_samples: 1000
+  output_csv: experiments/experiment-imagenet100-vit-lejepa/metrics/imagenet100_vit_lejepa_lsas_token_gradient_predicted.csv
+
+ViT alignment evaluation completed.
+Saved CSV: experiments/experiment-imagenet100-vit-lejepa/metrics/imagenet100_vit_lejepa_lsas_token_gradient_predicted.csv
+Saved curve: experiments/experiment-imagenet100-vit-lejepa/metrics/imagenet100_vit_lejepa_lsas_token_gradient_predicted_curve.png
+Processed images: 1000
+Rows: 4000
+Expected rows: 4000
+Accuracy on evaluated subset: 0.2640
+Elapsed: 1.08 min
+
+Mean metrics per layer:
+               lsas  corr_pca_xai  soft_iou_pca_xai
+layer                                              
+blocks.11  0.000000      0.000000          0.000000
+blocks.2   0.214445      0.184006          0.244884
+blocks.5   0.184487      0.154902          0.214073
+blocks.8   0.207298      0.210017          0.204579
+Job finished at: Mon Jul  6 13:01:09 CEST 2026

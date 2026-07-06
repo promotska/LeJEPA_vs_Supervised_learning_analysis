@@ -1,0 +1,7 @@
+mode,architecture,checkpoint_path,classifier_or_probe_accuracy,classifier_or_probe_correct,classifier_or_probe_total,knn_k,knn_accuracy,knn_correct,knn_total,bank_samples,query_samples,feature_dim,temperature,elapsed_minutes
+supervised,resnet18_imagenet,experiments/experiment-imagenets50-r18-sup/checkpoints/imagenets50_resnet18_supervised_best.pt,0.8204787234042553,617,752,1,0.8071808510638298,607,752,64431,752,512,0.07,1.274409011999766
+supervised,resnet18_imagenet,experiments/experiment-imagenets50-r18-sup/checkpoints/imagenets50_resnet18_supervised_best.pt,0.8204787234042553,617,752,5,0.8191489361702128,616,752,64431,752,512,0.07,1.274409011999766
+supervised,resnet18_imagenet,experiments/experiment-imagenets50-r18-sup/checkpoints/imagenets50_resnet18_supervised_best.pt,0.8204787234042553,617,752,10,0.8151595744680851,613,752,64431,752,512,0.07,1.274409011999766
+supervised,resnet18_imagenet,experiments/experiment-imagenets50-r18-sup/checkpoints/imagenets50_resnet18_supervised_best.pt,0.8204787234042553,617,752,20,0.824468085106383,620,752,64431,752,512,0.07,1.274409011999766
+supervised,resnet18_imagenet,experiments/experiment-imagenets50-r18-sup/checkpoints/imagenets50_resnet18_supervised_best.pt,0.8204787234042553,617,752,50,0.8191489361702128,616,752,64431,752,512,0.07,1.274409011999766
+supervised,resnet18_imagenet,experiments/experiment-imagenets50-r18-sup/checkpoints/imagenets50_resnet18_supervised_best.pt,0.8204787234042553,617,752,100,0.8164893617021277,614,752,64431,752,512,0.07,1.274409011999766

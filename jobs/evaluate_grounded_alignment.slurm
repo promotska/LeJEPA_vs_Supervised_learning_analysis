@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=grounded_alignment
 #SBATCH --partition=boost_usr_prod
-#SBATCH --account=try25_navigli
+#SBATCH --account=IscrC_MNLP26
 #SBATCH --qos=normal
 #SBATCH --time=08:00:00
 #SBATCH --gres=gpu:1

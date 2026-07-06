@@ -129,7 +129,7 @@ submit_lejepa_repr() {
 
 submit_lejepa_feature_spaces() {
   sbatch \
-    --export="${EXPORT_BASE},FEATURE_SOURCE=all" \
+    --export="${EXPORT_BASE},FEATURE_SOURCE=all,FEATURE_CHECKPOINT=${FEATURE_CHECKPOINT:-best}" \
     --output="${EXP_DIR}/logs/feature_spaces_lejepa_%j.out" \
     --error="${EXP_DIR}/logs/feature_spaces_lejepa_%j.err" \
     jobs/evaluate_feature_spaces_lejepa.slurm
@@ -201,7 +201,7 @@ submit_vit_lejepa_repr() {
 
 submit_vit_lejepa_feature_spaces() {
   sbatch \
-    --export="${EXPORT_BASE},FEATURE_SOURCE=all" \
+    --export="${EXPORT_BASE},FEATURE_SOURCE=all,FEATURE_CHECKPOINT=${FEATURE_CHECKPOINT:-best}" \
     --output="${EXP_DIR}/logs/feature_spaces_vit_lejepa_%j.out" \
     --error="${EXP_DIR}/logs/feature_spaces_vit_lejepa_%j.err" \
     jobs/evaluate_feature_spaces_vit_lejepa.slurm

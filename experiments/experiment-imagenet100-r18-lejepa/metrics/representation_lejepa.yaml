@@ -1,0 +1,42 @@
+mode: lejepa
+architecture: resnet18_imagenet
+checkpoint_path: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_probe_best.pt
+classifier_or_probe_accuracy:
+  accuracy: 0.3174
+  correct: 1587
+  total: 5000
+knn:
+  feature_bank: full_train_eval_transform
+  query: test
+  bank_samples: 126325
+  query_samples: 5000
+  feature_dim: 512
+  temperature: 0.07
+  results:
+  - k: 1
+    accuracy: 0.2172
+    correct: 1086
+    total: 5000
+  - k: 5
+    accuracy: 0.2544
+    correct: 1272
+    total: 5000
+  - k: 10
+    accuracy: 0.277
+    correct: 1385
+    total: 5000
+  - k: 20
+    accuracy: 0.2898
+    correct: 1449
+    total: 5000
+  - &id001
+    k: 50
+    accuracy: 0.308
+    correct: 1540
+    total: 5000
+  - k: 100
+    accuracy: 0.3058
+    correct: 1529
+    total: 5000
+  best: *id001
+elapsed_minutes: 2.370647342999776

@@ -1,0 +1,135 @@
+project:
+  name: imagenet100_resnet18_lejepa_glsas
+  seed: 42
+  output_dir: experiments/experiment-imagenet100-r18-lejepa
+experiment:
+  root: experiments
+  name: experiment-imagenet100-resnet18-lejepa-glsas
+  relocate_checkpoint_path: true
+method:
+  name: lejepa_sigreg_imagenet100_glsas
+  deviations:
+  - 'ResNet LeJEPA hyperparameters transfer best CIFAR trend: weak SIGReg, no local
+    crops, 256/512 head.'
+  - Masks are used only for grounded evaluation, not training.
+data:
+  root: datasets/imagenet100
+  dataset: ImageFolder
+  image_size: 224
+  resize_size: 256
+  num_workers: 8
+  batch_size: 128
+  val_fraction: 0.1
+model:
+  architecture: resnet18_imagenet
+  image_size: 224
+  num_classes: 100
+  projection_dim: 256
+  prediction_dim: 512
+training:
+  pretrain_epochs: 200
+  warmup_epochs: 10
+  probe_epochs: 100
+  probe_warmup_epochs: 5
+  learning_rate: 0.0005
+  weight_decay: 0.05
+  probe_optimizer: sgd
+  probe_learning_rate: 0.05
+  probe_momentum: 0.9
+  probe_nesterov: true
+  probe_weight_decay: 0.0
+  grad_clip_norm: 1.0
+  amp: true
+  save_every_epoch: false
+lejepa:
+  sigreg_implementation: official
+  sigreg_num_slices: 1024
+  sigreg_num_points: 17
+  prediction_weight: 1.0
+  sigreg_weight: 0.002
+  normalize_prediction: true
+lejepa_views:
+  num_global_views: 2
+  num_local_views: 0
+  global_scale:
+  - 0.6
+  - 1.0
+  local_scale:
+  - 0.4
+  - 0.8
+  color_jitter_strength: 0.25
+  grayscale_p: 0.1
+  global_blur_p: 0.0
+  local_blur_p: 0.0
+checkpoint_selection:
+  enabled: true
+  select_backbone_by: knn
+  save_candidate_every_epochs: 20
+  batch_size: 128
+  max_bank_samples: 20000
+  max_test_samples: 5000
+  knn_ks:
+  - 20
+  - 50
+  - 100
+  temperature: 0.07
+  query_chunk_size: 128
+checkpoints:
+  backbone_best_path: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_best.pt
+  backbone_loss_best_path: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_loss_best.pt
+  backbone_last_path: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_backbone_last.pt
+  probe_best_path: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_probe_best.pt
+  probe_last_path: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_probe_last.pt
+evaluation:
+  layers:
+  - backbone.layer1
+  - backbone.layer2
+  - backbone.layer3
+  - backbone.layer4
+  max_samples: 1000
+  batch_size: 32
+  num_visualizations: 8
+  save_visualizations: true
+  gradcam_target: predicted
+  representation_batch_size: 128
+  representation_max_test_samples: null
+  representation_max_bank_samples: null
+  knn_ks:
+  - 1
+  - 5
+  - 10
+  - 20
+  - 50
+  - 100
+  knn_temperature: 0.07
+  knn_query_chunk_size: 128
+  checkpoint_path: experiments/experiment-imagenet100-r18-lejepa/checkpoints/imagenet100_resnet18_lejepa_probe_best.pt
+  output_csv: experiments/experiment-imagenet100-r18-lejepa/metrics/imagenet100_resnet18_lejepa_lsas.csv
+  figure_dir: experiments/experiment-imagenet100-r18-lejepa/figures/imagenet100_resnet18_lejepa
+grounded_evaluation:
+  dataset: folder_masks
+  image_root: datasets/imagenet_s50/classification/val
+  mask_root: datasets/imagenet_s50/masks/val
+  target: predicted
+  batch_size: 16
+  max_samples: 500
+  top_frac: 0.2
+  stability: true
+  stability_aug_strength: 0.2
+  stability_grayscale_p: 0.0
+  lei_threshold: 0.3
+  output_csv: outputs/metrics/imagenet100_resnet18_lejepa_g_lsas.csv
+  figure_dir: outputs/figures/imagenet100_resnet18_lejepa_g_lsas
+_experiment:
+  name: experiment-imagenet100-r18-lejepa
+  dir: experiments/experiment-imagenet100-r18-lejepa
+  run_id: 20260706_143257_evaluate_representation_lejepa_lejepa_2796986
+  run_kind: evaluate_representation_lejepa
+  mode: lejepa
+  manifest_path: experiments/experiment-imagenet100-r18-lejepa/manifest.yaml
+  config_snapshot_path: experiments/experiment-imagenet100-r18-lejepa/configs/original_imagenet100_resnet18_lejepa_glsas.yaml
+  resolved_config_path: experiments/experiment-imagenet100-r18-lejepa/configs/resolved_20260706_143257_evaluate_representation_lejepa_lejepa_2796986.yaml
+  checkpoints_dir: experiments/experiment-imagenet100-r18-lejepa/checkpoints
+  metrics_dir: experiments/experiment-imagenet100-r18-lejepa/metrics
+  figures_dir: experiments/experiment-imagenet100-r18-lejepa/figures
+  logs_dir: experiments/experiment-imagenet100-r18-lejepa/logs

@@ -1,0 +1,42 @@
+mode: supervised
+architecture: resnet18_imagenet
+checkpoint_path: experiments/experiment-imagenet100-r18-sup/checkpoints/imagenet100_resnet18_supervised_best.pt
+classifier_or_probe_accuracy:
+  accuracy: 0.7936
+  correct: 3968
+  total: 5000
+knn:
+  feature_bank: full_train_eval_transform
+  query: test
+  bank_samples: 126325
+  query_samples: 5000
+  feature_dim: 512
+  temperature: 0.07
+  results:
+  - k: 1
+    accuracy: 0.7724
+    correct: 3862
+    total: 5000
+  - k: 5
+    accuracy: 0.7902
+    correct: 3951
+    total: 5000
+  - k: 10
+    accuracy: 0.792
+    correct: 3960
+    total: 5000
+  - k: 20
+    accuracy: 0.793
+    correct: 3965
+    total: 5000
+  - &id001
+    k: 50
+    accuracy: 0.795
+    correct: 3975
+    total: 5000
+  - k: 100
+    accuracy: 0.7932
+    correct: 3966
+    total: 5000
+  best: *id001
+elapsed_minutes: 2.1520933508872986

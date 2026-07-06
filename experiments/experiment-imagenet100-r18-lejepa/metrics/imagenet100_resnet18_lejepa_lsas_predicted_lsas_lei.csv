@@ -1,0 +1,2 @@
+csv_path,metric,threshold,relative_threshold,num_layers,peak_layer,peak_value,auc,emergence_layer,emergence_layer_index,normalized_emergence_index,relative_emergence_threshold_value,relative_emergence_layer,relative_emergence_layer_index,normalized_relative_emergence_index
+experiments/experiment-imagenet100-r18-lejepa/metrics/imagenet100_resnet18_lejepa_lsas_predicted.csv,lsas,0.3,0.9,4,backbone.layer4,0.5809887609183788,0.23347068870818108,backbone.layer4,3,1.0,0.522889884826541,backbone.layer4,3,1.0

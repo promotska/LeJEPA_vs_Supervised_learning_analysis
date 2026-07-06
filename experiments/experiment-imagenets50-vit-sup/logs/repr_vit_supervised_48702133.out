@@ -1,0 +1,41 @@
+Started at: Mon Jul  6 13:07:20 CEST 2026
+Node: lrdn0924.leonardo.local
+Config path: configs/imagenets50_vit_supervised_glsas.yaml
+Mon Jul  6 13:07:20 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.274.02             Driver Version: 535.274.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM-64GB           On  | 00000000:C8:00.0 Off |                    0 |
+| N/A   43C    P0              63W / 454W |      0MiB / 65536MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+Using device: cuda
+Representation evaluation settings:
+  mode: vit_supervised
+  architecture: vit_small_patch16_224
+  checkpoint: experiments/experiment-imagenets50-vit-sup/checkpoints/imagenets50_vit_supervised_best.pt
+  batch_size: 128
+  max_test_samples: None
+  max_bank_samples: None
+  kNN ks: [1, 5, 10, 20, 50, 100]
+  feature bank: full train set with eval transforms
+  query set: test set
+
+Representation evaluation completed.
+Classifier/probe accuracy: 0.6223
+Best kNN accuracy: 0.6370 at k=20
+Saved YAML: experiments/experiment-imagenets50-vit-sup/metrics/representation_vit_supervised.yaml
+Saved CSV: experiments/experiment-imagenets50-vit-sup/metrics/representation_vit_supervised.csv
+Finished at: Mon Jul  6 13:08:57 CEST 2026

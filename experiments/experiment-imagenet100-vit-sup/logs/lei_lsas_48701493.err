@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/scripts/compute_lei_for_experiment.py", line 94, in <module>
+    main()
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/scripts/compute_lei_for_experiment.py", line 80, in main
+    raise RuntimeError(
+RuntimeError: No CSVs under experiments/experiment-imagenet100-vit-sup/metrics contained columns: layer and 'lsas'.
