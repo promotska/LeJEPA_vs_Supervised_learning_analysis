@@ -1,0 +1,26 @@
+Using device: cuda
+Grounded alignment settings:
+  mode: lejepa
+  target: predicted
+  architecture: resnet18_imagenet
+  checkpoint: experiments/experiment-imagenets50-r18-lejepa/checkpoints/imagenets50_resnet18_lejepa_probe_best.pt
+  output_csv: experiments/experiment-imagenets50-r18-lejepa/metrics/imagenets50_resnet18_lejepa_g_lsas.csv
+  figure_dir: experiments/experiment-imagenets50-r18-lejepa/figures/imagenets50_resnet18_lejepa_g_lsas
+  grounded dataset: folder_masks
+Saved G-LSAS rows: experiments/experiment-imagenets50-r18-lejepa/metrics/imagenets50_resnet18_lejepa_g_lsas.csv (2000 rows, 500 images, 53.7s)
+
+G-LSAS completed.
+Saved CSV: experiments/experiment-imagenets50-r18-lejepa/metrics/imagenets50_resnet18_lejepa_g_lsas.csv
+Saved curve: experiments/experiment-imagenets50-r18-lejepa/metrics/imagenets50_resnet18_lejepa_g_lsas_curve.png
+Saved LEI CSV: experiments/experiment-imagenets50-r18-lejepa/metrics/imagenets50_resnet18_lejepa_g_lsas_lei.csv
+Saved LEI YAML: experiments/experiment-imagenets50-r18-lejepa/metrics/imagenets50_resnet18_lejepa_g_lsas_lei.yaml
+Mean metrics per layer:
+                   g_lsas  corr_pca_xai  ...  object_focus_pca  object_focus_xai
+layer                                    ...                                    
+backbone.layer1  0.292364      0.135924  ...          0.435000          0.458965
+backbone.layer2  0.248043      0.061327  ...          0.388418          0.482863
+backbone.layer3  0.272163      0.069176  ...          0.397958          0.573134
+backbone.layer4  0.460818      0.467392  ...          0.454552          0.558179
+
+[4 rows x 7 columns]
+LEI: {'csv_path': 'experiments/experiment-imagenets50-r18-lejepa/metrics/imagenets50_resnet18_lejepa_g_lsas.csv', 'metric': 'g_lsas', 'threshold': 0.3, 'relative_threshold': 0.9, 'num_layers': 4, 'peak_layer': 'backbone.layer4', 'peak_value': 0.46081770360702606, 'auc': 0.29893261125228193, 'emergence_layer': 'backbone.layer4', 'emergence_layer_index': 3, 'normalized_emergence_index': 1.0, 'relative_emergence_threshold_value': 0.41473593324632346, 'relative_emergence_layer': 'backbone.layer4', 'relative_emergence_layer_index': 3, 'normalized_relative_emergence_index': 1.0}

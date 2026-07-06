@@ -1,0 +1,6 @@
+Computed Layer Emergence Index files:
+- source: experiments/experiment-imagenet100-vit-lejepa/metrics/imagenet100_vit_lejepa_lsas_token_gradient_predicted.csv
+  csv:    experiments/experiment-imagenet100-vit-lejepa/metrics/imagenet100_vit_lejepa_lsas_token_gradient_predicted_lsas_lei.csv
+  yaml:   experiments/experiment-imagenet100-vit-lejepa/metrics/imagenet100_vit_lejepa_lsas_token_gradient_predicted_lsas_lei.yaml
+  peak:   blocks.2=0.2144
+  LEI:    None

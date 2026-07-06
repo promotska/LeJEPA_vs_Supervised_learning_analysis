@@ -1,0 +1,2 @@
+csv_path,metric,threshold,relative_threshold,num_layers,peak_layer,peak_value,auc,emergence_layer,emergence_layer_index,normalized_emergence_index,relative_emergence_threshold_value,relative_emergence_layer,relative_emergence_layer_index,normalized_relative_emergence_index
+experiments/experiment-imagenets50-vit-lejepa/metrics/imagenets50_vit_lejepa_g_lsas.csv,g_lsas,0.3,0.9,4,blocks.5,0.30959503907853736,0.3039140738881161,blocks.5,1,0.3333333333333333,0.2786355351706836,blocks.2,0,0.0

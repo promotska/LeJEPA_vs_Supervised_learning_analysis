@@ -1,0 +1,26 @@
+Using device: cuda
+Grounded alignment settings:
+  mode: vit_lejepa
+  target: predicted
+  architecture: vit_small_patch16_224
+  checkpoint: experiments/experiment-imagenet100-vit-lejepa/checkpoints/imagenet100_vit_lejepa_probe_best.pt
+  output_csv: experiments/experiment-imagenet100-vit-lejepa/metrics/imagenet100_vit_lejepa_g_lsas.csv
+  figure_dir: experiments/experiment-imagenet100-vit-lejepa/figures/imagenet100_vit_lejepa_g_lsas
+  grounded dataset: folder_masks
+Saved G-LSAS rows: experiments/experiment-imagenet100-vit-lejepa/metrics/imagenet100_vit_lejepa_g_lsas.csv (2000 rows, 500 images, 68.8s)
+
+G-LSAS completed.
+Saved CSV: experiments/experiment-imagenet100-vit-lejepa/metrics/imagenet100_vit_lejepa_g_lsas.csv
+Saved curve: experiments/experiment-imagenet100-vit-lejepa/metrics/imagenet100_vit_lejepa_g_lsas_curve.png
+Saved LEI CSV: experiments/experiment-imagenet100-vit-lejepa/metrics/imagenet100_vit_lejepa_g_lsas_lei.csv
+Saved LEI YAML: experiments/experiment-imagenet100-vit-lejepa/metrics/imagenet100_vit_lejepa_g_lsas_lei.yaml
+Mean metrics per layer:
+             g_lsas  corr_pca_xai  ...  object_focus_pca  object_focus_xai
+layer                              ...                                    
+blocks.11  0.299206      0.000000  ...          0.423659          0.000000
+blocks.2   0.306407      0.175943  ...          0.431272          0.466080
+blocks.5   0.295751      0.149094  ...          0.425197          0.454696
+blocks.8   0.308313      0.187857  ...          0.424907          0.443926
+
+[4 rows x 7 columns]
+LEI: {'csv_path': 'experiments/experiment-imagenet100-vit-lejepa/metrics/imagenet100_vit_lejepa_g_lsas.csv', 'metric': 'g_lsas', 'threshold': 0.3, 'relative_threshold': 0.9, 'num_layers': 4, 'peak_layer': 'blocks.8', 'peak_value': 0.30831287075755726, 'auc': 0.302290103295642, 'emergence_layer': 'blocks.2', 'emergence_layer_index': 0, 'normalized_emergence_index': 0.0, 'relative_emergence_threshold_value': 0.27748158368180154, 'relative_emergence_layer': 'blocks.2', 'relative_emergence_layer_index': 0, 'normalized_relative_emergence_index': 0.0}

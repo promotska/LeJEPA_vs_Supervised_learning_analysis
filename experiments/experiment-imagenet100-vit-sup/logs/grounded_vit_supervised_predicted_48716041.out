@@ -1,0 +1,26 @@
+Using device: cuda
+Grounded alignment settings:
+  mode: vit_supervised
+  target: predicted
+  architecture: vit_small_patch16_224
+  checkpoint: experiments/experiment-imagenet100-vit-sup/checkpoints/imagenet100_vit_supervised_best.pt
+  output_csv: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_g_lsas.csv
+  figure_dir: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas
+  grounded dataset: folder_masks
+Saved G-LSAS rows: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_g_lsas.csv (2000 rows, 500 images, 71.3s)
+
+G-LSAS completed.
+Saved CSV: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_g_lsas.csv
+Saved curve: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_g_lsas_curve.png
+Saved LEI CSV: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_g_lsas_lei.csv
+Saved LEI YAML: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_g_lsas_lei.yaml
+Mean metrics per layer:
+             g_lsas  corr_pca_xai  ...  object_focus_pca  object_focus_xai
+layer                              ...                                    
+blocks.11  0.284570      0.000000  ...          0.406034          0.000000
+blocks.2   0.287108      0.101207  ...          0.413212          0.526877
+blocks.5   0.265305      0.053481  ...          0.414222          0.508605
+blocks.8   0.253535      0.042011  ...          0.411289          0.486041
+
+[4 rows x 7 columns]
+LEI: {'csv_path': 'experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_g_lsas.csv', 'metric': 'g_lsas', 'threshold': 0.3, 'relative_threshold': 0.9, 'num_layers': 4, 'peak_layer': 'blocks.2', 'peak_value': 0.2871084771168072, 'auc': 0.26822643538350915, 'emergence_layer': None, 'emergence_layer_index': None, 'normalized_emergence_index': None, 'relative_emergence_threshold_value': 0.2583976294051265, 'relative_emergence_layer': 'blocks.2', 'relative_emergence_layer_index': 0, 'normalized_relative_emergence_index': 0.0}

@@ -1,0 +1,15 @@
+csv_path: experiments/experiment-imagenet100-vit-lejepa/metrics/imagenet100_vit_lejepa_g_lsas.csv
+metric: g_lsas
+threshold: 0.3
+relative_threshold: 0.9
+num_layers: 4
+peak_layer: blocks.8
+peak_value: 0.30831287075755726
+auc: 0.302290103295642
+emergence_layer: blocks.2
+emergence_layer_index: 0
+normalized_emergence_index: 0.0
+relative_emergence_threshold_value: 0.27748158368180154
+relative_emergence_layer: blocks.2
+relative_emergence_layer_index: 0
+normalized_relative_emergence_index: 0.0

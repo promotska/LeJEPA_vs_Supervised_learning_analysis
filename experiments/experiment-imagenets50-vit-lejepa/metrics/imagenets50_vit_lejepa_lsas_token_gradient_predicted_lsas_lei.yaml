@@ -1,0 +1,15 @@
+csv_path: experiments/experiment-imagenets50-vit-lejepa/metrics/imagenets50_vit_lejepa_lsas_token_gradient_predicted.csv
+metric: lsas
+threshold: 0.3
+relative_threshold: 0.9
+num_layers: 4
+peak_layer: blocks.5
+peak_value: 0.16620689330746707
+auc: 0.13191608062450796
+emergence_layer: null
+emergence_layer_index: null
+normalized_emergence_index: null
+relative_emergence_threshold_value: 0.14958620397672037
+relative_emergence_layer: blocks.2
+relative_emergence_layer_index: 0
+normalized_relative_emergence_index: 0.0

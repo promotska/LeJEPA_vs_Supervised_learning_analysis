@@ -3,11 +3,11 @@ experiment:
   root: experiments
   dir: experiments/experiment-imagenet100-vit-sup
   created_at_utc: '2026-07-05T20:41:43+00:00'
-  updated_at_utc: '2026-07-06T11:02:10+00:00'
+  updated_at_utc: '2026-07-06T13:22:26+00:00'
 git:
   branch: ananas-code
-  commit: 502a1b8f0c9e8f64736d4c3d4c6b272527a7058c
-  commit_short: 502a1b8
+  commit: ca905740c41a1674ee1162dac28db5b338d1a6b8
+  commit_short: ca90574
   is_dirty: true
   remote: git@github.com:promotska/LeJEPA_vs_Supervised_learning_analysis.git
 runs:
@@ -324,6 +324,114 @@ runs:
     output_csv: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_lsas_token_gradient_predicted.csv
     curve_path: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_lsas_token_gradient_predicted_curve.png
     elapsed_minutes: 1.0710758090019226
+- run_id: 20260706_152108_evaluate_grounded_alignment_vit_supervised_predicted_vit_supervised_65486
+  run_kind: evaluate_grounded_alignment_vit_supervised_predicted
+  mode: vit_supervised
+  status: completed
+  updated_at_utc: '2026-07-06T13:22:26+00:00'
+  command: scripts/evaluate_grounded_alignment.py --config configs/imagenet100_vit_supervised_glsas.yaml
+    --mode vit_supervised --target predicted
+  config_snapshot_path: experiments/experiment-imagenet100-vit-sup/configs/original_imagenet100_vit_supervised_glsas.yaml
+  resolved_config_path: experiments/experiment-imagenet100-vit-sup/configs/resolved_20260706_152108_evaluate_grounded_alignment_vit_supervised_predicted_vit_supervised_65486.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn0816.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    slurm_job_id: '48716041'
+    slurm_job_name: grounded_alignment
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/apromots/doubleN/cv
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: imagenet100_vit_supervised_glsas
+    seed: 42
+    output_dir: experiments/experiment-imagenet100-vit-sup
+  data:
+    root: datasets/imagenet100
+    dataset: ImageFolder
+    image_size: 224
+    resize_size: 256
+    num_workers: 8
+    batch_size: 128
+    val_fraction: 0.1
+  model:
+    architecture: vit_small_patch16_224
+    image_size: 224
+    patch_size: 16
+    num_classes: 100
+    embed_dim: 384
+    depth: 12
+    num_heads: 6
+    mlp_ratio: 4.0
+    dropout: 0.1
+    attn_dropout: 0.1
+  training:
+    epochs: 100
+    optimizer: adamw
+    learning_rate: 0.0003
+    scheduler: cosine
+    weight_decay: 0.05
+    amp: true
+    grad_clip_norm: 1.0
+  checkpoints:
+    best_path: experiments/experiment-imagenet100-vit-sup/checkpoints/imagenet100_vit_supervised_best.pt
+    last_path: experiments/experiment-imagenet100-vit-sup/checkpoints/imagenet100_vit_supervised_last.pt
+  evaluation:
+    layers:
+    - blocks.2
+    - blocks.5
+    - blocks.8
+    - blocks.11
+    max_samples: 1000
+    batch_size: 32
+    num_visualizations: 8
+    save_visualizations: true
+    gradcam_target: predicted
+    vit_xai_method: token_gradient
+    attention_head_fusion: mean
+    attention_discard_ratio: 0.0
+    representation_batch_size: 128
+    representation_max_test_samples: null
+    representation_max_bank_samples: null
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 128
+    checkpoint_path: experiments/experiment-imagenet100-vit-sup/checkpoints/imagenet100_vit_supervised_best.pt
+    output_csv: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_lsas.csv
+    figure_dir: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised
+  extra:
+    note: grounded G-LSAS evaluation completed
+    mode: vit_supervised
+    target: predicted
+    output_csv: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_g_lsas.csv
+    curve_path: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_g_lsas_curve.png
+    lei_csv: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_g_lsas_lei.csv
+    lei_yaml: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_g_lsas_lei.yaml
+    lei:
+      csv_path: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_g_lsas.csv
+      metric: g_lsas
+      threshold: 0.3
+      relative_threshold: 0.9
+      num_layers: 4
+      peak_layer: blocks.2
+      peak_value: 0.2871084771168072
+      auc: 0.26822643538350915
+      emergence_layer: null
+      emergence_layer_index: null
+      normalized_emergence_index: null
+      relative_emergence_threshold_value: 0.2583976294051265
+      relative_emergence_layer: blocks.2
+      relative_emergence_layer_index: 0
+      normalized_relative_emergence_index: 0.0
 latest_status: completed
 artifacts:
   configs:
@@ -339,6 +447,9 @@ artifacts:
   - path: experiments/experiment-imagenet100-vit-sup/configs/resolved_20260706_125951_evaluate_vit_alignment_vit_supervised_token_gradient_predicted_vit_supervised_3692537.yaml
     size_bytes: 3401
     modified_utc: '2026-07-06T10:59:51+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/configs/resolved_20260706_152108_evaluate_grounded_alignment_vit_supervised_predicted_vit_supervised_65486.yaml
+    size_bytes: 3337
+    modified_utc: '2026-07-06T13:21:08+00:00'
   checkpoints:
   - path: experiments/experiment-imagenet100-vit-sup/checkpoints/imagenet100_vit_supervised_best.pt
     size_bytes: 260654162
@@ -347,12 +458,36 @@ artifacts:
     size_bytes: 260654162
     modified_utc: '2026-07-05T23:59:04+00:00'
   metrics:
+  - path: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_g_lsas.csv
+    size_bytes: 671914
+    modified_utc: '2026-07-06T13:22:24+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_g_lsas_curve.png
+    size_bytes: 78953
+    modified_utc: '2026-07-06T13:22:26+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_g_lsas_lei.csv
+    size_bytes: 465
+    modified_utc: '2026-07-06T13:22:26+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_g_lsas_lei.yaml
+    size_bytes: 492
+    modified_utc: '2026-07-06T13:22:26+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_g_lsas_lei_layers.csv
+    size_bytes: 250
+    modified_utc: '2026-07-06T13:22:26+00:00'
   - path: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_lsas_token_gradient_predicted.csv
     size_bytes: 522377
     modified_utc: '2026-07-06T11:00:58+00:00'
   - path: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_lsas_token_gradient_predicted_curve.png
     size_bytes: 88845
     modified_utc: '2026-07-06T11:00:59+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_lsas_token_gradient_predicted_lsas_lei.csv
+    size_bytes: 487
+    modified_utc: '2026-07-06T13:16:02+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_lsas_token_gradient_predicted_lsas_lei.yaml
+    size_bytes: 514
+    modified_utc: '2026-07-06T13:16:02+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_lsas_token_gradient_predicted_lsas_lei_layers.csv
+    size_bytes: 225
+    modified_utc: '2026-07-06T13:16:02+00:00'
   - path: experiments/experiment-imagenet100-vit-sup/metrics/representation_vit_supervised.csv
     size_bytes: 1448
     modified_utc: '2026-07-06T11:02:10+00:00'
@@ -360,6 +495,102 @@ artifacts:
     size_bytes: 850
     modified_utc: '2026-07-06T11:02:09+00:00'
   figures:
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0000_blocks_11.png
+    size_bytes: 1009076
+    modified_utc: '2026-07-06T13:21:44+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0000_blocks_2.png
+    size_bytes: 1159590
+    modified_utc: '2026-07-06T13:21:30+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0000_blocks_5.png
+    size_bytes: 1140972
+    modified_utc: '2026-07-06T13:21:35+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0000_blocks_8.png
+    size_bytes: 1104169
+    modified_utc: '2026-07-06T13:21:39+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0001_blocks_11.png
+    size_bytes: 699891
+    modified_utc: '2026-07-06T13:21:45+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0001_blocks_2.png
+    size_bytes: 786492
+    modified_utc: '2026-07-06T13:21:30+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0001_blocks_5.png
+    size_bytes: 793754
+    modified_utc: '2026-07-06T13:21:35+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0001_blocks_8.png
+    size_bytes: 786018
+    modified_utc: '2026-07-06T13:21:40+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0002_blocks_11.png
+    size_bytes: 1229278
+    modified_utc: '2026-07-06T13:21:45+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0002_blocks_2.png
+    size_bytes: 1335221
+    modified_utc: '2026-07-06T13:21:31+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0002_blocks_5.png
+    size_bytes: 1334283
+    modified_utc: '2026-07-06T13:21:36+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0002_blocks_8.png
+    size_bytes: 1331154
+    modified_utc: '2026-07-06T13:21:40+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0003_blocks_11.png
+    size_bytes: 995115
+    modified_utc: '2026-07-06T13:21:46+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0003_blocks_2.png
+    size_bytes: 1140363
+    modified_utc: '2026-07-06T13:21:31+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0003_blocks_5.png
+    size_bytes: 1122190
+    modified_utc: '2026-07-06T13:21:36+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0003_blocks_8.png
+    size_bytes: 1107713
+    modified_utc: '2026-07-06T13:21:41+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0004_blocks_11.png
+    size_bytes: 1017597
+    modified_utc: '2026-07-06T13:21:46+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0004_blocks_2.png
+    size_bytes: 1128333
+    modified_utc: '2026-07-06T13:21:32+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0004_blocks_5.png
+    size_bytes: 1097989
+    modified_utc: '2026-07-06T13:21:37+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0004_blocks_8.png
+    size_bytes: 1092197
+    modified_utc: '2026-07-06T13:21:42+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0005_blocks_11.png
+    size_bytes: 1087131
+    modified_utc: '2026-07-06T13:21:47+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0005_blocks_2.png
+    size_bytes: 1181698
+    modified_utc: '2026-07-06T13:21:33+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0005_blocks_5.png
+    size_bytes: 1199605
+    modified_utc: '2026-07-06T13:21:37+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0005_blocks_8.png
+    size_bytes: 1209455
+    modified_utc: '2026-07-06T13:21:42+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0006_blocks_11.png
+    size_bytes: 1150061
+    modified_utc: '2026-07-06T13:21:47+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0006_blocks_2.png
+    size_bytes: 1261417
+    modified_utc: '2026-07-06T13:21:33+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0006_blocks_5.png
+    size_bytes: 1254780
+    modified_utc: '2026-07-06T13:21:38+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0006_blocks_8.png
+    size_bytes: 1284082
+    modified_utc: '2026-07-06T13:21:43+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0007_blocks_11.png
+    size_bytes: 941775
+    modified_utc: '2026-07-06T13:21:48+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0007_blocks_2.png
+    size_bytes: 1018091
+    modified_utc: '2026-07-06T13:21:34+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0007_blocks_5.png
+    size_bytes: 1030013
+    modified_utc: '2026-07-06T13:21:39+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/figures/imagenet100_vit_supervised_g_lsas/sample_0007_blocks_8.png
+    size_bytes: 1034986
+    modified_utc: '2026-07-06T13:21:43+00:00'
   - path: experiments/experiment-imagenet100-vit-sup/figures/token_gradient_target_predicted/sample_000_blocks_11.png
     size_bytes: 707838
     modified_utc: '2026-07-06T11:00:28+00:00'
@@ -463,18 +694,36 @@ artifacts:
   - path: experiments/experiment-imagenet100-vit-sup/logs/eval_vit_supervised_predicted_48701487.out
     size_bytes: 3171
     modified_utc: '2026-07-06T11:01:09+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/logs/grounded_vit_supervised_predicted_48701706.err
+    size_bytes: 578
+    modified_utc: '2026-07-06T11:02:34+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/logs/grounded_vit_supervised_predicted_48701706.out
+    size_bytes: 0
+    modified_utc: '2026-07-06T11:02:26+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/logs/grounded_vit_supervised_predicted_48716041.err
+    size_bytes: 4152
+    modified_utc: '2026-07-06T13:22:24+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/logs/grounded_vit_supervised_predicted_48716041.out
+    size_bytes: 2099
+    modified_utc: '2026-07-06T13:22:26+00:00'
   - path: experiments/experiment-imagenet100-vit-sup/logs/lei_lsas_48701493.err
     size_bytes: 434
     modified_utc: '2026-07-06T10:58:47+00:00'
   - path: experiments/experiment-imagenet100-vit-sup/logs/lei_lsas_48701493.out
     size_bytes: 0
     modified_utc: '2026-07-06T10:58:31+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/logs/lei_lsas_48715817.err
+    size_bytes: 0
+    modified_utc: '2026-07-06T13:15:37+00:00'
+  - path: experiments/experiment-imagenet100-vit-sup/logs/lei_lsas_48715817.out
+    size_bytes: 464
+    modified_utc: '2026-07-06T13:16:02+00:00'
   - path: experiments/experiment-imagenet100-vit-sup/logs/repr_vit_supervised_48701480.err
     size_bytes: 47961
     modified_utc: '2026-07-06T11:02:09+00:00'
   - path: experiments/experiment-imagenet100-vit-sup/logs/repr_vit_supervised_48701480.out
-    size_bytes: 2569
-    modified_utc: '2026-07-06T11:02:10+00:00'
+    size_bytes: 2612
+    modified_utc: '2026-07-06T11:02:17+00:00'
   - path: experiments/experiment-imagenet100-vit-sup/logs/train_vit_supervised_48641467.err
     size_bytes: 14540374
     modified_utc: '2026-07-05T23:58:53+00:00'

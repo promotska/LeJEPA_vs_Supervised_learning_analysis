@@ -1,0 +1,6 @@
+Computed Layer Emergence Index files:
+- source: experiments/experiment-imagenet100-r18-sup/metrics/imagenet100_resnet18_supervised_lsas_predicted.csv
+  csv:    experiments/experiment-imagenet100-r18-sup/metrics/imagenet100_resnet18_supervised_lsas_predicted_lsas_lei.csv
+  yaml:   experiments/experiment-imagenet100-r18-sup/metrics/imagenet100_resnet18_supervised_lsas_predicted_lsas_lei.yaml
+  peak:   backbone.layer4=0.4472
+  LEI:    backbone.layer4

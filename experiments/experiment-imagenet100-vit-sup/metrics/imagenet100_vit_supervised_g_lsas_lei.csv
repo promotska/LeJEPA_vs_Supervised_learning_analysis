@@ -1,0 +1,2 @@
+csv_path,metric,threshold,relative_threshold,num_layers,peak_layer,peak_value,auc,emergence_layer,emergence_layer_index,normalized_emergence_index,relative_emergence_threshold_value,relative_emergence_layer,relative_emergence_layer_index,normalized_relative_emergence_index
+experiments/experiment-imagenet100-vit-sup/metrics/imagenet100_vit_supervised_g_lsas.csv,g_lsas,0.3,0.9,4,blocks.2,0.2871084771168072,0.26822643538350915,,,,0.2583976294051265,blocks.2,0,0.0
