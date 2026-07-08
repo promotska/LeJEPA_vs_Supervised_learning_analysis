@@ -20,6 +20,7 @@ if [ $# -lt 3 ]; then
   echo "  both              ResNet supervised + ResNet LeJEPA"
   echo "  vit_supervised    ViT supervised"
   echo "  vit_lejepa        ViT LeJEPA-SIGReg"
+  echo "  public_vit_lejepa Public HF LeJEPA ViT + linear probe"
   echo ""
   echo "Examples:"
   echo "  bash jobs/submit_experiment.sh experiment-c10-r18-sup train supervised configs/cifar10_resnet18_supervised.yaml"
@@ -46,6 +47,7 @@ if [ $# -lt 3 ]; then
   echo ""
   echo "  bash jobs/submit_experiment.sh imagenet100-r18 train lejepa configs/imagenet100_resnet18_lejepa.yaml"
   echo "  bash jobs/submit_experiment.sh imagenet100-vit train vit_lejepa configs/imagenet100_vit_lejepa.yaml"
+  echo "  bash jobs/submit_experiment.sh public-okai-vitb train public_vit_lejepa configs/public_okai_lejepa_vitb16_imagenet100_probe.yaml"
   exit 1
 fi
 
@@ -199,6 +201,39 @@ submit_vit_lejepa_repr() {
     jobs/evaluate_representation_vit_lejepa.slurm
 }
 
+submit_public_vit_lejepa_train_probe() {
+  # Public LeJEPA is already pretrained. This trains only the linear probe.
+  sbatch \
+    --export="${EXPORT_BASE}" \
+    --output="${EXP_DIR}/logs/train_public_vit_lejepa_probe_%j.out" \
+    --error="${EXP_DIR}/logs/train_public_vit_lejepa_probe_%j.err" \
+    jobs/train_supervised_resnet18_cifar10.slurm
+}
+
+submit_public_vit_lejepa_eval_predicted() {
+  sbatch \
+    --export="${EXPORT_BASE},GRADCAM_TARGET=predicted,VIT_XAI_METHOD=last_attention" \
+    --output="${EXP_DIR}/logs/eval_public_vit_lejepa_predicted_%j.out" \
+    --error="${EXP_DIR}/logs/eval_public_vit_lejepa_predicted_%j.err" \
+    jobs/evaluate_lejepa_vit_cifar10.slurm
+}
+
+submit_public_vit_lejepa_eval_true() {
+  sbatch \
+    --export="${EXPORT_BASE},GRADCAM_TARGET=true,VIT_XAI_METHOD=last_attention" \
+    --output="${EXP_DIR}/logs/eval_public_vit_lejepa_true_%j.out" \
+    --error="${EXP_DIR}/logs/eval_public_vit_lejepa_true_%j.err" \
+    jobs/evaluate_lejepa_vit_cifar10.slurm
+}
+
+submit_public_vit_lejepa_repr() {
+  sbatch \
+    --export="${EXPORT_BASE}" \
+    --output="${EXP_DIR}/logs/repr_public_vit_lejepa_%j.out" \
+    --error="${EXP_DIR}/logs/repr_public_vit_lejepa_%j.err" \
+    jobs/evaluate_representation_vit_lejepa.slurm
+}
+
 submit_vit_lejepa_feature_spaces() {
   sbatch \
     --export="${EXPORT_BASE},FEATURE_SOURCE=all,FEATURE_CHECKPOINT=${FEATURE_CHECKPOINT:-best}" \
@@ -257,6 +292,9 @@ case "${MODE}:${TARGET}" in
   train:vit_lejepa)
     submit_vit_lejepa_train
     ;;
+  train:public_vit_lejepa)
+    submit_public_vit_lejepa_train_probe
+    ;;
 
   eval:supervised)
     submit_supervised_eval_predicted
@@ -273,6 +311,9 @@ case "${MODE}:${TARGET}" in
     ;;
   eval:vit_lejepa)
     submit_vit_lejepa_eval_predicted
+    ;;
+  eval:public_vit_lejepa)
+    submit_public_vit_lejepa_eval_predicted
     ;;
 
   eval_true:supervised)
@@ -291,6 +332,9 @@ case "${MODE}:${TARGET}" in
   eval_true:vit_lejepa)
     submit_vit_lejepa_eval_true
     ;;
+  eval_true:public_vit_lejepa)
+    submit_public_vit_lejepa_eval_true
+    ;;
 
   repr:supervised)
     submit_supervised_repr
@@ -307,6 +351,9 @@ case "${MODE}:${TARGET}" in
     ;;
   repr:vit_lejepa)
     submit_vit_lejepa_repr
+    ;;
+  repr:public_vit_lejepa)
+    submit_public_vit_lejepa_repr
     ;;
 
   feature_spaces:lejepa)
@@ -335,7 +382,7 @@ case "${MODE}:${TARGET}" in
   *)
     echo "Invalid combination: mode=${MODE}, target=${TARGET}"
     echo "Valid modes: train, eval, eval_true, repr, feature_spaces, grounded, grounded_true, lei, glei"
-    echo "Valid targets: supervised, lejepa, both, vit_supervised, vit_lejepa"
+    echo "Valid targets: supervised, lejepa, both, vit_supervised, vit_lejepa, public_vit_lejepa"
     echo ""
     echo "Note: feature_spaces is valid only for targets: lejepa, vit_lejepa"
     exit 1

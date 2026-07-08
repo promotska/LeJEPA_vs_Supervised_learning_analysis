@@ -1,0 +1,67 @@
+project:
+  name: public_okai_lejepa_vitb16_cifar10_probe
+  seed: 42
+  output_dir: outputs
+
+experiment:
+  root: experiments
+  name: public-okai-lejepa-vitb16-cifar10
+  relocate_checkpoint_path: true
+
+data:
+  root: datasets
+  dataset: CIFAR10
+  image_size: 224
+  resize_size: 256
+  num_workers: 4
+  batch_size: 64
+  val_fraction: 0.1
+
+model:
+  architecture: hf_okai_lejepa_vitb16
+  hf_model_id: OK-AI/lejepa-vitb16-pretrain-in1k
+  hf_revision: main
+  hf_trust_remote_code: true
+  hf_local_files_only: true
+  hf_torch_dtype: float32
+  freeze_backbone: true
+  image_size: 224
+  patch_size: 16
+  embed_dim: 768
+  num_classes: 10
+
+training:
+  epochs: 30
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  optimizer: adamw
+  scheduler: cosine
+  grad_clip_norm: 1.0
+  amp: true
+  save_every_epoch: false
+
+checkpoints:
+  best_path: outputs/checkpoints/public_okai_lejepa_vitb16_cifar10_probe_best.pt
+  last_path: outputs/checkpoints/public_okai_lejepa_vitb16_cifar10_probe_last.pt
+
+evaluation:
+  layers:
+    - patch_latent
+  max_samples: 1000
+  batch_size: 32
+  num_visualizations: 4
+  save_visualizations: true
+  gradcam_target: predicted
+  vit_xai_method: last_attention
+  attention_head_fusion: mean
+
+  checkpoint_path: outputs/checkpoints/public_okai_lejepa_vitb16_cifar10_probe_best.pt
+  output_csv: outputs/metrics/public_okai_lejepa_vitb16_cifar10_lsas.csv
+  figure_dir: outputs/figures/public_okai_lejepa_vitb16_cifar10
+
+  representation_batch_size: 64
+  representation_max_test_samples: 10000
+  representation_max_bank_samples: 50000
+  knn_ks: [1, 5, 10, 20, 50, 100]
+  knn_temperature: 0.07
+  knn_query_chunk_size: 128
