@@ -139,8 +139,9 @@ def main() -> None:
 
     mean, comps = fit_population_pca(pooled)
 
-    # 2) global per-channel percentile range for consistent coloring across all images
-    all_proj = torch.cat([(p.float() - mean) @ comps for p in pooled], dim=0).cpu().numpy()
+    # 2) global per-channel percentile range for consistent coloring across all images.
+    #    Flatten over both batch and patch dims so lo/hi are per-RGB-channel, shape (3,).
+    all_proj = torch.cat([((p.float() - mean) @ comps).reshape(-1, 3) for p in pooled], dim=0).cpu().numpy()
     lo = np.percentile(all_proj, 2, axis=0)
     hi = np.percentile(all_proj, 98, axis=0)
 
