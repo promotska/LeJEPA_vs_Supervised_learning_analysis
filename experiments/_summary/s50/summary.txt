@@ -1,0 +1,5 @@
+            model probe acc kNN acc mean lsas peak lsas
+ResNet supervised     0.820   0.824     0.251     0.396
+    ResNet LeJEPA     0.513   0.495     0.266     0.509
+   ViT supervised     0.622   0.637     0.128     0.192
+       ViT LeJEPA     0.374   0.327     0.119     0.166

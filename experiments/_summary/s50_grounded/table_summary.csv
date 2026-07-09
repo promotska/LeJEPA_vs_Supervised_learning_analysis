@@ -1,0 +1,5 @@
+model,probe acc,kNN acc,mean g_lsas,peak g_lsas,"IoU(PCA,mask)","IoU(saliency,mask)"
+ResNet supervised,0.820,0.824,0.300,0.383,0.208,0.238
+ResNet LeJEPA,0.513,0.495,0.318,0.461,0.183,0.243
+ViT supervised,0.622,0.637,0.276,0.295,0.195,0.252
+ViT LeJEPA,0.374,0.327,0.302,0.310,0.200,0.248

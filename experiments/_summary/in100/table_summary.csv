@@ -1,0 +1,5 @@
+model,probe acc,kNN acc,mean lsas,peak lsas
+ResNet supervised,0.794,0.795,0.258,0.447
+ResNet LeJEPA,0.317,0.308,0.272,0.581
+ViT supervised,0.573,0.579,0.126,0.193
+ViT LeJEPA,0.253,0.201,0.152,0.214
