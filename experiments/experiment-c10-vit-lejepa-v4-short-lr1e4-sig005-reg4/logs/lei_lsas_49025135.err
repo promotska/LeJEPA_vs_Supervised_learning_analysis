@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis/scripts/compute_lei_for_experiment.py", line 94, in <module>
+    main()
+  File "/leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis/scripts/compute_lei_for_experiment.py", line 80, in main
+    raise RuntimeError(
+RuntimeError: No CSVs under experiments/experiment-c10-vit-lejepa-v4-short-lr1e4-sig005-reg4/metrics contained columns: layer and 'lsas'.

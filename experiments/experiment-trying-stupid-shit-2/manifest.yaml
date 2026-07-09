@@ -1,0 +1,359 @@
+experiment:
+  name: experiment-trying-stupid-shit-2
+  root: experiments
+  dir: experiments/experiment-trying-stupid-shit-2
+  created_at_utc: '2026-07-08T16:10:28+00:00'
+  updated_at_utc: '2026-07-08T16:42:59+00:00'
+git:
+  branch: ananas-code
+  commit: 4e9a8f8b2e8c6c25ed8727c61b18f338d1a4fcf1
+  commit_short: 4e9a8f8
+  is_dirty: true
+  remote: git@github.com:promotska/LeJEPA_vs_Supervised_learning_analysis.git
+runs:
+- run_id: 20260708_181028_train_supervised_supervised_3943276
+  run_kind: train_supervised
+  mode: supervised
+  status: failed
+  updated_at_utc: '2026-07-08T16:10:55+00:00'
+  command: scripts/train_supervised.py --config configs/base/cifar10_resnet18_supervised.yaml
+  config_snapshot_path: experiments/experiment-trying-stupid-shit-2/configs/original_cifar10_resnet18_supervised.yaml
+  resolved_config_path: experiments/experiment-trying-stupid-shit-2/configs/resolved_20260708_181028_train_supervised_supervised_3943276.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn0185.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis
+    slurm_job_id: '48941958'
+    slurm_job_name: cv-sup
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis
+    torch: 2.12.1+cu130
+    cuda_available: false
+    cuda_device: null
+  project:
+    name: cifar10_resnet18_supervised
+    seed: 42
+    output_dir: experiments/experiment-trying-stupid-shit-2
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 4
+    batch_size: 128
+    val_fraction: 0.1
+  model:
+    architecture: resnet18_cifar
+    num_classes: 10
+  training:
+    epochs: 20
+    learning_rate: 0.001
+    weight_decay: 0.0005
+    amp: true
+    save_every_epoch: false
+  checkpoints:
+    best_path: experiments/experiment-trying-stupid-shit-2/checkpoints/resnet18_supervised_best.pt
+    last_path: experiments/experiment-trying-stupid-shit-2/checkpoints/resnet18_supervised_last.pt
+  evaluation:
+    layers:
+    - backbone.layer1
+    - backbone.layer2
+    - backbone.layer3
+    - backbone.layer4
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    gradcam_target: predicted
+    representation_batch_size: 256
+    representation_max_test_samples: 10000
+    representation_max_bank_samples: 50000
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 256
+    checkpoint_path: experiments/experiment-trying-stupid-shit-2/checkpoints/resnet18_supervised_best.pt
+    output_csv: experiments/experiment-trying-stupid-shit-2/metrics/stage1_supervised_lsas.csv
+    figure_dir: experiments/experiment-trying-stupid-shit-2/figures/supervised
+  extra:
+    error: 'ImportError(''Install Hugging Face datasets with: pip install datasets'')'
+    traceback: "Traceback (most recent call last):\n  File \"/leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis/src/data/dataloaders.py\"\
+      , line 37, in __init__\n    from datasets import load_from_disk\nImportError:\
+      \ cannot import name 'load_from_disk' from 'datasets' (unknown location)\n\n\
+      The above exception was the direct cause of the following exception:\n\nTraceback\
+      \ (most recent call last):\n  File \"/leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis/scripts/train_supervised.py\"\
+      , line 36, in main\n    result = train_supervised(str(exp.resolved_config_path))\n\
+      \             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis/src/training/train_supervised.py\"\
+      , line 105, in train_supervised\n    loaders = build_loaders(cfg, self_supervised=False)\n\
+      \              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis/src/data/dataloaders.py\"\
+      , line 204, in build_loaders\n    train_full = _build_classification_dataset(dataset_name,\
+      \ root, train=True, transform=train_transform)\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
+      \  File \"/leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis/src/data/dataloaders.py\"\
+      , line 108, in _build_classification_dataset\n    return HFCifarDataset(hf_dir,\
+      \ split=split, transform=transform)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
+      \  File \"/leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis/src/data/dataloaders.py\"\
+      , line 39, in __init__\n    raise ImportError(\"Install Hugging Face datasets\
+      \ with: pip install datasets\") from exc\nImportError: Install Hugging Face\
+      \ datasets with: pip install datasets\n"
+- run_id: 20260708_183014_train_supervised_supervised_824302
+  run_kind: train_supervised
+  mode: supervised
+  status: completed
+  updated_at_utc: '2026-07-08T16:33:32+00:00'
+  command: scripts/train_supervised.py --config configs/base/cifar10_resnet18_supervised.yaml
+  config_snapshot_path: experiments/experiment-trying-stupid-shit-2/configs/original_cifar10_resnet18_supervised.yaml
+  resolved_config_path: experiments/experiment-trying-stupid-shit-2/configs/resolved_20260708_183014_train_supervised_supervised_824302.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn3401.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis
+    slurm_job_id: '48944832'
+    slurm_job_name: cv-sup
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_resnet18_supervised
+    seed: 42
+    output_dir: experiments/experiment-trying-stupid-shit-2
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 4
+    batch_size: 128
+    val_fraction: 0.1
+  model:
+    architecture: resnet18_cifar
+    num_classes: 10
+  training:
+    epochs: 20
+    learning_rate: 0.001
+    weight_decay: 0.0005
+    amp: true
+    save_every_epoch: false
+  checkpoints:
+    best_path: experiments/experiment-trying-stupid-shit-2/checkpoints/resnet18_supervised_best.pt
+    last_path: experiments/experiment-trying-stupid-shit-2/checkpoints/resnet18_supervised_last.pt
+  evaluation:
+    layers:
+    - backbone.layer1
+    - backbone.layer2
+    - backbone.layer3
+    - backbone.layer4
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    gradcam_target: predicted
+    representation_batch_size: 256
+    representation_max_test_samples: 10000
+    representation_max_bank_samples: 50000
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 256
+    checkpoint_path: experiments/experiment-trying-stupid-shit-2/checkpoints/resnet18_supervised_best.pt
+    output_csv: experiments/experiment-trying-stupid-shit-2/metrics/stage1_supervised_lsas.csv
+    figure_dir: experiments/experiment-trying-stupid-shit-2/figures/supervised
+  extra:
+    note: supervised training completed
+    result:
+      best_val_accuracy: 0.918
+      best_epoch: 19.0
+      final_test_loss: 0.3072830575466156
+      final_test_accuracy: 0.9136
+      last_train_loss: 0.07215742669900259
+      last_train_accuracy: 0.9762
+- run_id: 20260708_184153_evaluate_alignment_supervised_predicted_supervised_2812909
+  run_kind: evaluate_alignment_supervised_predicted
+  mode: supervised
+  status: completed
+  updated_at_utc: '2026-07-08T16:42:59+00:00'
+  command: scripts/evaluate_alignment.py --config configs/base/cifar10_resnet18_supervised.yaml
+    --mode supervised --gradcam-target predicted
+  config_snapshot_path: experiments/experiment-trying-stupid-shit-2/configs/original_cifar10_resnet18_supervised.yaml
+  resolved_config_path: experiments/experiment-trying-stupid-shit-2/configs/resolved_20260708_184153_evaluate_alignment_supervised_predicted_supervised_2812909.yaml
+  environment:
+    python: 3.11.7 (main, Feb 24 2025, 20:37:39) [GCC 8.5.0 20210514 (Red Hat 8.5.0-16)]
+    python_executable: /leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis/.venv/bin/python
+    platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+    hostname: lrdn0741.leonardo.local
+    cwd: /leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis
+    slurm_job_id: '48945586'
+    slurm_job_name: cv-sup-eval
+    slurm_submit_dir: /leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis
+    torch: 2.5.1+cu121
+    cuda_available: true
+    cuda_device: NVIDIA A100-SXM-64GB
+  project:
+    name: cifar10_resnet18_supervised
+    seed: 42
+    output_dir: experiments/experiment-trying-stupid-shit-2
+  data:
+    root: datasets
+    dataset: CIFAR10
+    num_workers: 4
+    batch_size: 64
+    val_fraction: 0.1
+  model:
+    architecture: resnet18_cifar
+    num_classes: 10
+  training:
+    epochs: 20
+    learning_rate: 0.001
+    weight_decay: 0.0005
+    amp: true
+    save_every_epoch: false
+  checkpoints:
+    best_path: experiments/experiment-trying-stupid-shit-2/checkpoints/resnet18_supervised_best.pt
+    last_path: experiments/experiment-trying-stupid-shit-2/checkpoints/resnet18_supervised_last.pt
+  evaluation:
+    layers:
+    - backbone.layer1
+    - backbone.layer2
+    - backbone.layer3
+    - backbone.layer4
+    max_samples: 1000
+    batch_size: 64
+    num_visualizations: 4
+    save_visualizations: true
+    gradcam_target: predicted
+    representation_batch_size: 256
+    representation_max_test_samples: 10000
+    representation_max_bank_samples: 50000
+    knn_ks:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    knn_temperature: 0.07
+    knn_query_chunk_size: 256
+    checkpoint_path: experiments/experiment-trying-stupid-shit-2/checkpoints/resnet18_supervised_best.pt
+    output_csv: experiments/experiment-trying-stupid-shit-2/metrics/stage1_supervised_lsas_predicted.csv
+    figure_dir: experiments/experiment-trying-stupid-shit-2/figures/target_predicted
+  extra:
+    processed_images: 1000
+    rows: 4000
+    accuracy_on_evaluated_subset: 0.925
+    xai_method: gradcam
+    gradcam_target: predicted
+    output_csv: experiments/experiment-trying-stupid-shit-2/metrics/stage1_supervised_lsas_predicted.csv
+    curve_path: experiments/experiment-trying-stupid-shit-2/metrics/stage1_supervised_lsas_predicted_curve.png
+    elapsed_minutes: 0.7852997104326884
+latest_status: completed
+artifacts:
+  configs:
+  - path: experiments/experiment-trying-stupid-shit-2/configs/original_cifar10_resnet18_supervised.yaml
+    size_bytes: 1188
+    modified_utc: '2026-07-08T14:22:54+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/configs/resolved_20260708_181028_train_supervised_supervised_3943276.yaml
+    size_bytes: 2196
+    modified_utc: '2026-07-08T16:10:28+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/configs/resolved_20260708_183014_train_supervised_supervised_824302.yaml
+    size_bytes: 2194
+    modified_utc: '2026-07-08T16:30:14+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/configs/resolved_20260708_184153_evaluate_alignment_supervised_predicted_supervised_2812909.yaml
+    size_bytes: 2281
+    modified_utc: '2026-07-08T16:41:53+00:00'
+  checkpoints:
+  - path: experiments/experiment-trying-stupid-shit-2/checkpoints/resnet18_supervised_best.pt
+    size_bytes: 134247362
+    modified_utc: '2026-07-08T16:33:25+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/checkpoints/resnet18_supervised_last.pt
+    size_bytes: 134247362
+    modified_utc: '2026-07-08T16:33:31+00:00'
+  metrics:
+  - path: experiments/experiment-trying-stupid-shit-2/metrics/stage1_supervised_lsas_predicted.csv
+    size_bytes: 454712
+    modified_utc: '2026-07-08T16:42:57+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/metrics/stage1_supervised_lsas_predicted_curve.png
+    size_bytes: 78469
+    modified_utc: '2026-07-08T16:42:59+00:00'
+  figures:
+  - path: experiments/experiment-trying-stupid-shit-2/figures/target_predicted/sample_000_backbone_layer1.png
+    size_bytes: 45047
+    modified_utc: '2026-07-08T16:42:46+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/figures/target_predicted/sample_000_backbone_layer2.png
+    size_bytes: 44257
+    modified_utc: '2026-07-08T16:42:47+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/figures/target_predicted/sample_000_backbone_layer3.png
+    size_bytes: 42344
+    modified_utc: '2026-07-08T16:42:48+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/figures/target_predicted/sample_000_backbone_layer4.png
+    size_bytes: 40690
+    modified_utc: '2026-07-08T16:42:49+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/figures/target_predicted/sample_001_backbone_layer1.png
+    size_bytes: 40372
+    modified_utc: '2026-07-08T16:42:46+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/figures/target_predicted/sample_001_backbone_layer2.png
+    size_bytes: 42876
+    modified_utc: '2026-07-08T16:42:47+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/figures/target_predicted/sample_001_backbone_layer3.png
+    size_bytes: 41605
+    modified_utc: '2026-07-08T16:42:48+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/figures/target_predicted/sample_001_backbone_layer4.png
+    size_bytes: 39690
+    modified_utc: '2026-07-08T16:42:49+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/figures/target_predicted/sample_002_backbone_layer1.png
+    size_bytes: 42797
+    modified_utc: '2026-07-08T16:42:46+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/figures/target_predicted/sample_002_backbone_layer2.png
+    size_bytes: 44244
+    modified_utc: '2026-07-08T16:42:47+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/figures/target_predicted/sample_002_backbone_layer3.png
+    size_bytes: 42467
+    modified_utc: '2026-07-08T16:42:48+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/figures/target_predicted/sample_002_backbone_layer4.png
+    size_bytes: 40171
+    modified_utc: '2026-07-08T16:42:50+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/figures/target_predicted/sample_003_backbone_layer1.png
+    size_bytes: 44224
+    modified_utc: '2026-07-08T16:42:47+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/figures/target_predicted/sample_003_backbone_layer2.png
+    size_bytes: 42324
+    modified_utc: '2026-07-08T16:42:47+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/figures/target_predicted/sample_003_backbone_layer3.png
+    size_bytes: 40352
+    modified_utc: '2026-07-08T16:42:48+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/figures/target_predicted/sample_003_backbone_layer4.png
+    size_bytes: 39610
+    modified_utc: '2026-07-08T16:42:50+00:00'
+  logs:
+  - path: experiments/experiment-trying-stupid-shit-2/logs/eval_supervised_predicted_48945586.err
+    size_bytes: 4965
+    modified_utc: '2026-07-08T16:42:57+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/logs/eval_supervised_predicted_48945586.out
+    size_bytes: 3125
+    modified_utc: '2026-07-08T16:42:59+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/logs/train_supervised_48940202.err
+    size_bytes: 717
+    modified_utc: '2026-07-08T15:26:31+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/logs/train_supervised_48940202.out
+    size_bytes: 2120
+    modified_utc: '2026-07-08T15:25:12+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/logs/train_supervised_48941958.err
+    size_bytes: 2672
+    modified_utc: '2026-07-08T16:10:55+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/logs/train_supervised_48941958.out
+    size_bytes: 2125
+    modified_utc: '2026-07-08T16:08:43+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/logs/train_supervised_48944832.err
+    size_bytes: 826429
+    modified_utc: '2026-07-08T16:33:30+00:00'
+  - path: experiments/experiment-trying-stupid-shit-2/logs/train_supervised_48944832.out
+    size_bytes: 4018
+    modified_utc: '2026-07-08T16:33:44+00:00'

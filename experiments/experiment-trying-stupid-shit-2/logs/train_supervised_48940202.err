@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis/scripts/train_supervised.py", line 62, in <module>
+    main()
+  File "/leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis/scripts/train_supervised.py", line 24, in main
+    cfg = load_yaml(args.config)
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis/src/utils.py", line 33, in load_yaml
+    with open(path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'configs/cifar10_resnet18_supervised.yaml'

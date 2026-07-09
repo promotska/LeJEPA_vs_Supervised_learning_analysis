@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis/src/training/losses.py", line 63, in __init__
+    import lejepa
+ModuleNotFoundError: No module named 'lejepa'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<stdin>", line 6, in <module>
+  File "/leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis/src/training/losses.py", line 65, in __init__
+    raise ImportError(
+ImportError: OfficialSIGRegLoss requires the official LeJEPA package. Install it with: pip install git+https://github.com/rbalestr-lab/lejepa.git
