@@ -1,6 +1,0 @@
-Traceback (most recent call last):
-  File "/leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis/scripts/train_supervised.py", line 11, in <module>
-    from src.experiment import prepare_experiment, update_manifest
-  File "/leonardo_scratch/large/userexternal/nereznaa/LeJEPA_vs_Supervised_learning_analysis/src/experiment.py", line 15, in <module>
-    import yaml
-ModuleNotFoundError: No module named 'yaml'

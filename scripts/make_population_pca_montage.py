@@ -109,6 +109,11 @@ def main() -> None:
     ap.add_argument("--checkpoint", default=None,
                     help="path to the probe checkpoint (overrides the config's checkpoint_path)")
     ap.add_argument("--out", required=True)
+    ap.add_argument("--individual-dir", default=None,
+                    help="also save each shown image + its PCA-RGB as separate borderless PNGs here")
+    ap.add_argument("--image", nargs="*", default=None,
+                    help="one or more image files to run through the model and PCA "
+                         "(projected onto the same shared basis); saved into --individual-dir")
     args = ap.parse_args()
 
     cfg = load_yaml(args.config)
@@ -163,6 +168,38 @@ def main() -> None:
     fig.savefig(args.out, dpi=170)
     plt.close(fig)
     print(f"Saved population-PCA montage to {args.out}  ({n} images, layer={args.layer})")
+
+    # 4) individual, separately-saved images (borderless, slide-ready)
+    if args.individual_dir or args.image:
+        idir = Path(args.individual_dir) if args.individual_dir else Path(args.out).parent / "individual"
+        ensure_dir(idir)
+
+        def save_pair(tag, img_tensor, patches):
+            plt.imsave(idir / f"{tag}_image.png", denorm(img_tensor, dataset))
+            rgb = project_rgb(patches, grid_hw, mean, comps, lo, hi, out_size)
+            plt.imsave(idir / f"{tag}_pca.png", rgb)
+
+        for j in range(n):
+            save_pair(f"sample_{j:02d}", show_images[j], show_patches[j])
+
+        for path in (args.image or []):
+            img = load_custom_image(path, int(cfg["model"].get("image_size", 32)), dataset).to(device)
+            patches, _ = extract_patches(model, img.unsqueeze(0), args.layer, device)
+            save_pair(f"custom_{Path(path).stem}", img, patches[0])
+
+        print(f"Saved individual images (image + PCA) to {idir}")
+
+
+def load_custom_image(path, image_size, dataset):
+    """Load an arbitrary image file and normalize it the same way as the dataset."""
+    from PIL import Image
+    if str(dataset).upper().startswith("CIFAR"):
+        mean, std = np.array(CIFAR10_MEAN), np.array(CIFAR10_STD)
+    else:  # ImageNet-style
+        mean, std = np.array([0.485, 0.456, 0.406]), np.array([0.229, 0.224, 0.225])
+    img = Image.open(path).convert("RGB").resize((image_size, image_size), Image.BILINEAR)
+    arr = (np.asarray(img, dtype=np.float32) / 255.0 - mean) / std
+    return torch.from_numpy(arr.transpose(2, 0, 1)).float()
 
 
 if __name__ == "__main__":
