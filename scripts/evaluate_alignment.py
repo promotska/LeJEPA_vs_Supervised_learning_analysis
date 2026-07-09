@@ -199,7 +199,11 @@ def evaluate_layer_alignment(
 
                 for i in range(current_batch_size):
                     global_idx = processed + i
-                    metrics = lsas(pca_maps[i], xai_maps[i])
+                    metrics = lsas(
+                        pca_maps[i], xai_maps[i],
+                        mi_weight=float(cfg["evaluation"].get("mi_weight", 0.0)),
+                        mi_bins=int(cfg["evaluation"].get("mi_bins", 32)),
+                    )
                     rows.append(
                         {
                             "sample_idx": global_idx,

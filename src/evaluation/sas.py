@@ -16,6 +16,31 @@ def pearson_corr(a: np.ndarray, b: np.ndarray, eps: float = 1e-8) -> float:
     denom = float(np.sqrt((a * a).sum()) * np.sqrt((b * b).sum()) + eps)
     return float((a * b).sum() / denom)
 
+def _histogram2d_probs(a: np.ndarray, b: np.ndarray, bins: int = 32) -> np.ndarray:
+    a = safe_normalize(a).reshape(-1)
+    b = safe_normalize(b).reshape(-1)
+    hist, _, _ = np.histogram2d(a, b, bins=bins, range=[[0, 1], [0, 1]])
+    return hist / (hist.sum() + 1e-12)
+
+
+def mutual_information(a: np.ndarray, b: np.ndarray, bins: int = 32, eps: float = 1e-12) -> float:
+    """Histogram-based MI between two normalized spatial maps (nats)."""
+    p_xy = _histogram2d_probs(a, b, bins=bins)
+    p_x = p_xy.sum(axis=1, keepdims=True)
+    p_y = p_xy.sum(axis=0, keepdims=True)
+    p_ind = p_x @ p_y
+    nz = p_xy > 0
+    return float((p_xy[nz] * np.log(p_xy[nz] / (p_ind[nz] + eps) + eps)).sum())
+
+
+def normalized_mutual_information(a: np.ndarray, b: np.ndarray, bins: int = 32, eps: float = 1e-12) -> float:
+    """NMI = MI / H(X,Y), bounded to [0, 1]. Comparable across layers with different entropy."""
+    p_xy = _histogram2d_probs(a, b, bins=bins)
+    nz = p_xy > 0
+    h_xy = float(-(p_xy[nz] * np.log(p_xy[nz] + eps)).sum())
+    if h_xy <= eps:
+        return 0.0
+    return float(np.clip(mutual_information(a, b, bins=bins, eps=eps) / h_xy, 0.0, 1.0))
 
 def soft_iou(a: np.ndarray, b: np.ndarray, eps: float = 1e-8) -> float:
     a = safe_normalize(a)
@@ -38,17 +63,21 @@ def lsas(
     xai_map: np.ndarray,
     corr_weight: float = 0.5,
     soft_iou_weight: float = 0.5,
+    mi_weight: float = 0.0,
+    mi_bins: int = 32,
 ) -> dict[str, float]:
-    """Stage-1 LSAS for CIFAR-10 without ground-truth masks.
-
-    This measures PCA↔XAI agreement only. It is useful for debugging and the first
-    comparison, but it is not yet the grounded G-LSAS from the full project.
-    """
     corr = pearson_corr(pca_map, xai_map)
     overlap = soft_iou(pca_map, xai_map)
-    score = corr_weight * corr + soft_iou_weight * overlap
-    return {"corr_pca_xai": corr, "soft_iou_pca_xai": overlap, "lsas": float(score)}
+    result = {"corr_pca_xai": corr, "soft_iou_pca_xai": overlap}
 
+    score = corr_weight * corr + soft_iou_weight * overlap
+    if mi_weight > 0.0:
+        nmi = normalized_mutual_information(pca_map, xai_map, bins=mi_bins)
+        result["nmi_pca_xai"] = nmi
+        score += mi_weight * nmi
+
+    result["lsas"] = float(score)
+    return result
 
 def g_lsas(
     pca_map: np.ndarray,
