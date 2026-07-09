@@ -1,0 +1,9 @@
+Loading weights:   0%|          | 0/150 [00:00<?, ?it/s]Loading weights:   1%|          | 1/150 [00:00<00:35,  4.15it/s]Loading weights:  11%|█▏        | 17/150 [00:00<00:02, 47.68it/s]Loading weights:  32%|███▏      | 48/150 [00:00<00:00, 114.67it/s]Loading weights:  46%|████▌     | 69/150 [00:00<00:00, 122.39it/s]Loading weights:  62%|██████▏   | 93/150 [00:00<00:00, 128.23it/s]Loading weights:  75%|███████▍  | 112/150 [00:00<00:00, 138.70it/s]Loading weights:  86%|████████▌ | 129/150 [00:01<00:00, 144.95it/s]Loading weights: 100%|██████████| 150/150 [00:01<00:00, 129.51it/s]
+[transformers] [1mViTv2PretrainedModel LOAD REPORT[0m from: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/hf_models/okai_lejepa_vitb16
+Key                                           | Status     |  | 
+----------------------------------------------+------------+--+-
+backbone.cva_module_proj.mlp.{0, 2, 4}.bias   | UNEXPECTED |  | 
+backbone.cva_module_proj.mlp.{0, 2, 4}.weight | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.

@@ -1,0 +1,23 @@
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/150 [00:00<?, ?it/s]Loading weights:   1%|          | 1/150 [00:00<00:19,  7.73it/s]Loading weights:  10%|█         | 15/150 [00:00<00:01, 72.91it/s]Loading weights:  20%|██        | 30/150 [00:00<00:01, 94.70it/s]Loading weights:  35%|███▌      | 53/150 [00:00<00:00, 139.17it/s]Loading weights:  49%|████▊     | 73/150 [00:00<00:00, 153.02it/s]Loading weights:  59%|█████▉    | 89/150 [00:00<00:00, 149.03it/s]Loading weights:  70%|███████   | 105/150 [00:00<00:00, 137.29it/s]Loading weights:  83%|████████▎ | 124/150 [00:00<00:00, 145.63it/s]Loading weights:  94%|█████████▍| 141/150 [00:01<00:00, 151.15it/s]Loading weights: 100%|██████████| 150/150 [00:01<00:00, 142.43it/s]
+[transformers] [1mViTv2PretrainedModel LOAD REPORT[0m from: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/hf_models/okai_lejepa_vitb16
+Key                                           | Status     |  | 
+----------------------------------------------+------------+--+-
+backbone.cva_module_proj.mlp.{0, 2, 4}.weight | UNEXPECTED |  | 
+backbone.cva_module_proj.mlp.{0, 2, 4}.bias   | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+public vit inference LSAS:   0%|          | 0/157 [00:00<?, ?it/s]public vit inference LSAS:   0%|          | 0/157 [00:17<?, ?it/s]
+Traceback (most recent call last):
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/scripts/evaluate_public_vit_inference_alignment.py", line 310, in <module>
+    main()
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/scripts/evaluate_public_vit_inference_alignment.py", line 306, in main
+    evaluate_public_vit_inference_alignment(args.config)
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/scripts/evaluate_public_vit_inference_alignment.py", line 200, in evaluate_public_vit_inference_alignment
+    xai_maps_t = _cls_attention_to_maps(
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/scripts/evaluate_public_vit_inference_alignment.py", line 66, in _cls_attention_to_maps
+    attn = last_self_attention.detach().float()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'detach'

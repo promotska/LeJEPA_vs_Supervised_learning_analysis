@@ -1,0 +1,27 @@
+Loading weights:   0%|          | 0/150 [00:00<?, ?it/s]Loading weights:   3%|▎         | 5/150 [00:00<00:04, 34.68it/s]Loading weights:  24%|██▍       | 36/150 [00:00<00:00, 150.85it/s]Loading weights:  35%|███▌      | 53/150 [00:00<00:00, 155.22it/s]Loading weights:  56%|█████▌    | 84/150 [00:00<00:00, 195.58it/s]Loading weights:  69%|██████▉   | 104/150 [00:00<00:00, 181.53it/s]Loading weights:  82%|████████▏ | 123/150 [00:00<00:00, 149.19it/s]Loading weights: 100%|██████████| 150/150 [00:00<00:00, 177.35it/s]
+[transformers] [1mViTv2PretrainedModel LOAD REPORT[0m from: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/hf_models/okai_lejepa_vitb16
+Key                                           | Status     |  | 
+----------------------------------------------+------------+--+-
+backbone.cva_module_proj.mlp.{0, 2, 4}.weight | UNEXPECTED |  | 
+backbone.cva_module_proj.mlp.{0, 2, 4}.bias   | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+Traceback (most recent call last):
+  File "<stdin>", line 19, in <module>
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/home/userexternal/apromots/.cache/huggingface/modules/transformers_modules/okai_lejepa_vitb16/275388a36865cea2/modelling_vitv2.py", line 32, in forward
+    return self.backbone(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_scratch/large/userexternal/apromots/doubleN/cv/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ViTv2.forward() missing 1 required positional argument: 'xs'

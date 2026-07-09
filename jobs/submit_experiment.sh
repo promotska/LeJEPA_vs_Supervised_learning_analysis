@@ -13,6 +13,7 @@ if [ $# -lt 3 ]; then
   echo "  feature_spaces"
   echo "  grounded"
   echo "  grounded_true"
+  echo "  infer"
   echo ""
   echo "Targets:"
   echo "  supervised        ResNet supervised"
@@ -275,6 +276,14 @@ submit_lei_glsas() {
     jobs/compute_lei_experiment.slurm
 }
 
+submit_public_vit_lejepa_inference_lsas() {
+  sbatch \
+    --export="${EXPORT_BASE}" \
+    --output="${EXP_DIR}/logs/infer_public_vit_lejepa_%j.out" \
+    --error="${EXP_DIR}/logs/infer_public_vit_lejepa_%j.err" \
+    jobs/evaluate_public_vit_inference.slurm
+}
+
 case "${MODE}:${TARGET}" in
   train:supervised)
     submit_supervised_train
@@ -354,6 +363,10 @@ case "${MODE}:${TARGET}" in
     ;;
   repr:public_vit_lejepa)
     submit_public_vit_lejepa_repr
+    ;;
+
+  infer:public_vit_lejepa)
+    submit_public_vit_lejepa_inference_lsas
     ;;
 
   feature_spaces:lejepa)
