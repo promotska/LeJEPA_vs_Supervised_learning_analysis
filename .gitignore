@@ -187,6 +187,7 @@ venv/
 
 checkpoints/
 models/
+hf_models/
 
 *.safetensors
 *.bin
