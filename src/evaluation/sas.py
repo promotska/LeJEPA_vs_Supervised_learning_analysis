@@ -65,16 +65,18 @@ def lsas(
     soft_iou_weight: float = 0.5,
     mi_weight: float = 0.0,
     mi_bins: int = 32,
+    report_mi: bool = True,          # <-- report NMI as its own column by default
 ) -> dict[str, float]:
     corr = pearson_corr(pca_map, xai_map)
     overlap = soft_iou(pca_map, xai_map)
     result = {"corr_pca_xai": corr, "soft_iou_pca_xai": overlap}
 
     score = corr_weight * corr + soft_iou_weight * overlap
-    if mi_weight > 0.0:
+    if report_mi or mi_weight > 0.0:
         nmi = normalized_mutual_information(pca_map, xai_map, bins=mi_bins)
         result["nmi_pca_xai"] = nmi
-        score += mi_weight * nmi
+        if mi_weight > 0.0:          # only fold into the score if you explicitly ask
+            score += mi_weight * nmi
 
     result["lsas"] = float(score)
     return result

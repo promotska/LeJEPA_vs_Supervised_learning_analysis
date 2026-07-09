@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from src.data.dataloaders import build_loaders
+from src.evaluation.baselines import center_prior_map, derangement_index
 from src.evaluation.sas import lsas
 from src.experiment import prepare_experiment, update_manifest
 from src.features.pca_masks import pca_heatmaps_from_tokens
@@ -150,6 +151,7 @@ def evaluate_vit_alignment(
         max_samples = int(cfg["evaluation"].get("max_samples", 256))
         num_visualizations = int(cfg["evaluation"].get("num_visualizations", 4))
         save_visualizations = _as_bool(cfg["evaluation"].get("save_visualizations", True), default=True)
+        compute_baselines = _as_bool(cfg["evaluation"].get("compute_baselines", False), default=False)
         layers = list(cfg["evaluation"]["layers"])
 
         print("ViT alignment evaluation settings:")
@@ -220,27 +222,31 @@ def evaluate_vit_alignment(
                 )
                 xai_maps = xai_maps_by_layer[layer_name]
 
+                # Optional center-bias / shuffled-pair controls (see src/evaluation/baselines.py).
+                if compute_baselines:
+                    center = center_prior_map(pca_maps.shape[-2], pca_maps.shape[-1])
+                    perm = derangement_index(current_batch_size, seed=processed)
+
                 for i in range(current_batch_size):
                     global_idx = processed + i
-                    metrics = lsas(
-                        pca_maps[i], xai_maps[i],
-                        mi_weight=float(cfg["evaluation"].get("mi_weight", 0.0)),
-                        mi_bins=int(cfg["evaluation"].get("mi_bins", 32)),
-                    )
-                    rows.append(
-                        {
-                            "sample_idx": global_idx,
-                            "mode": mode,
-                            "architecture": cfg["model"].get("architecture"),
-                            "xai_method": xai_method,
-                            "gradcam_target": gradcam_target,
-                            "layer": layer_name,
-                            "true_label": int(true_labels[i].item()),
-                            "pred_label": int(preds[i].item()),
-                            "target_label": int(target_labels[i].item()),
-                            **metrics,
-                        }
-                    )
+                    metrics = lsas(pca_maps[i], xai_maps[i])
+                    row = {
+                        "sample_idx": global_idx,
+                        "mode": mode,
+                        "architecture": cfg["model"].get("architecture"),
+                        "xai_method": xai_method,
+                        "gradcam_target": gradcam_target,
+                        "layer": layer_name,
+                        "true_label": int(true_labels[i].item()),
+                        "pred_label": int(preds[i].item()),
+                        "target_label": int(target_labels[i].item()),
+                        **metrics,
+                    }
+                    if compute_baselines:
+                        row["lsas_pca_center"] = lsas(pca_maps[i], center)["lsas"]
+                        row["lsas_xai_center"] = lsas(xai_maps[i], center)["lsas"]
+                        row["lsas_shuffled"] = lsas(pca_maps[i], xai_maps[int(perm[i])])["lsas"]
+                    rows.append(row)
 
                     if save_visualizations and global_idx < num_visualizations:
                         safe_layer = layer_name.replace(".", "_")
