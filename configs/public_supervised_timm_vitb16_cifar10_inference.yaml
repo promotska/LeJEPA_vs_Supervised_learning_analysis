@@ -1,0 +1,44 @@
+project:
+  name: public_supervised_timm_vitb16_cifar10_inference
+  seed: 42
+  output_dir: outputs
+
+experiment:
+  root: experiments
+  name: public-supervised-timm-vitb16-cifar10-inference
+  relocate_checkpoint_path: true
+
+data:
+  root: datasets
+  dataset: CIFAR10
+  image_size: 224
+  resize_size: 256
+  num_workers: 4
+  batch_size: 32
+  val_fraction: 0.1
+  # Keep ImageNet normalization because the public supervised ViT was trained with ImageNet preprocessing.
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+
+model:
+  architecture: public_supervised_timm_vitb16
+  timm_model_name: vit_base_patch16_224.augreg_in1k
+  local_dir: hf_models/supervised_vitb16_augreg_in1k
+  hf_model_id: hf_models/supervised_vitb16_augreg_in1k
+  allow_hf_hub_download: false
+  image_size: 224
+  patch_size: 16
+  embed_dim: 768
+  imagenet_num_classes: 1000
+
+evaluation:
+  layers:
+    - patch_tokens_final
+  max_samples: 1000
+  batch_size: 32
+  num_visualizations: 4
+  save_visualizations: true
+  vit_xai_method: last_attention
+  attention_head_fusion: mean
+  output_csv: outputs/metrics/public_supervised_timm_vitb16_cifar10_lsas.csv
+  figure_dir: outputs/figures/public_supervised_timm_vitb16_cifar10

@@ -22,6 +22,7 @@ if [ $# -lt 3 ]; then
   echo "  vit_supervised    ViT supervised"
   echo "  vit_lejepa        ViT LeJEPA-SIGReg"
   echo "  public_vit_lejepa Public HF LeJEPA ViT + linear probe"
+  echo "  public_timm_vit    Public supervised timm ViT-B/16 inference-only LSAS"
   echo ""
   echo "Examples:"
   echo "  bash jobs/submit_experiment.sh experiment-c10-r18-sup train supervised configs/cifar10_resnet18_supervised.yaml"
@@ -284,6 +285,14 @@ submit_public_vit_lejepa_inference_lsas() {
     jobs/evaluate_public_vit_inference.slurm
 }
 
+submit_public_timm_vit_infer() {
+  sbatch \
+    --export="${EXPORT_BASE}" \
+    --output="${EXP_DIR}/logs/infer_public_timm_vit_%j.out" \
+    --error="${EXP_DIR}/logs/infer_public_timm_vit_%j.err" \
+    jobs/evaluate_timm_vit_inference.slurm
+}
+
 case "${MODE}:${TARGET}" in
   train:supervised)
     submit_supervised_train
@@ -365,10 +374,6 @@ case "${MODE}:${TARGET}" in
     submit_public_vit_lejepa_repr
     ;;
 
-  infer:public_vit_lejepa)
-    submit_public_vit_lejepa_inference_lsas
-    ;;
-
   feature_spaces:lejepa)
     submit_lejepa_feature_spaces
     ;;
@@ -392,10 +397,18 @@ case "${MODE}:${TARGET}" in
     submit_lei_glsas
     ;;
 
+  infer:public_timm_vit)
+    submit_public_timm_vit_infer
+    ;;
+
+  infer:public_vit_lejepa)
+    submit_public_vit_lejepa_inference_lsas
+  ;;
+
   *)
     echo "Invalid combination: mode=${MODE}, target=${TARGET}"
-    echo "Valid modes: train, eval, eval_true, repr, feature_spaces, grounded, grounded_true, lei, glei"
-    echo "Valid targets: supervised, lejepa, both, vit_supervised, vit_lejepa, public_vit_lejepa"
+    echo "Valid modes: train, eval, eval_true, repr, feature_spaces, grounded, grounded_true, lei, glei, infer"
+    echo "Valid targets: supervised, lejepa, both, vit_supervised, vit_lejepa, public_timm_vit, public_vit_lejepa"
     echo ""
     echo "Note: feature_spaces is valid only for targets: lejepa, vit_lejepa"
     exit 1
