@@ -106,6 +106,8 @@ def main() -> None:
     ap.add_argument("--layer", required=True, help="e.g. blocks.3 (ViT) or backbone.layer3 (ResNet)")
     ap.add_argument("--num-images", type=int, default=12, help="images shown in the montage")
     ap.add_argument("--fit-batches", type=int, default=8, help="batches pooled to fit the PCA basis")
+    ap.add_argument("--checkpoint", default=None,
+                    help="path to the probe checkpoint (overrides the config's checkpoint_path)")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
@@ -114,7 +116,9 @@ def main() -> None:
     device = get_device()
     dataset = cfg.get("data", {}).get("dataset", "CIFAR10")
 
-    model = load_classifier_from_checkpoint(cfg, mode=args.mode, device=device, requires_grad=False)
+    model = load_classifier_from_checkpoint(
+        cfg, mode=args.mode, device=device, requires_grad=False, checkpoint_path=args.checkpoint
+    )
     loaders = build_loaders(cfg, self_supervised=False)
     out_size = (int(cfg["model"].get("image_size", 32)),) * 2
 
