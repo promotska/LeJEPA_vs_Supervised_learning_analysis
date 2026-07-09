@@ -196,7 +196,39 @@ def evaluate_public_vit_inference_alignment(config_path: str) -> None:
             current_batch_size = images.shape[0]
 
             with torch.no_grad():
-                _, patch_tokens, last_self_attention = backbone.forward_patch_tokens_and_attention(images)
+                hf_model = backbone.hf_model
+                qkv_module = hf_model.backbone.blocks[11].attn.qkv
+                captured = {}
+
+                def _capture_qkv(_module, _inputs, output):
+                    captured["qkv"] = output.detach()
+
+                handle = qkv_module.register_forward_hook(_capture_qkv)
+                try:
+                    outputs = backbone._forward_outputs(images)
+                finally:
+                    handle.remove()
+
+                if isinstance(outputs, dict):
+                    patch_tokens = outputs["patch_latent"].float()
+                    last_self_attention = outputs.get("last_self_attention", None)
+                else:
+                    patch_tokens = outputs.patch_latent.float()
+                    last_self_attention = getattr(outputs, "last_self_attention", None)
+
+                if last_self_attention is None:
+                    qkv = captured["qkv"].float()  # [B, T, 3D]
+                    b, t, three_d = qkv.shape
+                    d = three_d // 3
+                    num_heads = 12
+                    head_dim = d // num_heads
+
+                    qkv = qkv.reshape(b, t, 3, num_heads, head_dim).permute(2, 0, 3, 1, 4)
+                    q, k = qkv[0], qkv[1]
+
+                    attn = (q @ k.transpose(-2, -1)) * (head_dim ** -0.5)
+                    last_self_attention = attn.softmax(dim=-1)
+
                 xai_maps_t = _cls_attention_to_maps(
                     last_self_attention=last_self_attention,
                     grid_size=grid_size,
