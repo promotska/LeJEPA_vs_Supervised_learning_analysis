@@ -1,0 +1,53 @@
+project:
+  name: public_okai_lejepa_vitb16_imagenet100_inference
+  seed: 42
+  output_dir: experiments/public-okai-vitb16-in100-infer-full
+experiment:
+  root: experiments
+  name: public-okai-lejepa-vitb16-imagenet100-inference
+  relocate_checkpoint_path: true
+data:
+  root: datasets/imagenet100
+  dataset: ImageFolder
+  image_size: 224
+  resize_size: 256
+  num_workers: 8
+  batch_size: 32
+  val_fraction: 0.1
+model:
+  architecture: hf_okai_lejepa_vitb16
+  hf_model_id: /leonardo_scratch/large/userexternal/apromots/doubleN/cv/hf_models/okai_lejepa_vitb16
+  hf_revision: null
+  hf_trust_remote_code: true
+  hf_local_files_only: true
+  hf_torch_dtype: float32
+  freeze_backbone: true
+  image_size: 224
+  patch_size: 16
+  embed_dim: 768
+  num_classes: 100
+evaluation:
+  layers:
+  - patch_latent
+  max_samples: 5000
+  batch_size: 32
+  num_visualizations: 4
+  save_visualizations: true
+  vit_xai_method: last_attention
+  attention_head_fusion: mean
+  attention_discard_ratio: 0.0
+  output_csv: experiments/public-okai-vitb16-in100-infer-full/metrics/public_okai_lejepa_vitb16_imagenet100_lsas_inference_last_attention.csv
+  figure_dir: experiments/public-okai-vitb16-in100-infer-full/figures/inference_last_attention
+_experiment:
+  name: public-okai-vitb16-in100-infer-full
+  dir: experiments/public-okai-vitb16-in100-infer-full
+  run_id: 20260709_171851_evaluate_public_vit_inference_alignment_public_vit_lejepa_inference_542198
+  run_kind: evaluate_public_vit_inference_alignment
+  mode: public_vit_lejepa_inference
+  manifest_path: experiments/public-okai-vitb16-in100-infer-full/manifest.yaml
+  config_snapshot_path: experiments/public-okai-vitb16-in100-infer-full/configs/original_public_okai_lejepa_vitb16_imagenet100_inference.yaml
+  resolved_config_path: experiments/public-okai-vitb16-in100-infer-full/configs/resolved_20260709_171851_evaluate_public_vit_inference_alignment_public_vit_lejepa_inference_542198.yaml
+  checkpoints_dir: experiments/public-okai-vitb16-in100-infer-full/checkpoints
+  metrics_dir: experiments/public-okai-vitb16-in100-infer-full/metrics
+  figures_dir: experiments/public-okai-vitb16-in100-infer-full/figures
+  logs_dir: experiments/public-okai-vitb16-in100-infer-full/logs
