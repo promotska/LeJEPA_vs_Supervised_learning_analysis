@@ -76,7 +76,7 @@ grounded_evaluation:
   mask_root: datasets/imagenet_s50/masks/val
   target: predicted
   batch_size: 16
-  max_samples: 500
+  max_samples: 100000
   top_frac: 0.2
   stability: true
   stability_aug_strength: 0.2
