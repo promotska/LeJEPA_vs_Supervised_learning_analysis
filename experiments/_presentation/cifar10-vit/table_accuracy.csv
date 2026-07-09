@@ -1,0 +1,3 @@
+metric,supervised,LeJEPA,Δ
+linear probe acc.,0.804,0.390,-0.414
+kNN acc. (best k),0.812,0.427,-0.384
