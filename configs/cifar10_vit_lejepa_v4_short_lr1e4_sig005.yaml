@@ -1,11 +1,11 @@
 project:
-  name: cifar10_vit_lejepa_v4_short_lr1e4_sig005
+  name: cifar10_vit_lejepa_v4_short_lr1e4_sig005_reg4
   seed: 42
   output_dir: outputs
 
 experiment:
   root: experiments
-  name: experiment-c10-vit-lejepa-v4-short-lr1e4-sig005
+  name: experiment-c10-vit-lejepa-v4-short-lr1e4-sig005_reg4
   relocate_checkpoint_path: true
 
 data:
@@ -28,6 +28,7 @@ model:
   attn_dropout: 0.0
   projection_dim: 256
   prediction_dim: 512
+  num_registers: 4
 
 training:
   pretrain_epochs: 100
