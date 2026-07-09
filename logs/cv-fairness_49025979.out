@@ -1,0 +1,17 @@
+Saved model fairness table: experiments/model_fairness.csv
+                                     experiment       dataset          architecture     method  num_parameters  backbone_parameters                              num_layers  input_size              patch_size_or_conv_stem
+                         experiment-c10-r18-sup      CIFAR-10        resnet18_cifar supervised        11173962             11168832 ResNet-18: 8 residual blocks / 4 stages          32  CIFAR stem: 3x3 stride1, no maxpool
+        experiment-c10-r18-lejepa-v5-sigreg-002      CIFAR-10        resnet18_cifar     LeJEPA        11173962             11168832 ResNet-18: 8 residual blocks / 4 stages          32  CIFAR stem: 3x3 stride1, no maxpool
+                         experiment-c10-vit-sup      CIFAR-10        vit_tiny_cifar supervised         2693578              2691648                    6 transformer blocks          32                               patch4
+experiment-c10-vit-lejepa-v4-short-lr1e4-sig005      CIFAR-10        vit_tiny_cifar     LeJEPA         2693578              2691648                    6 transformer blocks          32                               patch4
+                 experiment-imagenet100-r18-sup  ImageNet-100     resnet18_imagenet supervised        11227812             11176512 ResNet-18: 8 residual blocks / 4 stages         224 ImageNet stem: 7x7 stride2 + maxpool
+              experiment-imagenet100-r18-lejepa  ImageNet-100     resnet18_imagenet     LeJEPA        11227812             11176512 ResNet-18: 8 residual blocks / 4 stages         224 ImageNet stem: 7x7 stride2 + maxpool
+                 experiment-imagenet100-vit-sup  ImageNet-100 vit_small_patch16_224 supervised        21704164             21665664                   12 transformer blocks         224                              patch16
+              experiment-imagenet100-vit-lejepa  ImageNet-100 vit_small_patch16_224     LeJEPA        21704164             21665664                   12 transformer blocks         224                              patch16
+                 experiment-imagenets50-r18-sup ImageNet-S-50     resnet18_imagenet supervised        11202162             11176512 ResNet-18: 8 residual blocks / 4 stages         224 ImageNet stem: 7x7 stride2 + maxpool
+              experiment-imagenets50-r18-lejepa ImageNet-S-50     resnet18_imagenet     LeJEPA        11202162             11176512 ResNet-18: 8 residual blocks / 4 stages         224 ImageNet stem: 7x7 stride2 + maxpool
+                 experiment-imagenets50-vit-sup ImageNet-S-50 vit_small_patch16_224 supervised        21684914             21665664                   12 transformer blocks         224                              patch16
+              experiment-imagenets50-vit-lejepa ImageNet-S-50 vit_small_patch16_224     LeJEPA        21684914             21665664                   12 transformer blocks         224                              patch16
+                             public-okai-vitb16  ImageNet-100                 ViTv2     LeJEPA        85798656             85798656                   12 transformer blocks         224                              patch16
+                       public-supervised-vitb16  ImageNet-100  vit_base_patch16_224 supervised        86567656             85798656                   12 transformer blocks         224                              patch16
+Also wrote metrics/model_fairness.csv inside each experiment directory where possible.
