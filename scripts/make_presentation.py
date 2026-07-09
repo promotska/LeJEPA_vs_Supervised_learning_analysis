@@ -1,34 +1,11 @@
 from __future__ import annotations
 
-"""
-Distilled, PowerPoint-ready summary of a two-arm alignment comparison
-(e.g. registers vs no-registers, or LeJEPA vs supervised).
-
-Produces a small curated set in --out-dir:
-  fig1_lsas_by_layer.png     headline: LSAS per layer, both arms, 95% CI band
-  fig2_decomposition.png     why: per-layer Δcorrelation vs Δoverlap (the "trade")
-  fig3_controls.png          (only if center/shuffle columns exist) matched vs null
-  table_lsas.png / .csv      per-layer LSAS: base, reg, Δ, 95% CI, Cohen's d, sig
-  table_accuracy.png / .csv  (if representation_*.yaml present) probe + kNN accuracy
-  takeaway.md                auto-written one-paragraph verdict + the numbers
-
-Stats: paired bootstrap 95% CI, Cohen's d, Wilcoxon p (if SciPy), Benjamini-Hochberg
-FDR across layers. All computed per image then aggregated (n = images per layer).
-
-Example:
-  python scripts/make_presentation.py \
-    --baseline-dir experiments/experiment-c10-vit-lejepa-v4-short-lr1e4-sig005 \
-    --register-dir experiments/experiment-c10-vit-lejepa-v4-short-lr1e4-sig005-reg4 \
-    --baseline-label "no registers" --register-label "registers (4)" \
-    --which predicted
-"""
-
 import argparse
 import sys
+import re
 from pathlib import Path
 
 import matplotlib
-
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
@@ -52,295 +29,264 @@ try:
 except Exception:
     _HAVE_SCIPY = False
 
-# presentation styling (large fonts, clean, colorblind-safe Okabe-Ito)
+# Styling (Okabe-Ito colorblind-safe palette)
 plt.rcParams.update({
     "figure.facecolor": "white", "axes.facecolor": "white",
     "font.size": 13, "axes.titlesize": 15, "axes.labelsize": 13,
     "legend.fontsize": 11, "xtick.labelsize": 12, "ytick.labelsize": 12,
     "axes.spines.top": False, "axes.spines.right": False,
 })
-C_BASE, C_REG = "#7f7f7f", "#0072B2"     # gray / blue
-C_DOWN, C_UP = "#D55E00", "#009E73"       # orange-red / green
+COLORS = ["#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7"]
+MARKERS = ["o", "s", "^", "D", "v", "<", ">", "p"]
+C_DOWN, C_UP = "#D55E00", "#009E73" 
 KEY_METRICS = ["lsas", "corr_pca_xai", "soft_iou_pca_xai"]
 PRETTY = {"lsas": "LSAS", "corr_pca_xai": "correlation", "soft_iou_pca_xai": "overlap (soft-IoU)"}
 
-
 # --------------------------------------------------------------------------- #
-# stats
+# Stats Tools
 # --------------------------------------------------------------------------- #
 def bootstrap_diff_ci(diffs, n_boot=5000, seed=0):
     d = np.asarray(diffs, float); d = d[~np.isnan(d)]
-    if d.size < 2:
-        return float("nan"), float("nan"), float("nan")
+    if d.size < 2: return float("nan"), float("nan"), float("nan")
     rng = np.random.default_rng(seed)
     means = d[rng.integers(0, d.size, size=(n_boot, d.size))].mean(axis=1)
     return float(d.mean()), float(np.percentile(means, 2.5)), float(np.percentile(means, 97.5))
-
 
 def cohens_d(diffs):
     d = np.asarray(diffs, float); d = d[~np.isnan(d)]
     sd = d.std(ddof=1)
     return float(d.mean() / sd) if sd > 0 else float("nan")
 
-
 def mean_ci(x):
     x = np.asarray(x, float); x = x[~np.isnan(x)]
-    if x.size < 2:
-        return float(x.mean()) if x.size else float("nan"), 0.0
+    if x.size < 2: return float(x.mean()) if x.size else float("nan"), 0.0
     return float(x.mean()), float(1.96 * x.std(ddof=1) / np.sqrt(x.size))
-
 
 def benjamini_hochberg(pvals, alpha=0.05):
     p = np.asarray(pvals, float); ok = ~np.isnan(p)
     adj = np.full_like(p, np.nan); rej = np.zeros(p.shape, bool)
     idx = np.where(ok)[0]
-    if idx.size == 0:
-        return adj, rej
+    if idx.size == 0: return adj, rej
     order = idx[np.argsort(p[idx])]; m = len(order); prev = 1.0
     for rank, j in enumerate(reversed(order)):
         val = min(prev, p[j] * m / (m - rank)); adj[j] = val; prev = val
     rej[order] = adj[order] <= alpha
     return adj, rej
 
+def safe_fname(s: str) -> str:
+    return re.sub(r'[^a-zA-Z0-9]+', '_', s).strip('_').lower()
 
 # --------------------------------------------------------------------------- #
-# load / pair
+# Data Loading
 # --------------------------------------------------------------------------- #
-def discover(metrics_dir: Path, which: str) -> Path | None:
-    cands = [p for p in sorted(metrics_dir.glob(f"*_{which}.csv"))
-             if "lei" not in p.name.lower() and not p.name.startswith("representation")]
-    if not cands:
-        return None
-    tg = [p for p in cands if "token_gradient" in p.name]
-    return (tg or cands)[0]
+def load_model_data(dir_path: str, which: str):
+    metrics_dir = Path(dir_path) / "metrics"
+    if not metrics_dir.exists(): return None, None
+    cands = [p for p in sorted(metrics_dir.glob(f"*_{which}.csv")) if "lei" not in p.name.lower() and not p.name.startswith("representation")]
+    if not cands: return None, None
+    
+    csv_file = ([p for p in cands if "token_gradient" in p.name] or cands)[0]
+    raw_df = pd.read_csv(csv_file).drop_duplicates(subset=["sample_idx", "layer"])
+    layers = sorted(raw_df["layer"].unique(), key=layer_sort_key)
+    
+    stats = []
+    for lyr in layers:
+        m = raw_df[raw_df["layer"] == lyr]
+        row = {"layer": lyr}
+        for metric in ["lsas", "corr_pca_xai", "soft_iou_pca_xai", "lsas_shuffled", "lsas_pca_center"]:
+            if metric in m.columns:
+                mean, ci = mean_ci(m[metric].to_numpy())
+                row[metric] = mean; row[f"{metric}_ci"] = ci
+        stats.append(row)
+    return pd.DataFrame(stats), raw_df
 
-
-def load_paired(base_csv, reg_csv):
-    base = pd.read_csv(base_csv).drop_duplicates(subset=["sample_idx", "layer"])
-    reg = pd.read_csv(reg_csv).drop_duplicates(subset=["sample_idx", "layer"])
-    metrics = [m for m in KEY_METRICS if m in base.columns and m in reg.columns]
-    merged = base[["sample_idx", "layer"] + metrics].merge(
-        reg[["sample_idx", "layer"] + metrics], on=["sample_idx", "layer"],
-        suffixes=("_base", "_reg"), validate="one_to_one")
-    layers = sorted(merged["layer"].unique(), key=layer_sort_key)
-    return merged, metrics, layers
-
+# --------------------------------------------------------------------------- #
+# Paired Processing (For same-architecture models)
+# --------------------------------------------------------------------------- #
+def merge_raw(raw_base, raw_comp, layers):
+    metrics = [m for m in KEY_METRICS if m in raw_base.columns and m in raw_comp.columns]
+    merged = raw_base[["sample_idx", "layer"] + metrics].merge(
+        raw_comp[["sample_idx", "layer"] + metrics], on=["sample_idx", "layer"],
+        suffixes=("_base", "_comp"), validate="one_to_one")
+    return merged, metrics
 
 def per_layer_stats(merged, metric, layers):
     rows, pvals = [], []
     for lyr in layers:
         m = merged[merged["layer"] == lyr]
-        b, r = m[f"{metric}_base"].to_numpy(), m[f"{metric}_reg"].to_numpy()
-        diffs = r - b
-        bm, bci = mean_ci(b); rm, rci = mean_ci(r)
+        b, c = m[f"{metric}_base"].to_numpy(), m[f"{metric}_comp"].to_numpy()
+        diffs = c - b
+        bm, bci = mean_ci(b); cm, cci = mean_ci(c)
         md, lo, hi = bootstrap_diff_ci(diffs)
         p = float("nan")
         if _HAVE_SCIPY and np.count_nonzero(diffs) and diffs.size >= 10:
-            try:
-                p = float(wilcoxon(diffs).pvalue)
-            except Exception:
-                p = float("nan")
-        rows.append(dict(layer=lyr, base_mean=bm, base_ci=bci, reg_mean=rm, reg_ci=rci,
+            try: p = float(wilcoxon(diffs).pvalue)
+            except: pass
+        rows.append(dict(layer=lyr, base_mean=bm, base_ci=bci, comp_mean=cm, comp_ci=cci,
                          diff=md, lo=lo, hi=hi, d=cohens_d(diffs), p=p, n=int(diffs.size)))
         pvals.append(p)
     df = pd.DataFrame(rows)
-    _, rej = benjamini_hochberg(pvals)
-    df["sig_fdr"] = rej
+    df["sig_fdr"] = benjamini_hochberg(pvals)[1]
     return df
 
-
 # --------------------------------------------------------------------------- #
-# figures
+# GLOBAL Figures (Indices on X-axis)
 # --------------------------------------------------------------------------- #
-def fig_lsas(stats_lsas, layers, base_label, reg_label, out):
-    x = np.arange(len(layers))
-    fig, ax = plt.subplots(figsize=(7.2, 4.6))
-    for col, ci, color, lab, mk, ls in [("base_mean", "base_ci", C_BASE, base_label, "o", "--"),
-                                        ("reg_mean", "reg_ci", C_REG, reg_label, "s", "-")]:
-        y = stats_lsas[col].to_numpy(); e = stats_lsas[ci].to_numpy()
-        ax.plot(x, y, marker=mk, ls=ls, color=color, lw=2.4, ms=8, label=lab)
-        ax.fill_between(x, y - e, y + e, color=color, alpha=0.15)
-    for i, sig in enumerate(stats_lsas["sig_fdr"]):
-        if sig:
-            ytop = max(stats_lsas["base_mean"][i], stats_lsas["reg_mean"][i]) + 0.02
-            ax.annotate("*", (x[i], ytop), ha="center", fontsize=18, color="black")
-    ax.set_xticks(x); ax.set_xticklabels(layers)
-    ax.set_ylabel("LSAS (PCA–saliency alignment)")
-    ax.set_title("Layer-wise alignment: registers vs baseline")
-    ax.legend(frameon=False); ax.grid(axis="y", alpha=0.25)
-    ax.text(0.99, -0.16, "* = significant after FDR correction  ·  band = 95% CI of the mean",
-            transform=ax.transAxes, ha="right", fontsize=9, color="#555")
+def fig_lsas_global(models_stats, labels, out):
+    fig, ax = plt.subplots(figsize=(max(7.2, len(labels) * 1.5), 5.0))
+    for i, (stats, lab) in enumerate(zip(models_stats, labels)):
+        if stats is None or "lsas" not in stats.columns: continue
+        x = np.arange(len(stats))
+        y = stats["lsas"].to_numpy(); e = stats["lsas_ci"].to_numpy()
+        ax.plot(x, y, marker=MARKERS[i % len(MARKERS)], color=COLORS[i % len(COLORS)], lw=2.4, ms=8, label=lab)
+        ax.fill_between(x, y - e, y + e, color=COLORS[i % len(COLORS)], alpha=0.15)
+    ax.set_xlabel("Relative Layer Index (Shallow → Deep)")
+    ax.set_ylabel("LSAS")
+    ax.set_title("Global Layer-wise Alignment Comparison")
+    ax.legend(frameon=False, bbox_to_anchor=(1.01, 1), loc='upper left')
+    ax.grid(axis="y", alpha=0.25)
     fig.tight_layout(); fig.savefig(out, dpi=200, bbox_inches="tight"); plt.close(fig)
 
+def fig_trajectory(models_stats, labels, out):
+    fig, ax = plt.subplots(figsize=(max(7.2, len(labels) * 1.5), 5.0))
+    has_data = False
+    for i, (stats, lab) in enumerate(zip(models_stats, labels)):
+        if stats is None or "corr_pca_xai" not in stats.columns: continue
+        has_data = True
+        x = stats["corr_pca_xai"].to_numpy(); y = stats["soft_iou_pca_xai"].to_numpy()
+        c = COLORS[i % len(COLORS)]
+        ax.plot(x, y, marker=".", color=c, lw=2.0, ms=8, label=lab, alpha=0.8)
+        ax.scatter(x[-1], y[-1], marker="*", facecolors=c, edgecolors="black", s=300, zorder=5)
+    if not has_data: return
+    ax.set_xlabel("Correlation"); ax.set_ylabel("Overlap (soft-IoU)")
+    ax.set_title("Trajectory: Correlation vs Overlap (★ = Final Layer)")
+    ax.legend(frameon=False, bbox_to_anchor=(1.01, 1), loc='upper left')
+    ax.grid(alpha=0.3)
+    fig.tight_layout(); fig.savefig(out, dpi=200, bbox_inches="tight"); plt.close(fig)
 
-def fig_decomposition(stats_by_metric, layers, out):
-    """Per-layer Δ (register − baseline) for correlation vs overlap: the 'trade' story."""
+# --------------------------------------------------------------------------- #
+# PAIRED Figures (Actual Layers on X-axis)
+# --------------------------------------------------------------------------- #
+def fig_arch_specific_lsas(members, layers, out):
+    fig, ax = plt.subplots(figsize=(max(7.2, len(layers) * 0.5), 5.0))
+    x = np.arange(len(layers))
+    for i_global, stats, _, lab in members:
+        y = stats["lsas"].to_numpy(); e = stats["lsas_ci"].to_numpy()
+        c = COLORS[i_global % len(COLORS)]; mk = MARKERS[i_global % len(MARKERS)]
+        ax.plot(x, y, marker=mk, color=c, lw=2.4, ms=8, label=lab)
+        ax.fill_between(x, y - e, y + e, color=c, alpha=0.15)
+    ax.set_xticks(x); ax.set_xticklabels(layers, rotation=45, ha="right")
+    ax.set_ylabel("LSAS")
+    ax.set_title("Architecture Match: Layer-wise Alignment")
+    ax.legend(frameon=False)
+    ax.grid(axis="y", alpha=0.25)
+    fig.tight_layout(); fig.savefig(out, dpi=200, bbox_inches="tight"); plt.close(fig)
+
+def fig_arch_trade(stats_by_metric, layers, base_label, comp_label, out):
     x = np.arange(len(layers)); w = 0.38
-    fig, ax = plt.subplots(figsize=(7.2, 4.6))
+    fig, ax = plt.subplots(figsize=(max(7.2, len(layers) * 0.6), 5.0))
     for off, metric, color in [(-w / 2, "corr_pca_xai", C_DOWN), (w / 2, "soft_iou_pca_xai", C_UP)]:
-        if metric not in stats_by_metric:
-            continue
+        if metric not in stats_by_metric: continue
         s = stats_by_metric[metric]
         d = s["diff"].to_numpy(); lo = s["lo"].to_numpy(); hi = s["hi"].to_numpy()
         ax.bar(x + off, d, w, color=color, label=f"Δ {PRETTY[metric]}")
         ax.errorbar(x + off, d, yerr=[d - lo, hi - d], fmt="none", ecolor="black", capsize=3, lw=1)
     ax.axhline(0, color="black", lw=1)
-    ax.set_xticks(x); ax.set_xticklabels(layers)
-    ax.set_ylabel("change with registers (register − baseline)")
-    ax.set_title("Registers trade correlation for overlap")
+    ax.set_xticks(x); ax.set_xticklabels(layers, rotation=45, ha="right")
+    ax.set_ylabel(f"Change ({comp_label} − {base_label})")
+    ax.set_title(f"Trade-off: {comp_label} vs {base_label}")
     ax.legend(frameon=False); ax.grid(axis="y", alpha=0.25)
     fig.tight_layout(); fig.savefig(out, dpi=200, bbox_inches="tight"); plt.close(fig)
-
-
-def fig_controls(merged_raw_base, layers, label, out):
-    have = [c for c in ["lsas", "lsas_shuffled", "lsas_pca_center"] if c in merged_raw_base.columns]
-    if "lsas_shuffled" not in have:
-        return False
-    x = np.arange(len(layers)); w = 0.27
-    def per(col):
-        return [float(merged_raw_base[merged_raw_base["layer"] == l][col].mean())
-                if col in merged_raw_base.columns else np.nan for l in layers]
-    fig, ax = plt.subplots(figsize=(7.2, 4.6))
-    ax.bar(x - w, per("lsas"), w, color=C_UP, label="matched (real)")
-    ax.bar(x, per("lsas_shuffled"), w, color=C_BASE, label="shuffled pairs (chance)")
-    if "lsas_pca_center" in merged_raw_base.columns:
-        ax.bar(x + w, per("lsas_pca_center"), w, color=C_DOWN, alpha=0.8, label="center prior")
-    ax.set_xticks(x); ax.set_xticklabels(layers)
-    ax.set_ylabel("LSAS"); ax.set_title(f"Alignment is real, not center bias — {label}")
-    ax.legend(frameon=False); ax.grid(axis="y", alpha=0.25)
-    fig.tight_layout(); fig.savefig(out, dpi=200, bbox_inches="tight"); plt.close(fig)
-    return True
-
 
 # --------------------------------------------------------------------------- #
-# tables
+# Tables
 # --------------------------------------------------------------------------- #
 def render_table(df_display, title, out_png, col_colors=None):
-    n = len(df_display)
-    fig, ax = plt.subplots(figsize=(min(2.2 * len(df_display.columns), 11), 0.6 * n + 1.1))
+    n_rows, n_cols = df_display.shape
+    fig, ax = plt.subplots(figsize=(min(2.5 * n_cols, 16), 0.6 * n_rows + 1.2))
     ax.axis("off"); ax.set_title(title, fontsize=15, pad=12)
-    tbl = ax.table(cellText=df_display.values, colLabels=df_display.columns,
-                   cellLoc="center", loc="center")
-    tbl.auto_set_font_size(False); tbl.set_fontsize(12); tbl.scale(1, 1.6)
-    for j in range(len(df_display.columns)):  # header styling
-        c = tbl[0, j]; c.set_facecolor("#2c3e50"); c.set_text_props(color="white", weight="bold")
+    tbl = ax.table(cellText=df_display.values, colLabels=df_display.columns, cellLoc="center", loc="center")
+    tbl.auto_set_font_size(False); tbl.set_fontsize(11); tbl.scale(1, 1.6)
+    for j in range(n_cols): tbl[0, j].set_facecolor("#2c3e50"); tbl[0, j].set_text_props(color="white", weight="bold")
     if col_colors:
-        for (ri, ci), color in col_colors.items():
-            tbl[ri + 1, ci].set_facecolor(color)
+        for (ri, ci), color in col_colors.items(): tbl[ri + 1, ci].set_facecolor(color)
     fig.tight_layout(); fig.savefig(out_png, dpi=200, bbox_inches="tight"); plt.close(fig)
 
-
-def lsas_table(stats_lsas, base_label, reg_label, out_dir):
+def lsas_table_paired(stats_lsas, base_label, comp_label, out_dir, prefix):
     disp, colors = [], {}
     for i, r in stats_lsas.iterrows():
         star = "✓" if r["sig_fdr"] else ""
-        disp.append([r["layer"], f"{r['base_mean']:.3f}", f"{r['reg_mean']:.3f}",
-                     f"{r['diff']:+.3f}", f"[{r['lo']:+.3f}, {r['hi']:+.3f}]",
-                     f"{r['d']:+.2f}", star])
-        colors[(i, 3)] = "#d7f0dd" if r["diff"] > 0 else "#fbe0d6"  # Δ cell green/red
-    cols = ["layer", base_label, reg_label, "Δ", "95% CI", "Cohen d", "sig."]
-    df = pd.DataFrame(disp, columns=cols)
-    df.to_csv(out_dir / "table_lsas.csv", index=False)
-    render_table(df, "LSAS by layer (register vs baseline)", out_dir / "table_lsas.png", colors)
-
-
-def accuracy_table(base_dir, reg_dir, base_label, reg_label, out_dir):
-    def rep(d):
-        hits = list((Path(d) / "metrics").glob("representation_*.yaml"))
-        if not hits:
-            return None
-        y = yaml.safe_load(hits[0].read_text())
-        return (y.get("classifier_or_probe_accuracy") or {}).get("accuracy"), \
-               ((y.get("knn") or {}).get("best") or {}).get("accuracy")
-    rb, rr = rep(base_dir), rep(reg_dir)
-    if not rb or not rr:
-        return
-    rows = []
-    for name, bv, rv in [("linear probe acc.", rb[0], rr[0]), ("kNN acc. (best k)", rb[1], rr[1])]:
-        if bv is None or rv is None:
-            continue
-        rows.append([name, f"{bv:.3f}", f"{rv:.3f}", f"{rv - bv:+.3f}"])
-    if not rows:
-        return
-    df = pd.DataFrame(rows, columns=["metric", base_label, reg_label, "Δ"])
-    df.to_csv(out_dir / "table_accuracy.csv", index=False)
-    render_table(df, "Downstream accuracy (should stay ~flat)", out_dir / "table_accuracy.png")
-
+        disp.append([r["layer"], f"{r['base_mean']:.3f}", f"{r['comp_mean']:.3f}",
+                     f"{r['diff']:+.3f}", f"[{r['lo']:+.3f}, {r['hi']:+.3f}]", f"{r['d']:+.2f}", star])
+        colors[(i, 3)] = "#d7f0dd" if r["diff"] > 0 else "#fbe0d6"
+    df = pd.DataFrame(disp, columns=["Layer", base_label, comp_label, "Δ", "95% CI", "Cohen d", "Sig."])
+    df.to_csv(out_dir / f"{prefix}.csv", index=False)
+    render_table(df, f"Paired LSAS: {comp_label} vs {base_label}", out_dir / f"{prefix}.png", colors)
 
 # --------------------------------------------------------------------------- #
-# takeaway text
-# --------------------------------------------------------------------------- #
-def write_takeaway(stats_by_metric, layers, base_label, reg_label, out_dir):
-    ls = stats_by_metric["lsas"]
-    deep = ls[ls["layer"].isin(layers[-2:])]
-    mean_deep = float(deep["diff"].mean())
-    corr = stats_by_metric.get("corr_pca_xai")
-    iou = stats_by_metric.get("soft_iou_pca_xai")
-    direction = "increased" if mean_deep > 0.01 else ("decreased" if mean_deep < -0.01 else "was largely unchanged")
-    lines = [f"# Takeaway: {reg_label} vs {base_label}", ""]
-    lines.append(f"- **Overall alignment (LSAS)** {direction} at deeper layers "
-                 f"(mean Δ over {', '.join(layers[-2:])} = {mean_deep:+.3f}).")
-    if corr is not None and iou is not None:
-        lines.append(f"- **Decomposition:** correlation Δ = {corr['diff'].mean():+.3f} on average, "
-                     f"overlap (soft-IoU) Δ = {iou['diff'].mean():+.3f} — the two move in "
-                     f"{'opposite' if corr['diff'].mean() * iou['diff'].mean() < 0 else 'the same'} directions.")
-    sig = ls[ls["sig_fdr"]]["layer"].tolist()
-    lines.append(f"- **Significant layers (FDR):** {', '.join(sig) if sig else 'none'}; "
-                 f"n = {int(ls['n'].iloc[0])} images/layer, single seed.")
-    lines.append("")
-    lines.append("_Caveats: token-gradient saliency only (attention-rollout not yet run); "
-                 "single seed; deeper-layer token gradients are noisy by construction._")
-    (out_dir / "takeaway.md").write_text("\n".join(lines))
-    return "\n".join(lines)
-
-
-# --------------------------------------------------------------------------- #
-# main
+# Main
 # --------------------------------------------------------------------------- #
 def main():
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--baseline-dir", default="experiments/experiment-c10-vit-lejepa-v4-short-lr1e4-sig005")
-    ap.add_argument("--register-dir", default="experiments/experiment-c10-vit-lejepa-v4-short-lr1e4-sig005-reg4")
-    ap.add_argument("--baseline-label", default="baseline")
-    ap.add_argument("--register-label", default="registers")
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--dirs", nargs="+", help="List of experiment directories")
+    ap.add_argument("--labels", nargs="+", help="List of labels matching directories")
     ap.add_argument("--which", default="predicted", choices=["predicted", "true"])
-    ap.add_argument("--baseline-csv", default=None)
-    ap.add_argument("--register-csv", default=None)
-    ap.add_argument("--out-dir", default=None)
-    args = ap.parse_args()
+    ap.add_argument("--out-dir", required=True)
+    args, unknown = ap.parse_known_args() # allows skipping old legacy args nicely
 
-    base_csv = Path(args.baseline_csv) if args.baseline_csv else discover(Path(args.baseline_dir) / "metrics", args.which)
-    reg_csv = Path(args.register_csv) if args.register_csv else discover(Path(args.register_dir) / "metrics", args.which)
-    if not base_csv or not reg_csv:
-        raise SystemExit(f"Could not find matching *_{args.which}.csv in both experiments.")
-
-    out_dir = Path(args.out_dir) if args.out_dir else Path(args.register_dir) / "presentation"
+    dirs, labels = args.dirs, args.labels
+    out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    print(f"baseline: {base_csv}\nregister: {reg_csv}\nout: {out_dir}", flush=True)
+    print(f"Comparing {len(dirs)} models...")
+    
+    # Load all models
+    loaded = [load_model_data(d, args.which) for d in dirs]
+    models_stats = [x[0] if x else None for x in loaded]
+    models_raw = [x[1] if x else None for x in loaded]
 
-    merged, metrics, layers = load_paired(base_csv, reg_csv)
-    stats_by_metric = {m: per_layer_stats(merged, m, layers) for m in metrics}
+    # 1. Global Figures
+    fig_lsas_global(models_stats, labels, out_dir / "fig1_lsas_global.png")
+    fig_trajectory(models_stats, labels, out_dir / "fig2_trajectory.png")
 
-    # figures
-    if "lsas" in stats_by_metric:
-        fig_lsas(stats_by_metric["lsas"], layers, args.baseline_label, args.register_label,
-                 out_dir / "fig1_lsas_by_layer.png")
-    fig_decomposition(stats_by_metric, layers, out_dir / "fig2_decomposition.png")
-    base_raw = pd.read_csv(base_csv)
-    if fig_controls(base_raw, layers, args.baseline_label, out_dir / "fig3_controls.png"):
-        print("  wrote fig3_controls.png (baseline had control columns)")
+    # 2. Group by Architecture & Build Paired Figures
+    arch_groups = {}
+    for i, (stats, raw, lab) in enumerate(zip(models_stats, models_raw, labels)):
+        if stats is None: continue
+        layer_tup = tuple(stats["layer"].tolist())
+        if layer_tup not in arch_groups: arch_groups[layer_tup] = []
+        arch_groups[layer_tup].append((i, stats, raw, lab))
 
-    # tables
-    if "lsas" in stats_by_metric:
-        lsas_table(stats_by_metric["lsas"], args.baseline_label, args.register_label, out_dir)
-    accuracy_table(args.baseline_dir, args.register_dir, args.baseline_label, args.register_label, out_dir)
+    arch_idx = 1
+    for layer_tup, members in arch_groups.items():
+        if len(members) < 2: continue
+        layers = list(layer_tup)
+        
+        # Determine a safe architecture name (based on first member's label)
+        arch_prefix = safe_fname(members[0][3].split()[0]) # e.g. "R18" or "ViT"
+        
+        # Plot identical-layer LSAS
+        fig_arch_specific_lsas(members, layers, out_dir / f"fig4_lsas_actual_layers_{arch_prefix}.png")
+        print(f"  -> Generated specific architecture graph for '{arch_prefix}' layers.")
 
-    takeaway = write_takeaway(stats_by_metric, layers, args.baseline_label, args.register_label, out_dir)
-    print("\n" + takeaway)
-    print(f"\nAll assets written to: {out_dir}")
-    for p in sorted(out_dir.glob("*")):
-        print("  ", p.name)
+        # Compute specific pairwise metrics for every pair in this architecture group
+        for idx1 in range(len(members)):
+            for idx2 in range(idx1 + 1, len(members)):
+                _, _, raw1, lab1 = members[idx1]
+                _, _, raw2, lab2 = members[idx2]
+                
+                merged, metrics = merge_raw(raw1, raw2, layers)
+                paired_stats = {m: per_layer_stats(merged, m, layers) for m in metrics}
+                
+                safe1, safe2 = safe_fname(lab1), safe_fname(lab2)
+                pair_slug = f"{safe2}_vs_{safe1}"
+                
+                if "corr_pca_xai" in paired_stats:
+                    fig_arch_trade(paired_stats, layers, lab1, lab2, out_dir / f"fig5_trade_{pair_slug}.png")
+                if "lsas" in paired_stats:
+                    lsas_table_paired(paired_stats["lsas"], lab1, lab2, out_dir, f"table_lsas_{pair_slug}")
+        arch_idx += 1
 
+    print(f"\n✅ All assets written to: {out_dir}")
 
 if __name__ == "__main__":
     main()
