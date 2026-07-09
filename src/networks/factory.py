@@ -76,6 +76,7 @@ def build_supervised_model(cfg: dict[str, Any]) -> nn.Module:
             mlp_ratio=float(model_cfg.get("mlp_ratio", 4.0)),
             dropout=float(model_cfg.get("dropout", 0.1)),
             attn_dropout=float(model_cfg.get("attn_dropout", 0.1)),
+            num_registers=int(model_cfg.get("num_registers", 0)),
         )
 
     raise ValueError(f"Unsupported supervised architecture: {arch}")
@@ -114,6 +115,7 @@ def build_lejepa_model(cfg: dict[str, Any]) -> nn.Module:
             attn_dropout=float(model_cfg.get("attn_dropout", 0.1)),
             projection_dim=int(model_cfg.get("projection_dim", 256)),
             prediction_dim=int(model_cfg.get("prediction_dim", 512)),
+            num_registers=int(model_cfg.get("num_registers", 0)),
         )
 
     raise ValueError(f"Unsupported LeJEPA architecture: {arch}")
@@ -139,6 +141,7 @@ def build_backbone_for_arch(cfg: dict[str, Any]) -> nn.Module:
             mlp_ratio=float(model_cfg.get("mlp_ratio", 4.0)),
             dropout=float(model_cfg.get("dropout", 0.1)),
             attn_dropout=float(model_cfg.get("attn_dropout", 0.1)),
+            num_registers=int(model_cfg.get("num_registers", 0)),
         )
     raise ValueError(f"Unsupported architecture: {arch}")
 

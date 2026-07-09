@@ -117,6 +117,7 @@ class ViTCifarBackbone(nn.Module):
         mlp_ratio: float = 4.0,
         dropout: float = 0.1,
         attn_dropout: float = 0.1,
+        num_registers: int = 0,
     ):
         super().__init__()
         self.patch_embed = PatchEmbed(
@@ -134,6 +135,10 @@ class ViTCifarBackbone(nn.Module):
 
         self.cls_token = nn.Parameter(torch.zeros(1, 1, embed_dim))
         self.pos_embed = nn.Parameter(torch.zeros(1, self.num_patches + 1, embed_dim))
+        self.num_registers = int(num_registers)
+        self.num_prefix_tokens = 1 + self.num_registers
+        if self.num_registers > 0:
+            self.register_tokens = nn.Parameter(torch.zeros(1, self.num_registers, embed_dim))
         self.pos_drop = nn.Dropout(dropout)
         self.blocks = nn.ModuleList(
             [
@@ -153,6 +158,8 @@ class ViTCifarBackbone(nn.Module):
     def _init_weights(self) -> None:
         nn.init.trunc_normal_(self.pos_embed, std=0.02)
         nn.init.trunc_normal_(self.cls_token, std=0.02)
+        if self.num_registers > 0:
+            nn.init.trunc_normal_(self.register_tokens, std=0.02)
         for module in self.modules():
             if isinstance(module, nn.Linear):
                 nn.init.trunc_normal_(module.weight, std=0.02)
@@ -175,6 +182,9 @@ class ViTCifarBackbone(nn.Module):
         cls = self.cls_token.expand(batch_size, -1, -1)
         x = torch.cat([cls, x], dim=1)
         x = x + self.pos_embed
+        if self.num_registers > 0:
+            regs = self.register_tokens.expand(batch_size, -1, -1)
+            x = torch.cat([x[:, :1], regs, x[:, 1:]], dim=1)
         x = self.pos_drop(x)
 
         captured: dict[str, torch.Tensor] = {}
@@ -223,6 +233,7 @@ class SupervisedViTCifar(nn.Module):
         mlp_ratio: float = 4.0,
         dropout: float = 0.1,
         attn_dropout: float = 0.1,
+        num_registers: int = 0,
     ):
         super().__init__()
         self.backbone = ViTCifarBackbone(
@@ -235,6 +246,7 @@ class SupervisedViTCifar(nn.Module):
             mlp_ratio=mlp_ratio,
             dropout=dropout,
             attn_dropout=attn_dropout,
+            num_registers=num_registers,
         )
         self.classifier = nn.Linear(embed_dim, num_classes)
 
@@ -286,6 +298,7 @@ class LeJEPAViTCifar(nn.Module):
         attn_dropout: float = 0.1,
         projection_dim: int = 256,
         prediction_dim: int = 512,
+        num_registers: int = 0,
     ):
         super().__init__()
         self.backbone = ViTCifarBackbone(
@@ -298,6 +311,7 @@ class LeJEPAViTCifar(nn.Module):
             mlp_ratio=mlp_ratio,
             dropout=dropout,
             attn_dropout=attn_dropout,
+            num_registers=num_registers,
         )
         self.projector = MLPHead(embed_dim, prediction_dim, projection_dim)
         self.predictor = MLPHead(projection_dim, prediction_dim, projection_dim)

@@ -41,6 +41,7 @@ def generate_vit_attention_rollout(
     grid_size: int,
     discard_ratio: float = 0.0,
     head_fusion: str = "mean",
+    num_registers: int = 0,
 ) -> tuple[dict[str, np.ndarray], torch.Tensor, dict[str, torch.Tensor]]:
     """
     Attention Rollout for ViT.
@@ -95,12 +96,12 @@ def generate_vit_attention_rollout(
 
         for req_layer, req_idx in requested.items():
             if req_idx == idx:
-                cls_to_patch = rollout[:, 0, 1:]
+                cls_to_patch = rollout[:, 0, 1 + num_registers:]
                 maps[req_layer] = _scores_to_maps(
                     scores=cls_to_patch,
                     grid_size=grid_size,
                     output_size=tuple(images.shape[-2:]),
                 )
-                patch_tokens_by_layer[req_layer] = full_tokens_by_layer[req_layer][:, 1:, :].detach()
+                patch_tokens_by_layer[req_layer] = full_tokens_by_layer[req_layer][:, 1 + num_registers:, :].detach()
 
     return maps, logits.detach(), patch_tokens_by_layer

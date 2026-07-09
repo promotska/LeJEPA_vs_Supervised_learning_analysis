@@ -66,6 +66,7 @@ def _run_vit_xai(
     gradcam_target: str,
     target_classes: torch.Tensor | None,
     cfg: dict[str, Any],
+    num_registers: int = 0,
 ):
     if xai_method == "token_gradient":
         with torch.enable_grad():
@@ -76,6 +77,7 @@ def _run_vit_xai(
                 grid_size=grid_size,
                 target_classes=target_classes,
                 use_abs=True,
+                num_registers=num_registers,
             )
 
     if xai_method == "attention_rollout":
@@ -88,6 +90,7 @@ def _run_vit_xai(
                 grid_size=grid_size,
                 discard_ratio=float(eval_cfg.get("attention_discard_ratio", 0.0)),
                 head_fusion=str(eval_cfg.get("attention_head_fusion", "mean")),
+                num_registers=num_registers,
             )
 
     raise ValueError(f"Unsupported ViT XAI method: {xai_method}")
@@ -161,6 +164,7 @@ def evaluate_vit_alignment(
         loaders = build_loaders(cfg, self_supervised=False)
         model = load_classifier_from_checkpoint(cfg, mode=mode, device=device, requires_grad=True)
         grid_size = int(model.backbone.grid_size)
+        num_registers = int(getattr(model.backbone, "num_registers", 0))
 
         output_csv = Path(cfg["evaluation"]["output_csv"])
         figure_dir = ensure_dir(cfg["evaluation"]["figure_dir"])
@@ -197,6 +201,7 @@ def evaluate_vit_alignment(
                 gradcam_target=gradcam_target,
                 target_classes=target_classes,
                 cfg=cfg,
+                num_registers=num_registers,
             )
 
             preds = logits.argmax(dim=1).detach().cpu()

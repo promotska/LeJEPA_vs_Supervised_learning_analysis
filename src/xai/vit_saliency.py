@@ -49,6 +49,7 @@ def generate_vit_token_saliency(
     grid_size: int,
     target_classes: torch.Tensor | None = None,
     use_abs: bool = True,
+    num_registers: int = 0,
 ) -> tuple[dict[str, np.ndarray], torch.Tensor, dict[str, torch.Tensor]]:
     """
     Generates token-gradient saliency maps for selected ViT layers.
@@ -88,8 +89,9 @@ def generate_vit_token_saliency(
                 "The captured tensor must be the full token tensor used by later blocks, not an unused slice."
             )
 
-        patch_tokens = full_tokens[:, 1:, :]
-        patch_grads = grads[:, 1:, :]
+        num_prefix = 1 + num_registers
+        patch_tokens = full_tokens[:, num_prefix:, :]
+        patch_grads = grads[:, num_prefix:, :]
 
         if use_abs:
             scores = (patch_tokens * patch_grads).sum(dim=-1).abs()
