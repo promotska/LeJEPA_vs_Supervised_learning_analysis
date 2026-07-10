@@ -1,0 +1,3 @@
+model,layer,n,LSAS,correlation,overlap (soft-IoU)
+OTS supervised,patch_tokens_final,5000,0.0944,0.0635,0.1253
+OTS LeJEPA,patch_latent,5000,0.3004,0.2252,0.3756

@@ -21,3 +21,30 @@ Fri Jul 10 10:13:06 2026
 |=======================================================================================|
 |  No running processes found                                                           |
 +---------------------------------------------------------------------------------------+
+Using device: cuda
+ViT alignment evaluation settings:
+  mode: vit_lejepa
+  xai_method: token_gradient
+  gradcam_target: predicted
+  checkpoint: experiments/experiment-c10-vit-lejepa-v4-short-lr1e4-sig005/checkpoints/vit_lejepa_probe_best.pt
+  layers: ['blocks.1', 'blocks.2', 'blocks.3', 'blocks.4']
+  max_samples: 1000
+  output_csv: experiments/experiment-c10-vit-lejepa-v4-short-lr1e4-sig005/metrics/stage2_vit_lejepa_lsas_token_gradient_predicted.csv
+
+ViT alignment evaluation completed.
+Saved CSV: experiments/experiment-c10-vit-lejepa-v4-short-lr1e4-sig005/metrics/stage2_vit_lejepa_lsas_token_gradient_predicted.csv
+Saved curve: experiments/experiment-c10-vit-lejepa-v4-short-lr1e4-sig005/metrics/stage2_vit_lejepa_lsas_token_gradient_predicted_curve.png
+Processed images: 1000
+Rows: 4000
+Expected rows: 4000
+Accuracy on evaluated subset: 0.4060
+Elapsed: 0.72 min
+
+Mean metrics per layer:
+              lsas  corr_pca_xai  soft_iou_pca_xai
+layer                                             
+blocks.1  0.370142      0.339871          0.400413
+blocks.2  0.362924      0.325429          0.400420
+blocks.3  0.352969      0.319524          0.386413
+blocks.4  0.278428      0.257002          0.299853
+Job finished at: Fri Jul 10 10:16:04 CEST 2026
