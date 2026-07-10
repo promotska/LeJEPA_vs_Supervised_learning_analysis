@@ -1,0 +1,4 @@
+model,LSAS,correlation,overlap (soft-IoU),probe acc,kNN acc,LEI AUC,emergence depth,peak layer
+0.010 (lr2e4),0.206,0.1829,0.2291,0.3764,0.4068,0.2065,,blocks.1
+0.005 (lr2e4),0.2421,0.2501,0.2341,0.3984,0.4427,0.2433,,blocks.1
+"0.005 (final, lr1e4)",0.3411,0.3105,0.3718,0.39,0.4272,0.3467,0.0,blocks.1
