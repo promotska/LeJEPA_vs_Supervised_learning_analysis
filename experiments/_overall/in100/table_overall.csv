@@ -1,0 +1,5 @@
+model,LSAS,correlation,overlap (soft-IoU),probe acc,kNN acc,LEI AUC,emergence depth,peak layer
+ResNet sup,0.2585,0.1622,0.3548,0.7936,0.795,0.2366,1.0,backbone.layer4
+ResNet LeJEPA,0.2724,0.2047,0.3401,0.3174,0.308,0.2334,1.0,backbone.layer4
+ViT sup,0.1262,0.0813,0.171,0.5734,0.5786,0.1361,,blocks.2
+ViT LeJEPA,0.1516,0.1372,0.1659,0.2528,0.2014,0.1663,,blocks.2
